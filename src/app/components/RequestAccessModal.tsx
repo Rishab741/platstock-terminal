@@ -61,13 +61,25 @@ export default function RequestAccessModal() {
     return () => { document.body.style.overflow = ""; };
   }, [open]);
 
-  const handleSubmit = (e: React.FormEvent) => {
+  const [error, setError] = useState<string | null>(null);
+
+  const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     setLoading(true);
-    setTimeout(() => {
-      setLoading(false);
+    setError(null);
+    try {
+      const res = await fetch("/api/access-request", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify(form),
+      });
+      if (!res.ok) throw new Error("Submission failed");
       setSubmitted(true);
-    }, 1400);
+    } catch {
+      setError("Something went wrong. Please try again.");
+    } finally {
+      setLoading(false);
+    }
   };
 
   const field =
@@ -247,6 +259,12 @@ export default function RequestAccessModal() {
                           onChange={(e) => setForm({ ...form, interest: e.target.value })}
                         />
                       </div>
+
+                      {error && (
+                        <p className="text-[11px] text-red-400/80 font-mono text-center -mb-1">
+                          {error}
+                        </p>
+                      )}
 
                       <button
                         type="submit"
