@@ -242,8 +242,8 @@ export default function HeroSection() {
               animate="visible"
               className="flex flex-wrap gap-3"
             >
-              <a
-                href="#access"
+              <button
+                onClick={() => window.dispatchEvent(new CustomEvent("open-access-modal"))}
                 className="group relative inline-flex items-center gap-2 px-6 py-3 rounded-lg overflow-hidden"
               >
                 <div className="absolute inset-0 bg-gradient-to-r from-violet-600 to-cyan-500" />
@@ -252,7 +252,7 @@ export default function HeroSection() {
                   Request Terminal Access
                 </span>
                 <ArrowRight className="relative w-4 h-4 text-white group-hover:translate-x-0.5 transition-transform" />
-              </a>
+              </button>
               <a
                 href="#architecture"
                 className="group inline-flex items-center gap-2 px-6 py-3 rounded-lg border border-white/[0.12] bg-white/[0.03] hover:bg-white/[0.06] hover:border-white/20 transition-all duration-200"

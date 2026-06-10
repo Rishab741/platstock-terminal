@@ -61,8 +61,8 @@ export default function Navbar() {
 
         <div className="hidden md:flex items-center gap-3">
           
-          <a
-            href="#access"
+          <button
+            onClick={() => window.dispatchEvent(new CustomEvent("open-access-modal"))}
             className="relative text-xs font-mono tracking-wider px-4 py-2 rounded-md overflow-hidden group"
           >
             <div className="absolute inset-0 bg-gradient-to-r from-violet-600 to-cyan-500 opacity-80 group-hover:opacity-100 transition-opacity duration-300" />
@@ -70,7 +70,7 @@ export default function Navbar() {
             <span className="relative text-white font-semibold">
               Request Access
             </span>
-          </a>
+          </button>
         </div>
 
         <button
@@ -101,12 +101,12 @@ export default function Navbar() {
                   {link.label}
                 </a>
               ))}
-              <a
-                href="#access"
+              <button
+                onClick={() => { setMenuOpen(false); window.dispatchEvent(new CustomEvent("open-access-modal")); }}
                 className="text-xs font-mono text-center py-2 rounded-md bg-gradient-to-r from-violet-600 to-cyan-500 text-white font-semibold mt-2"
               >
                 Request Access
-              </a>
+              </button>
             </div>
           </motion.div>
         )}

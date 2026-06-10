@@ -6,6 +6,7 @@ import EcosystemSection from "./components/EcosystemSection";
 import ComparisonMatrix from "./components/ComparisonMatrix";
 import RoadmapSection from "./components/RoadmapSection";
 import Footer from "./components/Footer";
+import RequestAccessModal from "./components/RequestAccessModal";
 
 export default function Home() {
   return (
@@ -18,6 +19,7 @@ export default function Home() {
       <ComparisonMatrix />
       <RoadmapSection />
       <Footer />
+      <RequestAccessModal />
     </div>
   );
 }
