@@ -1,0 +1,294 @@
+"use client";
+
+import { useRef } from "react";
+import { motion, useInView } from "framer-motion";
+import { CheckCircle2, XCircle, MinusCircle } from "lucide-react";
+
+const fadeInUp = {
+  hidden: { opacity: 0, y: 20, filter: "blur(4px)" },
+  visible: (i: number) => ({
+    opacity: 1,
+    y: 0,
+    filter: "blur(0px)",
+    transition: { delay: i * 0.08, duration: 0.6, ease: [0.16, 1, 0.3, 1] as [number, number, number, number] },
+  }),
+};
+
+type CellValue = "yes" | "no" | "partial" | string;
+
+const capabilities: {
+  category: string;
+  feature: string;
+  platstock: CellValue;
+  bloomberg: CellValue;
+  factset: CellValue;
+  spreadsheet: CellValue;
+}[] = [
+  {
+    category: "Quantitative Modeling",
+    feature: "Monte Carlo Portfolio Simulation",
+    platstock: "yes",
+    bloomberg: "yes",
+    factset: "partial",
+    spreadsheet: "no",
+  },
+  {
+    category: "Quantitative Modeling",
+    feature: "Live Sharpe / VaR Calculation",
+    platstock: "yes",
+    bloomberg: "yes",
+    factset: "yes",
+    spreadsheet: "partial",
+  },
+  {
+    category: "Quantitative Modeling",
+    feature: "Decoupled FastAPI Execution",
+    platstock: "yes",
+    bloomberg: "no",
+    factset: "no",
+    spreadsheet: "no",
+  },
+  {
+    category: "Data Integrity",
+    feature: "Cryptographic Hash-Chained Ledger",
+    platstock: "yes",
+    bloomberg: "no",
+    factset: "no",
+    spreadsheet: "no",
+  },
+  {
+    category: "Data Integrity",
+    feature: "Immutable Audit Trail",
+    platstock: "yes",
+    bloomberg: "partial",
+    factset: "partial",
+    spreadsheet: "no",
+  },
+  {
+    category: "Data Integrity",
+    feature: "Verifiable Record Provenance",
+    platstock: "yes",
+    bloomberg: "no",
+    factset: "no",
+    spreadsheet: "no",
+  },
+  {
+    category: "AI & Behavioral Analytics",
+    feature: "AI-Native Human Behavioral Profiling",
+    platstock: "yes",
+    bloomberg: "no",
+    factset: "no",
+    spreadsheet: "no",
+  },
+  {
+    category: "AI & Behavioral Analytics",
+    feature: "Deno Edge Behavioral Anomaly Detection",
+    platstock: "yes",
+    bloomberg: "no",
+    factset: "no",
+    spreadsheet: "no",
+  },
+  {
+    category: "AI & Behavioral Analytics",
+    feature: "Proactive Risk Alerts",
+    platstock: "yes",
+    bloomberg: "partial",
+    factset: "partial",
+    spreadsheet: "no",
+  },
+  {
+    category: "Infrastructure",
+    feature: "Enterprise SaaS Pricing",
+    platstock: "yes",
+    bloomberg: "no",
+    factset: "no",
+    spreadsheet: "yes",
+  },
+  {
+    category: "Infrastructure",
+    feature: "Mobile Companion (React Native)",
+    platstock: "yes",
+    bloomberg: "partial",
+    factset: "no",
+    spreadsheet: "no",
+  },
+  {
+    category: "Infrastructure",
+    feature: "Sovereign Data Control",
+    platstock: "yes",
+    bloomberg: "no",
+    factset: "no",
+    spreadsheet: "partial",
+  },
+];
+
+function Cell({ value }: { value: CellValue }) {
+  if (value === "yes")
+    return (
+      <div className="flex justify-center">
+        <CheckCircle2 className="w-4 h-4 text-emerald-400" />
+      </div>
+    );
+  if (value === "no")
+    return (
+      <div className="flex justify-center">
+        <XCircle className="w-4 h-4 text-white/15" />
+      </div>
+    );
+  if (value === "partial")
+    return (
+      <div className="flex justify-center">
+        <MinusCircle className="w-4 h-4 text-yellow-500/50" />
+      </div>
+    );
+  return <span className="text-xs text-white/50 font-mono">{value}</span>;
+}
+
+const columns = [
+  { key: "platstock", label: "Platstock", highlight: true },
+  { key: "bloomberg", label: "Bloomberg" },
+  { key: "factset", label: "FactSet" },
+  { key: "spreadsheet", label: "Spreadsheet" },
+];
+
+export default function ComparisonMatrix() {
+  const ref = useRef<HTMLDivElement>(null);
+  const inView = useInView(ref, { once: true, margin: "-80px" });
+
+  const categories = [...new Set(capabilities.map((c) => c.category))];
+
+  return (
+    <section
+      id="capabilities"
+      ref={ref}
+      className="relative py-32 overflow-hidden"
+    >
+      <div className="absolute inset-0 bg-gradient-to-b from-transparent via-violet-950/10 to-transparent pointer-events-none" />
+
+      <div className="relative max-w-7xl mx-auto px-6 lg:px-8">
+        <motion.div
+          custom={0}
+          variants={fadeInUp}
+          initial="hidden"
+          animate={inView ? "visible" : "hidden"}
+          className="text-center mb-16"
+        >
+          <div className="inline-flex items-center gap-2 px-3 py-1.5 rounded-full border border-cyan-500/20 bg-cyan-500/5 text-[11px] font-mono tracking-widest text-cyan-400/70 mb-6">
+            DEFENSIBILITY MATRIX
+          </div>
+          <h2 className="text-3xl sm:text-4xl font-bold text-white tracking-tight mb-4">
+            Why Elite Funds{" "}
+            <span
+              style={{
+                background: "linear-gradient(135deg, #06b6d4 0%, #7c3aed 100%)",
+                WebkitBackgroundClip: "text",
+                WebkitTextFillColor: "transparent",
+                backgroundClip: "text",
+              }}
+            >
+              Choose Platstock
+            </span>
+          </h2>
+          <p className="text-white/40 max-w-lg mx-auto text-sm leading-relaxed">
+            A transparent capability comparison across every dimension that matters to boutique hedge funds and family offices.
+          </p>
+        </motion.div>
+
+        <motion.div
+          custom={1}
+          variants={fadeInUp}
+          initial="hidden"
+          animate={inView ? "visible" : "hidden"}
+          className="rounded-xl border border-white/[0.07] overflow-hidden"
+        >
+          <div className="overflow-x-auto">
+            <table className="w-full">
+              <thead>
+                <tr className="border-b border-white/[0.06]">
+                  <th className="text-left px-6 py-4 text-[10px] font-mono tracking-widest text-white/30 uppercase w-[40%]">
+                    Capability
+                  </th>
+                  {columns.map((col) => (
+                    <th key={col.key} className="px-4 py-4 text-center">
+                      <div
+                        className={`inline-flex items-center px-3 py-1.5 rounded-lg text-xs font-mono font-semibold tracking-wider ${
+                          col.highlight
+                            ? "bg-gradient-to-r from-violet-600/20 to-cyan-500/20 border border-cyan-500/30 text-cyan-300"
+                            : "text-white/30"
+                        }`}
+                      >
+                        {col.label}
+                        {col.highlight && (
+                          <span className="ml-1.5 text-[8px] px-1 py-0.5 rounded bg-cyan-500/20 text-cyan-400">
+                            ★
+                          </span>
+                        )}
+                      </div>
+                    </th>
+                  ))}
+                </tr>
+              </thead>
+              <tbody>
+                {categories.map((cat) => {
+                  const rows = capabilities.filter(
+                    (c) => c.category === cat
+                  );
+                  return rows.map((row, rIdx) => (
+                    <motion.tr
+                      key={row.feature}
+                      custom={rIdx + 2}
+                      variants={fadeInUp}
+                      initial="hidden"
+                      animate={inView ? "visible" : "hidden"}
+                      className="border-b border-white/[0.04] hover:bg-white/[0.02] transition-colors duration-150 group"
+                    >
+                      <td className="px-6 py-3.5">
+                        {rIdx === 0 && (
+                          <div className="text-[9px] font-mono tracking-widest text-violet-400/50 uppercase mb-1">
+                            {cat}
+                          </div>
+                        )}
+                        <span className="text-xs text-white/55 group-hover:text-white/70 transition-colors">
+                          {row.feature}
+                        </span>
+                      </td>
+                      {columns.map((col) => (
+                        <td
+                          key={col.key}
+                          className={`px-4 py-3.5 text-center ${
+                            col.highlight
+                              ? "bg-gradient-to-r from-violet-600/[0.04] to-cyan-500/[0.04]"
+                              : ""
+                          }`}
+                        >
+                          <Cell
+                            value={row[col.key as keyof typeof row] as CellValue}
+                          />
+                        </td>
+                      ))}
+                    </motion.tr>
+                  ));
+                })}
+              </tbody>
+            </table>
+          </div>
+
+          <div className="px-6 py-4 border-t border-white/[0.06] bg-white/[0.01] flex flex-wrap gap-4">
+            {[
+              { icon: CheckCircle2, label: "Fully Supported", color: "text-emerald-400" },
+              { icon: MinusCircle, label: "Partial / Add-on Cost", color: "text-yellow-500/60" },
+              { icon: XCircle, label: "Not Available", color: "text-white/20" },
+            ].map(({ icon: Icon, label, color }) => (
+              <div key={label} className="flex items-center gap-1.5">
+                <Icon className={`w-3.5 h-3.5 ${color}`} />
+                <span className="text-[10px] font-mono text-white/30">
+                  {label}
+                </span>
+              </div>
+            ))}
+          </div>
+        </motion.div>
+      </div>
+    </section>
+  );
+}
