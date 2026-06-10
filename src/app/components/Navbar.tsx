@@ -8,7 +8,6 @@ const navLinks = [
   { label: "Architecture", href: "#architecture" },
   { label: "Capabilities", href: "#capabilities" },
   { label: "Roadmap", href: "#roadmap" },
-  { label: "Documentation", href: "#docs" },
 ];
 
 export default function Navbar() {
@@ -61,12 +60,7 @@ export default function Navbar() {
         </nav>
 
         <div className="hidden md:flex items-center gap-3">
-          <a
-            href="#access"
-            className="text-xs font-mono tracking-wider text-white/50 hover:text-white transition-colors duration-200 px-4 py-2"
-          >
-            Sign In
-          </a>
+          
           <a
             href="#access"
             className="relative text-xs font-mono tracking-wider px-4 py-2 rounded-md overflow-hidden group"
