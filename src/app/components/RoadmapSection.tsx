@@ -24,19 +24,18 @@ const milestones: {
   color: string;
 }[] = [
   {
-    quarter: "Q3 2025",
+    quarter: "Q1 2026",
     phase: "Design Partners",
     status: "complete",
     items: [
       "Core terminal architecture complete",
-      "5 design partner hedge funds onboarded",
       "Alpha Engine v1 deployed",
       "Hash-chained ledger operational",
     ],
     color: "#10b981",
   },
   {
-    quarter: "Q4 2025",
+    quarter: "Q2 2026",
     phase: "Private Beta",
     status: "active",
     items: [
@@ -48,7 +47,7 @@ const milestones: {
     color: "#06b6d4",
   },
   {
-    quarter: "Q1 2026",
+    quarter: "Q3 2026",
     phase: "Seed Round",
     status: "upcoming",
     items: [
@@ -60,7 +59,7 @@ const milestones: {
     color: "#7c3aed",
   },
   {
-    quarter: "Q2 2026",
+    quarter: "Q4 2026",
     phase: "Scale Operations",
     status: "upcoming",
     items: [
