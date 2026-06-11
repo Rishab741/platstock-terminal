@@ -130,7 +130,7 @@ export default function RequestAccessModal() {
                         Request Terminal Access
                       </h2>
                       <p className="text-[11px] text-white/35 font-mono mt-0.5">
-                        SOVEREIGN INFRASTRUCTURE · PRIVATE BETA
+                        PRIVATE BETA
                       </p>
                     </div>
                   </div>

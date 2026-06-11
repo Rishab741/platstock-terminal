@@ -77,7 +77,7 @@ export default function Footer() {
 
         <div className="border-t border-white/[0.05] pt-8 flex flex-col sm:flex-row items-center justify-between gap-4">
           <div className="text-[11px] font-mono text-white/20">
-            © 2025 Platstock Technologies Inc. All rights reserved.
+            © 2026 Platstock Technologies Inc. All rights reserved.
           </div>
           <div className="flex items-center gap-4">
             {[

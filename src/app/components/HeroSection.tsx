@@ -83,7 +83,7 @@ function TerminalMockup() {
             <div className="w-3 h-3 rounded-full bg-emerald-500/70" />
           </div>
           <span className="flex-1 text-center text-[10px] font-mono text-white/30 tracking-widest">
-            PLATSTOCK TERMINAL — v2.1.4
+            PLATSTOCK TERMINAL · v2.1.4
           </span>
           <div className="flex items-center gap-1">
             <div className="w-1.5 h-1.5 rounded-full bg-emerald-400 glow-pulse" />
@@ -195,7 +195,7 @@ export default function HeroSection() {
               className="inline-flex items-center gap-2 px-3 py-1.5 rounded-full border border-cyan-400/20 bg-cyan-400/5 text-[11px] font-mono tracking-widest text-cyan-400/80"
             >
               <div className="w-1.5 h-1.5 rounded-full bg-cyan-400 glow-pulse" />
-              AI-NATIVE CAPITAL TERMINAL · SOVEREIGN INFRASTRUCTURE
+              AI-NATIVE CAPITAL TERMINAL
               <ChevronRight className="w-3 h-3 opacity-50" />
             </motion.div>
 
