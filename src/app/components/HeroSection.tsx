@@ -273,7 +273,7 @@ export default function HeroSection() {
             >
               {[
                 { icon: Shield, label: "Hash-Chained Ledger" },
-                { icon: Zap, label: "FastAPI Monte Carlo" },
+                { icon: Zap, label: "Monte Carlo Engine" },
                 { icon: BarChart3, label: "Live Alpha Profiling" },
               ].map(({ icon: Icon, label }) => (
                 <div

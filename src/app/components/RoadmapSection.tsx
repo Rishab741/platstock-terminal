@@ -2,7 +2,7 @@
 
 import { useRef } from "react";
 import { motion, useInView } from "framer-motion";
-import { CheckCircle2, Circle, Loader, ArrowRight } from "lucide-react";
+import { CheckCircle2, Circle, Loader } from "lucide-react";
 
 const fadeInUp = {
   hidden: { opacity: 0, y: 24, filter: "blur(4px)" },
@@ -298,69 +298,6 @@ export default function RoadmapSection() {
           </div>
         </div>
 
-        <motion.div
-          custom={7}
-          variants={fadeInUp}
-          initial="hidden"
-          animate={inView ? "visible" : "hidden"}
-          className="mt-20 relative rounded-2xl overflow-hidden"
-        >
-          <div className="absolute inset-0 bg-gradient-to-r from-violet-900/40 via-violet-800/30 to-cyan-900/30" />
-          <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_top_right,rgba(6,182,212,0.15),transparent_60%)]" />
-          <div
-            className="absolute inset-0 border border-white/[0.08] rounded-2xl"
-            style={{
-              boxShadow: "inset 0 0 80px rgba(124,58,237,0.08)",
-            }}
-          />
-
-          <div className="relative px-8 py-10 sm:px-12 sm:py-14">
-            <div className="grid sm:grid-cols-2 gap-8 items-center">
-              <div>
-                <div className="text-[10px] font-mono tracking-widest text-violet-400/60 uppercase mb-3">
-                  The Tech Moat
-                </div>
-                <h3 className="text-2xl sm:text-3xl font-bold text-white tracking-tight mb-4">
-                  Built for the{" "}
-                  <span
-                    style={{
-                      background: "linear-gradient(135deg, #a78bfa, #06b6d4)",
-                      WebkitBackgroundClip: "text",
-                      WebkitTextFillColor: "transparent",
-                      backgroundClip: "text",
-                    }}
-                  >
-                    Enterprise
-                  </span>{" "}
-                  from Day One
-                </h3>
-                <p className="text-white/40 text-sm leading-relaxed">
-                  A secure, high-margin Enterprise SaaS terminal ecosystem built on four compounding defensibility layers that no competitor has yet assembled.
-                </p>
-              </div>
-              <div className="grid grid-cols-2 gap-3">
-                {[
-                  { label: "Cryptographic Moat", desc: "Hash-chained ledger, no competitor has shipped this" },
-                  { label: "AI Behavioral Model", desc: "Proprietary human profiling trained on fund data" },
-                  { label: "Quant Infrastructure", desc: "Decoupled FastAPI execution layer, not just a dashboard" },
-                  { label: "Network Density", desc: "Design partner data flywheel compounds with every fund" },
-                ].map((moat, i) => (
-                  <div
-                    key={i}
-                    className="rounded-lg border border-white/[0.06] bg-white/[0.03] p-3 hover:border-violet-500/20 transition-colors duration-300"
-                  >
-                    <div className="text-[10px] font-mono font-semibold text-violet-300/70 mb-1.5">
-                      {moat.label}
-                    </div>
-                    <div className="text-[10px] text-white/35 leading-relaxed">
-                      {moat.desc}
-                    </div>
-                  </div>
-                ))}
-              </div>
-            </div>
-          </div>
-        </motion.div>
       </div>
     </section>
   );
