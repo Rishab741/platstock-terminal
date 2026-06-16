@@ -2,29 +2,22 @@
 
 import { useRef } from "react";
 import { motion, useInView } from "framer-motion";
-import { CheckCircle2, Circle, Loader } from "lucide-react";
 
-const fadeInUp = {
-  hidden: { opacity: 0, y: 24, filter: "blur(4px)" },
-  visible: (i: number) => ({
-    opacity: 1,
-    y: 0,
-    filter: "blur(0px)",
-    transition: { delay: i * 0.12, duration: 0.7, ease: [0.16, 1, 0.3, 1] as [number, number, number, number] },
-  }),
-};
-
-type MilestoneStatus = "complete" | "active" | "upcoming";
+type Status = "complete" | "active" | "upcoming";
 
 const milestones: {
+  index: string;
   quarter: string;
+  year: string;
   phase: string;
-  status: MilestoneStatus;
+  status: Status;
   items: string[];
   color: string;
 }[] = [
   {
-    quarter: "Q1 2026",
+    index: "01",
+    quarter: "Q1",
+    year: "2026",
     phase: "Design Partners",
     status: "complete",
     items: [
@@ -35,7 +28,9 @@ const milestones: {
     color: "#10b981",
   },
   {
-    quarter: "Q2 2026",
+    index: "02",
+    quarter: "Q2",
+    year: "2026",
     phase: "Private Beta",
     status: "active",
     items: [
@@ -47,7 +42,9 @@ const milestones: {
     color: "#06b6d4",
   },
   {
-    quarter: "Q3 2026",
+    index: "03",
+    quarter: "Q3",
+    year: "2026",
     phase: "Public Launch",
     status: "upcoming",
     items: [
@@ -59,7 +56,9 @@ const milestones: {
     color: "#7c3aed",
   },
   {
-    quarter: "Q4 2026",
+    index: "04",
+    quarter: "Q4",
+    year: "2026",
     phase: "Scale Operations",
     status: "upcoming",
     items: [
@@ -72,14 +71,49 @@ const milestones: {
   },
 ];
 
-function StatusIcon({ status }: { status: MilestoneStatus }) {
-  if (status === "complete")
-    return <CheckCircle2 className="w-5 h-5 text-emerald-400" />;
-  if (status === "active")
-    return (
-      <Loader className="w-5 h-5 text-cyan-400 animate-spin" style={{ animationDuration: "3s" }} />
-    );
-  return <Circle className="w-5 h-5 text-white/20" />;
+function ProgressRail({ inView }: { inView: boolean }) {
+  return (
+    <div className="flex gap-1.5 mt-8">
+      {milestones.map((m, i) => (
+        <div key={i} className="flex-1 flex flex-col gap-1.5">
+          <div className="relative h-0.5 bg-white/[0.06] overflow-hidden rounded-full">
+            {m.status === "complete" && (
+              <motion.div
+                className="absolute inset-y-0 left-0 rounded-full"
+                style={{ background: m.color }}
+                initial={{ width: 0 }}
+                animate={inView ? { width: "100%" } : {}}
+                transition={{ delay: 0.6 + i * 0.15, duration: 0.7, ease: [0.16, 1, 0.3, 1] }}
+              />
+            )}
+            {m.status === "active" && (
+              <motion.div
+                className="absolute inset-y-0 left-0 rounded-full"
+                style={{ background: `linear-gradient(90deg, ${m.color}, ${m.color}50)` }}
+                initial={{ width: 0 }}
+                animate={inView ? { width: "52%" } : {}}
+                transition={{ delay: 0.8, duration: 0.9, ease: [0.16, 1, 0.3, 1] }}
+              />
+            )}
+          </div>
+          <div className="flex items-center justify-between">
+            <span
+              className="text-[9px] font-mono tracking-widest"
+              style={{ color: m.status === "upcoming" ? "rgba(255,255,255,0.18)" : m.color }}
+            >
+              {m.quarter} {m.year}
+            </span>
+            <span
+              className="text-[9px] font-mono tracking-widest"
+              style={{ color: m.status === "upcoming" ? "rgba(255,255,255,0.12)" : "rgba(255,255,255,0.3)" }}
+            >
+              {m.status === "complete" ? "DONE" : m.status === "active" ? "LIVE" : "—"}
+            </span>
+          </div>
+        </div>
+      ))}
+    </div>
+  );
 }
 
 export default function RoadmapSection() {
@@ -88,35 +122,36 @@ export default function RoadmapSection() {
 
   return (
     <section id="roadmap" ref={ref} className="relative py-32 overflow-hidden">
-      <div className="absolute top-0 left-1/2 -translate-x-1/2 w-[800px] h-[1px] bg-gradient-to-r from-transparent via-white/10 to-transparent" />
+      <div className="absolute top-0 left-1/2 -translate-x-1/2 w-[800px] h-px bg-gradient-to-r from-transparent via-white/[0.07] to-transparent" />
 
       <div
-        className="absolute inset-0 opacity-[0.02]"
+        className="absolute inset-0 opacity-[0.018]"
         style={{
-          backgroundImage: `radial-gradient(circle at 1px 1px, rgba(255,255,255,0.4) 1px, transparent 0)`,
+          backgroundImage: `radial-gradient(circle at 1px 1px, rgba(255,255,255,0.5) 1px, transparent 0)`,
           backgroundSize: "40px 40px",
         }}
       />
 
       <div className="relative max-w-7xl mx-auto px-6 lg:px-8">
+
+        {/* Header */}
         <motion.div
-          custom={0}
-          variants={fadeInUp}
-          initial="hidden"
-          animate={inView ? "visible" : "hidden"}
-          className="mb-16"
+          initial={{ opacity: 0, y: 20, filter: "blur(4px)" }}
+          animate={inView ? { opacity: 1, y: 0, filter: "blur(0px)" } : {}}
+          transition={{ duration: 0.7, ease: [0.16, 1, 0.3, 1] }}
+          className="mb-20"
         >
-          <div className="inline-flex items-center gap-2 px-3 py-1.5 rounded-full border border-violet-500/20 bg-violet-500/5 text-[11px] font-mono tracking-widest text-violet-400/70 mb-6">
+          <div className="inline-flex items-center gap-2 px-3 py-1.5 rounded-full border border-violet-500/20 bg-violet-500/5 text-[11px] font-mono tracking-widest text-violet-400/70 mb-7">
             INSTITUTIONAL SCALE & ROADMAP
           </div>
-          <div className="grid lg:grid-cols-2 gap-12 items-end">
+
+          <div className="flex flex-col lg:flex-row lg:items-end justify-between gap-6">
             <div>
-              <h2 className="text-3xl sm:text-4xl font-bold text-white tracking-tight mb-4">
+              <h2 className="text-3xl sm:text-4xl font-bold text-white tracking-tight leading-tight">
                 The Precision{" "}
                 <span
                   style={{
-                    background:
-                      "linear-gradient(135deg, #7c3aed 0%, #a78bfa 100%)",
+                    background: "linear-gradient(135deg, #7c3aed 0%, #a78bfa 100%)",
                     WebkitBackgroundClip: "text",
                     WebkitTextFillColor: "transparent",
                     backgroundClip: "text",
@@ -125,177 +160,174 @@ export default function RoadmapSection() {
                   Rollout
                 </span>
               </h2>
-              <p className="text-white/40 text-sm leading-relaxed max-w-md">
+              <p className="text-white/35 text-sm mt-3 max-w-md leading-relaxed">
                 From design partners to global scale, a systematic progression from sovereign infrastructure to enterprise SaaS dominance.
               </p>
             </div>
 
-            <div className="grid grid-cols-2 gap-4">
+            <div className="flex items-center gap-6 shrink-0 pb-0.5">
               {[
-                {
-                  label: "Simulation Paths",
-                  value: "10K+",
-                  sub: "Monte Carlo Engine",
-                  color: "#7c3aed",
-                },
-                {
-                  label: "Revenue Model",
-                  value: "SaaS",
-                  sub: "High-margin Enterprise",
-                  color: "#06b6d4",
-                },
-                {
-                  label: "Target Market",
-                  value: "HF + FO",
-                  sub: "Hedge Funds & Family Offices",
-                  color: "#a78bfa",
-                },
-                {
-                  label: "Defensibility Layers",
-                  value: "4x",
-                  sub: "Compounding Tech Moat",
-                  color: "#10b981",
-                },
-              ].map((stat, i) => (
-                <motion.div
-                  key={stat.label}
-                  custom={i + 1}
-                  variants={fadeInUp}
-                  initial="hidden"
-                  animate={inView ? "visible" : "hidden"}
-                  className="rounded-xl border border-white/[0.06] bg-white/[0.02] p-4 hover:border-white/[0.10] transition-colors duration-300"
-                >
-                  <div
-                    className="text-2xl font-bold font-mono font-tabular"
-                    style={{ color: stat.color }}
-                  >
-                    {stat.value}
-                  </div>
-                  <div className="text-[10px] font-mono tracking-widest text-white/30 mt-1 uppercase">
-                    {stat.label}
-                  </div>
-                  <div className="text-[10px] text-white/20 mt-0.5">
-                    {stat.sub}
-                  </div>
-                </motion.div>
+                { value: "10K+", label: "Monte Carlo Paths" },
+                { value: "3", label: "Quant Models" },
+                { value: "4×", label: "Defensibility Layers" },
+              ].map((s) => (
+                <div key={s.label} className="text-right">
+                  <div className="text-lg font-bold font-mono text-white/70">{s.value}</div>
+                  <div className="text-[9px] font-mono tracking-widest text-white/25 uppercase mt-0.5">{s.label}</div>
+                </div>
               ))}
             </div>
           </div>
+
+          <ProgressRail inView={inView} />
         </motion.div>
 
-        <div className="relative">
-          <div className="absolute left-[calc(50%-0.5px)] lg:left-[120px] top-0 bottom-0 w-px bg-gradient-to-b from-emerald-400/40 via-cyan-400/30 via-violet-500/20 to-transparent" />
+        {/* Milestones */}
+        <div className="border-t border-white/[0.07]">
+          {milestones.map((m, i) => {
+            const isUpcoming = m.status === "upcoming";
+            const isActive = m.status === "active";
+            const isComplete = m.status === "complete";
 
-          <div className="space-y-0">
-            {milestones.map((milestone, i) => (
+            return (
               <motion.div
                 key={i}
-                custom={i + 2}
-                variants={fadeInUp}
-                initial="hidden"
-                animate={inView ? "visible" : "hidden"}
-                className="relative grid lg:grid-cols-[240px_1fr] gap-0 group"
+                initial={{ opacity: 0, y: 18 }}
+                animate={inView ? { opacity: 1, y: 0 } : {}}
+                transition={{ delay: i * 0.14 + 0.25, duration: 0.65, ease: [0.16, 1, 0.3, 1] }}
+                className="relative border-b border-white/[0.05] group"
               >
-                <div className="flex lg:justify-end items-start pt-8 pr-0 lg:pr-8 pb-4 gap-4 lg:gap-0">
-                  <div className="flex flex-col items-end gap-1">
-                    <span
-                      className="text-sm font-mono font-semibold"
-                      style={{ color: milestone.color }}
-                    >
-                      {milestone.quarter}
-                    </span>
-                    <span className="text-[10px] font-mono tracking-widest text-white/30 uppercase">
-                      {milestone.phase}
-                    </span>
-                    <div
-                      className={`text-[9px] font-mono px-2 py-0.5 rounded-full border mt-1 ${
-                        milestone.status === "complete"
-                          ? "border-emerald-500/30 text-emerald-400/60 bg-emerald-500/5"
-                          : milestone.status === "active"
-                          ? "border-cyan-500/30 text-cyan-400/60 bg-cyan-500/5"
-                          : "border-white/10 text-white/20"
-                      }`}
-                    >
-                      {milestone.status === "complete"
-                        ? "COMPLETE"
-                        : milestone.status === "active"
-                        ? "IN PROGRESS"
-                        : "UPCOMING"}
-                    </div>
-                  </div>
-                </div>
+                {/* Left accent line */}
+                {isComplete && (
+                  <div
+                    className="absolute left-0 top-0 bottom-0 w-px"
+                    style={{ background: `linear-gradient(to bottom, transparent, ${m.color}50, transparent)` }}
+                  />
+                )}
+                {isActive && (
+                  <motion.div
+                    className="absolute left-0 top-0 bottom-0 w-px"
+                    style={{ background: `linear-gradient(to bottom, transparent, ${m.color}, transparent)` }}
+                    animate={{ opacity: [0.6, 1, 0.6] }}
+                    transition={{ duration: 2.5, repeat: Infinity, ease: "easeInOut" }}
+                  />
+                )}
 
-                <div className="relative flex gap-4 pl-8 lg:pl-0 pt-0 lg:pt-8 pb-10">
-                  <div className="absolute left-0 lg:-left-[calc(0.5px)] top-8 lg:top-[2.25rem] flex items-center justify-center lg:-translate-x-1/2">
+                {/* Subtle row hover */}
+                <div className="absolute inset-0 opacity-0 group-hover:opacity-100 transition-opacity duration-500 pointer-events-none"
+                  style={{ background: `radial-gradient(ellipse 70% 60% at 30% 50%, ${m.color}04, transparent)` }}
+                />
+
+                <div className="grid lg:grid-cols-[260px_1fr] gap-8 lg:gap-16 py-10 pl-5">
+
+                  {/* Left: index + meta */}
+                  <div className="relative overflow-hidden">
+                    {/* Ghost index number */}
                     <div
-                      className="relative z-10 w-8 h-8 rounded-full border-2 flex items-center justify-center"
+                      className="absolute -top-6 -left-1 text-[96px] font-black font-mono leading-none pointer-events-none select-none"
                       style={{
-                        borderColor:
-                          milestone.status === "upcoming"
-                            ? "rgba(255,255,255,0.1)"
-                            : milestone.color,
-                        background:
-                          milestone.status === "upcoming"
-                            ? "rgba(0,0,0,0.8)"
-                            : `${milestone.color}15`,
+                        color: isUpcoming ? "rgba(255,255,255,0.015)" : `${m.color}09`,
+                        letterSpacing: "-0.05em",
                       }}
                     >
-                      <StatusIcon status={milestone.status} />
+                      {m.index}
                     </div>
-                    {milestone.status !== "upcoming" && (
-                      <div
-                        className="absolute w-8 h-8 rounded-full opacity-20 blur-md"
-                        style={{ background: milestone.color }}
-                      />
-                    )}
-                  </div>
 
-                  <div className="ml-6 lg:ml-6 flex-1 pb-2">
-                    <div
-                      className="rounded-xl border p-5 transition-all duration-300 group-hover:border-opacity-40"
-                      style={{
-                        borderColor:
-                          milestone.status === "upcoming"
-                            ? "rgba(255,255,255,0.05)"
-                            : `${milestone.color}25`,
-                        background:
-                          milestone.status === "active"
-                            ? `${milestone.color}05`
-                            : "rgba(255,255,255,0.015)",
-                      }}
-                    >
-                      <ul className="space-y-2.5">
-                        {milestone.items.map((item, j) => (
-                          <li key={j} className="flex items-start gap-2.5">
-                            <div
-                              className="w-1 h-1 rounded-full mt-1.5 flex-shrink-0"
-                              style={{
-                                background:
-                                  milestone.status === "upcoming"
-                                    ? "rgba(255,255,255,0.2)"
-                                    : milestone.color,
-                              }}
-                            />
-                            <span
-                              className={`text-xs leading-relaxed ${
-                                milestone.status === "upcoming"
-                                  ? "text-white/30"
-                                  : milestone.status === "active"
-                                  ? "text-white/60"
-                                  : "text-white/50"
-                              }`}
-                            >
-                              {item}
+                    <div className="relative z-10 flex flex-col gap-1.5 pt-1">
+                      <div className="flex items-center gap-2.5">
+                        <span
+                          className="text-[11px] font-mono tracking-[0.22em] font-bold"
+                          style={{ color: isUpcoming ? "rgba(255,255,255,0.2)" : m.color }}
+                        >
+                          {m.quarter} {m.year}
+                        </span>
+                        <div
+                          className="h-px flex-1 max-w-[40px]"
+                          style={{ background: isUpcoming ? "rgba(255,255,255,0.08)" : `${m.color}40` }}
+                        />
+                      </div>
+
+                      <h3
+                        className="text-[22px] font-bold tracking-tight leading-tight"
+                        style={{ color: isUpcoming ? "rgba(255,255,255,0.18)" : "rgba(255,255,255,0.88)" }}
+                      >
+                        {m.phase}
+                      </h3>
+
+                      <div className="flex items-center gap-1.5 mt-1">
+                        {isComplete && (
+                          <>
+                            <div className="w-1.5 h-1.5 rounded-full" style={{ background: m.color }} />
+                            <span className="text-[9px] font-mono tracking-[0.18em]" style={{ color: `${m.color}90` }}>
+                              COMPLETE
                             </span>
-                          </li>
-                        ))}
-                      </ul>
+                          </>
+                        )}
+                        {isActive && (
+                          <>
+                            <motion.div
+                              className="w-1.5 h-1.5 rounded-full"
+                              style={{ background: m.color }}
+                              animate={{ scale: [1, 1.4, 1], opacity: [1, 0.6, 1] }}
+                              transition={{ duration: 1.8, repeat: Infinity }}
+                            />
+                            <span className="text-[9px] font-mono tracking-[0.18em]" style={{ color: `${m.color}90` }}>
+                              IN PROGRESS
+                            </span>
+                          </>
+                        )}
+                        {isUpcoming && (
+                          <>
+                            <div className="w-1.5 h-1.5 rounded-full bg-white/15" />
+                            <span className="text-[9px] font-mono tracking-[0.18em] text-white/20">
+                              UPCOMING
+                            </span>
+                          </>
+                        )}
+                      </div>
                     </div>
                   </div>
+
+                  {/* Right: items grid */}
+                  <div className={`grid sm:grid-cols-2 gap-x-10 gap-y-3.5 content-center ${isUpcoming ? "opacity-25" : ""}`}>
+                    {m.items.map((item, j) => (
+                      <motion.div
+                        key={j}
+                        initial={{ opacity: 0, x: -10 }}
+                        animate={inView ? { opacity: 1, x: 0 } : {}}
+                        transition={{ delay: i * 0.14 + j * 0.07 + 0.45, duration: 0.5 }}
+                        className="flex items-start gap-3"
+                      >
+                        <div
+                          className="w-px h-4 mt-0.5 shrink-0 rounded-full"
+                          style={{
+                            background: isUpcoming
+                              ? "rgba(255,255,255,0.25)"
+                              : isActive
+                              ? m.color
+                              : `${m.color}80`,
+                          }}
+                        />
+                        <span
+                          className="text-[13px] leading-snug"
+                          style={{
+                            color: isComplete
+                              ? "rgba(255,255,255,0.50)"
+                              : isActive
+                              ? "rgba(255,255,255,0.65)"
+                              : "rgba(255,255,255,0.55)",
+                          }}
+                        >
+                          {item}
+                        </span>
+                      </motion.div>
+                    ))}
+                  </div>
+
                 </div>
               </motion.div>
-            ))}
-          </div>
+            );
+          })}
         </div>
 
       </div>
