@@ -14,10 +14,10 @@ export async function POST(req: NextRequest) {
     process.env.SUPABASE_SERVICE_ROLE_KEY!
   );
 
-  const { error } = await supabase.from("waitlist").insert({
-    email,
-    submitted_at: new Date().toISOString(),
-  });
+  const { error } = await supabase.from("waitlist").upsert(
+    { email, submitted_at: new Date().toISOString() },
+    { onConflict: "email", ignoreDuplicates: true }
+  );
 
   if (error) {
     console.error("Supabase insert error:", error.message);
