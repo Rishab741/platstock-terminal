@@ -253,7 +253,7 @@ export default function RequestAccessModal() {
                         <label className={label}>Primary Use Case</label>
                         <textarea
                           rows={3}
-                          placeholder="Describe your portfolio analytics needs — what quantitative workflows are you looking to solve?"
+                          placeholder="Describe your portfolio analytics needs and which quantitative workflows you are looking to solve."
                           className={`${field} resize-none leading-relaxed`}
                           value={form.interest}
                           onChange={(e) => setForm({ ...form, interest: e.target.value })}

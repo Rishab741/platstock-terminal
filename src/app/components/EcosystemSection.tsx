@@ -65,7 +65,7 @@ const pillars = [
     accentDim: "rgba(167,139,250,0.12)",
     tags: ["Next.js", "React Native", "Expo", "Tailwind"],
     description:
-      "Next.js analytical desktop terminals pair with a React Native / Expo mobile companion. One data layer, two form factors — institutional-grade UX on every screen.",
+      "Next.js analytical desktop terminals pair with a React Native / Expo mobile companion. One data layer, two form factors delivering institutional-grade UX on every screen.",
     formula: "Desktop ↔ Mobile",
     formulaSub: "Seamless state sync across platforms",
     metrics: [

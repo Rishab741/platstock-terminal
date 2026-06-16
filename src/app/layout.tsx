@@ -13,7 +13,7 @@ const geistMono = Geist_Mono({
 });
 
 export const metadata: Metadata = {
-  title: "Platstock — AI-Native Capital Terminal",
+  title: "Platstock | AI-Native Capital Terminal",
   description:
     "Democratizing the Wall Street Edge. An AI-Native B2B Capital Tracking & Portfolio Analytics Terminal productizing elite quantitative modeling and secure sovereign infrastructure.",
 };

@@ -232,7 +232,7 @@ export default function HeroSection() {
             >
               An AI-Native B2B Capital Tracking & Portfolio Analytics Terminal
               productizing elite quantitative modeling and secure sovereign
-              infrastructure — built for boutique hedge funds and family offices.
+              infrastructure built for boutique hedge funds and family offices.
             </motion.p>
 
             <motion.div
@@ -305,7 +305,7 @@ export default function HeroSection() {
           className="mt-20 grid grid-cols-2 sm:grid-cols-4 gap-px bg-white/[0.04] rounded-xl overflow-hidden border border-white/[0.06]"
         >
           {[
-            { label: "Pre-Seed Valuation", value: "$10M", sub: "Target" },
+            { label: "Simulation Paths", value: "10K+", sub: "Monte Carlo Engine" },
             { label: "Hedge Fund Clients", value: "12+", sub: "Design Partners" },
             {
               label: "Quant Models",

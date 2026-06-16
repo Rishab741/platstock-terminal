@@ -18,15 +18,15 @@ const frictions = [
   {
     icon: Lock,
     title: "Information Asymmetry",
-    legacy: "Cost-prohibitive licensing locks elite quant tools behind $50K+/yr institutional paywalls — inaccessible to emerging funds.",
-    platstock: "Full quantitative modeling suite at enterprise SaaS pricing. Monte Carlo, Sharpe, VaR — all included in the terminal.",
+    legacy: "Cost-prohibitive licensing locks elite quant tools behind $50K+/yr institutional paywalls, inaccessible to emerging funds.",
+    platstock: "Full quantitative modeling suite at enterprise SaaS pricing. Monte Carlo, Sharpe, and VaR all included in the terminal.",
     legacyLabel: "Bloomberg / FactSet",
     platLabel: "Platstock Terminal",
   },
   {
     icon: Eye,
     title: "Audit Trail Opacity",
-    legacy: "Standard relational databases offer zero cryptographic verification — every trade record is mutable, unverifiable, and legally exposed.",
+    legacy: "Standard relational databases offer zero cryptographic verification, leaving every trade record mutable, unverifiable, and legally exposed.",
     platstock: "Hash-chained sovereign ledger with Deno Edge behavioral profiling. Every transaction cryptographically anchored and immutable.",
     legacyLabel: "Opaque SQL Tables",
     platLabel: "Cryptographic Ledger",
@@ -84,7 +84,7 @@ export default function MarketFriction() {
             </span>
           </h2>
           <p className="text-white/40 max-w-xl mx-auto text-sm leading-relaxed">
-            Three structural failures holding back the next generation of fund managers — and precisely how Platstock resolves each one.
+            Three structural failures holding back the next generation of fund managers, and precisely how Platstock resolves each one.
           </p>
         </motion.div>
 

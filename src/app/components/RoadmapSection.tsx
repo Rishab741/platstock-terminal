@@ -48,10 +48,10 @@ const milestones: {
   },
   {
     quarter: "Q3 2026",
-    phase: "Seed Round",
+    phase: "Public Launch",
     status: "upcoming",
     items: [
-      "Pre-seed raise at $10M target valuation",
+      "Full public launch with onboarding pipeline",
       "Enterprise SaaS pricing tiers live",
       "Bloomberg API bridge integration",
       "15+ fund clients active",
@@ -126,16 +126,16 @@ export default function RoadmapSection() {
                 </span>
               </h2>
               <p className="text-white/40 text-sm leading-relaxed max-w-md">
-                From design partners to global scale — a systematic progression from sovereign infrastructure to enterprise SaaS dominance.
+                From design partners to global scale, a systematic progression from sovereign infrastructure to enterprise SaaS dominance.
               </p>
             </div>
 
             <div className="grid grid-cols-2 gap-4">
               {[
                 {
-                  label: "Target Valuation",
-                  value: "$10M",
-                  sub: "Pre-Seed",
+                  label: "Simulation Paths",
+                  value: "10K+",
+                  sub: "Monte Carlo Engine",
                   color: "#7c3aed",
                 },
                 {
@@ -151,9 +151,9 @@ export default function RoadmapSection() {
                   color: "#a78bfa",
                 },
                 {
-                  label: "Valuation Moat",
+                  label: "Defensibility Layers",
                   value: "4x",
-                  sub: "Proprietary Defensibility",
+                  sub: "Compounding Tech Moat",
                   color: "#10b981",
                 },
               ].map((stat, i) => (
@@ -318,7 +318,7 @@ export default function RoadmapSection() {
             <div className="grid sm:grid-cols-2 gap-8 items-center">
               <div>
                 <div className="text-[10px] font-mono tracking-widest text-violet-400/60 uppercase mb-3">
-                  The Valuation Moat
+                  The Tech Moat
                 </div>
                 <h3 className="text-2xl sm:text-3xl font-bold text-white tracking-tight mb-4">
                   Built for the{" "}
@@ -335,12 +335,12 @@ export default function RoadmapSection() {
                   from Day One
                 </h3>
                 <p className="text-white/40 text-sm leading-relaxed">
-                  The shift from consumer metrics to a secure, high-margin Enterprise SaaS terminal ecosystem — targeting a $10M pre-seed valuation with four compounding defensibility layers.
+                  A secure, high-margin Enterprise SaaS terminal ecosystem built on four compounding defensibility layers that no competitor has yet assembled.
                 </p>
               </div>
               <div className="grid grid-cols-2 gap-3">
                 {[
-                  { label: "Cryptographic Moat", desc: "Hash-chained ledger — no competitor has shipped this" },
+                  { label: "Cryptographic Moat", desc: "Hash-chained ledger, no competitor has shipped this" },
                   { label: "AI Behavioral Model", desc: "Proprietary human profiling trained on fund data" },
                   { label: "Quant Infrastructure", desc: "Decoupled FastAPI execution layer, not just a dashboard" },
                   { label: "Network Density", desc: "Design partner data flywheel compounds with every fund" },
