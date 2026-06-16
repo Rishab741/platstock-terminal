@@ -329,12 +329,6 @@ export default function HeroSection() {
         </motion.div>
       </div>
 
-      <div className="absolute bottom-8 left-1/2 -translate-x-1/2 flex flex-col items-center gap-2 opacity-30">
-        <div className="text-[10px] font-mono tracking-widest text-white/50">
-          SCROLL
-        </div>
-        <div className="w-px h-8 bg-gradient-to-b from-white/40 to-transparent" />
-      </div>
     </section>
   );
 }
