@@ -177,7 +177,7 @@ export default function ComparisonMatrix() {
             DEFENSIBILITY MATRIX
           </div>
           <h2 className="text-3xl sm:text-4xl font-bold text-white tracking-tight mb-4">
-            Why Elite Funds{" "}
+            Built for{" "}
             <span
               style={{
                 background: "linear-gradient(135deg, #06b6d4 0%, #7c3aed 100%)",
@@ -186,7 +186,7 @@ export default function ComparisonMatrix() {
                 backgroundClip: "text",
               }}
             >
-              Choose Platstock
+              Elite Funds
             </span>
           </h2>
           <p className="text-white/40 max-w-lg mx-auto text-sm leading-relaxed">

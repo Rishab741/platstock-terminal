@@ -81,7 +81,7 @@ export default function Footer() {
           </div>
           <div className="flex items-center gap-4">
             {[
-              { label: "SOC2", color: "text-emerald-400/50 border-emerald-500/20" },
+              { label: "SOC2 READY", color: "text-emerald-400/50 border-emerald-500/20" },
               { label: "256-BIT", color: "text-cyan-400/50 border-cyan-500/20" },
               { label: "SOVEREIGN", color: "text-violet-400/50 border-violet-500/20" },
             ].map((badge) => (

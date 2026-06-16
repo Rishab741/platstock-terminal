@@ -302,17 +302,16 @@ export default function HeroSection() {
           variants={fadeInUp}
           initial="hidden"
           animate="visible"
-          className="mt-20 grid grid-cols-2 sm:grid-cols-4 gap-px bg-white/[0.04] rounded-xl overflow-hidden border border-white/[0.06]"
+          className="mt-20 grid grid-cols-1 sm:grid-cols-3 gap-px bg-white/[0.04] rounded-xl overflow-hidden border border-white/[0.06]"
         >
           {[
             { label: "Simulation Paths", value: "10K+", sub: "Monte Carlo Engine" },
-            { label: "Hedge Fund Clients", value: "12+", sub: "Design Partners" },
             {
               label: "Quant Models",
               value: "3",
               sub: "Monte Carlo · Sharpe · VaR",
             },
-            { label: "Infrastructure", value: "SOC2", sub: "Compliant Ready" },
+            { label: "Infrastructure", value: "SOC2", sub: "Architecture Ready" },
           ].map((stat) => (
             <div
               key={stat.label}
