@@ -10,7 +10,7 @@ export default function Footer() {
       <div className="relative max-w-7xl mx-auto px-6 lg:px-8 py-20">
         <div className="grid lg:grid-cols-2 gap-16 items-start mb-16">
           <div className="space-y-6">
-            <a href="#" className="inline-flex items-center gap-2.5 group">
+            <a href="/" className="inline-flex items-center gap-2.5 group">
               <div className="relative w-8 h-8">
                 <div className="absolute inset-0 bg-cyan-400/15 rounded-md blur-sm" />
                 <div className="relative flex items-center justify-center w-8 h-8 rounded-md border border-cyan-400/30 bg-black/60">
@@ -62,7 +62,7 @@ export default function Footer() {
                   {col.links.map((link) => (
                     <li key={link}>
                       <a
-                        href="#"
+                        href="/stay-tuned"
                         className="text-xs text-white/35 hover:text-white/60 transition-colors duration-200"
                       >
                         {link}
