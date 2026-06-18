@@ -1,27 +1,66 @@
 import { createClient } from "@supabase/supabase-js";
 import { NextRequest, NextResponse } from "next/server";
+import { validateEmail, sanitizeText } from "@/lib/validation";
+import { checkRateLimit } from "@/lib/rateLimit";
 
 export async function POST(req: NextRequest) {
-  const body = await req.json();
-  const { email } = body;
-
-  if (!email || !email.includes("@")) {
-    return NextResponse.json({ error: "Valid email required" }, { status: 400 });
+  // Env validation — fail fast with a clean 500 before touching the DB
+  const supabaseUrl = process.env.NEXT_PUBLIC_SUPABASE_URL;
+  const supabaseKey = process.env.SUPABASE_SERVICE_ROLE_KEY;
+  if (!supabaseUrl || !supabaseKey) {
+    console.error("[notify] Missing Supabase environment variables");
+    return NextResponse.json({ error: "Server configuration error" }, { status: 500 });
   }
 
-  const supabase = createClient(
-    process.env.NEXT_PUBLIC_SUPABASE_URL!,
-    process.env.SUPABASE_SERVICE_ROLE_KEY!
-  );
+  // Content-Type guard
+  if (!req.headers.get("content-type")?.includes("application/json")) {
+    return NextResponse.json({ error: "Content-Type must be application/json" }, { status: 415 });
+  }
 
-  const { error } = await supabase.from("waitlist").upsert(
-    { email, submitted_at: new Date().toISOString() },
-    { onConflict: "email", ignoreDuplicates: true }
-  );
+  // Rate limit: 5 submissions per minute per IP
+  const ip = req.headers.get("x-forwarded-for")?.split(",")[0].trim() ?? "unknown";
+  const { allowed, retryAfterSeconds } = checkRateLimit(`notify:${ip}`, 5, 60_000);
+  if (!allowed) {
+    return NextResponse.json(
+      { error: "Too many requests. Please wait before trying again." },
+      { status: 429, headers: { "Retry-After": String(retryAfterSeconds) } }
+    );
+  }
+
+  // Parse body
+  let body: unknown;
+  try {
+    body = await req.json();
+  } catch {
+    return NextResponse.json({ error: "Invalid JSON body" }, { status: 400 });
+  }
+
+  if (!body || typeof body !== "object" || Array.isArray(body)) {
+    return NextResponse.json({ error: "Invalid request body" }, { status: 400 });
+  }
+
+  const { email: rawEmail } = body as Record<string, unknown>;
+
+  // Email validation
+  const emailError = validateEmail(rawEmail);
+  if (emailError) {
+    return NextResponse.json({ error: emailError }, { status: 400 });
+  }
+
+  const email = sanitizeText(rawEmail, 254)!.toLowerCase();
+
+  // Upsert — unique constraint on email handles duplicates silently
+  const supabase = createClient(supabaseUrl, supabaseKey);
+  const { error } = await supabase
+    .from("waitlist")
+    .upsert(
+      { email, submitted_at: new Date().toISOString() },
+      { onConflict: "email", ignoreDuplicates: true }
+    );
 
   if (error) {
-    console.error("Supabase insert error:", error.message);
-    return NextResponse.json({ error: "Failed to save email" }, { status: 500 });
+    console.error("[notify] Supabase error:", error.message);
+    return NextResponse.json({ error: "Could not save your email. Please try again." }, { status: 500 });
   }
 
   return NextResponse.json({ success: true }, { status: 201 });

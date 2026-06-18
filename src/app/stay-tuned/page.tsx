@@ -95,25 +95,60 @@ function TerminalBadge() {
   );
 }
 
+const EMAIL_REGEX = /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/;
+
 export default function StayTunedPage() {
   const [email, setEmail] = useState("");
   const [status, setStatus] = useState<"idle" | "submitting" | "success" | "error">("idle");
+  const [errorMsg, setErrorMsg] = useState("Something went wrong. Please try again.");
   const inputRef = useRef<HTMLInputElement>(null);
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-    if (!email || status === "submitting") return;
+    if (status === "submitting") return;
+
+    // Client-side validation
+    const trimmed = email.trim();
+    if (!trimmed) {
+      setErrorMsg("Please enter your email address.");
+      setStatus("error");
+      setTimeout(() => setStatus("idle"), 3000);
+      return;
+    }
+    if (!EMAIL_REGEX.test(trimmed)) {
+      setErrorMsg("Please enter a valid email address.");
+      setStatus("error");
+      setTimeout(() => setStatus("idle"), 3000);
+      return;
+    }
+
     setStatus("submitting");
     try {
       const res = await fetch("/api/notify", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ email }),
+        body: JSON.stringify({ email: trimmed }),
       });
-      if (!res.ok) throw new Error();
+
+      if (res.status === 429) {
+        setErrorMsg("Too many requests. Please wait a moment.");
+        setStatus("error");
+        setTimeout(() => setStatus("idle"), 5000);
+        return;
+      }
+
+      if (!res.ok) {
+        const data = await res.json().catch(() => ({}));
+        setErrorMsg((data as { error?: string }).error ?? "Something went wrong. Please try again.");
+        setStatus("error");
+        setTimeout(() => setStatus("idle"), 4000);
+        return;
+      }
+
       setStatus("success");
       setEmail("");
     } catch {
+      setErrorMsg("Network error. Please check your connection.");
       setStatus("error");
       setTimeout(() => setStatus("idle"), 3000);
     }
@@ -285,7 +320,7 @@ export default function StayTunedPage() {
 
               {status === "error" && (
                 <p className="text-[11px] font-mono text-red-400/70 mt-2 ml-1">
-                  Something went wrong. Please try again.
+                  {errorMsg}
                 </p>
               )}
 
