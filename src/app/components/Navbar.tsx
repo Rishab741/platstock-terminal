@@ -1,6 +1,7 @@
 "use client";
 
 import { useState, useEffect } from "react";
+import Link from "next/link";
 import { motion, AnimatePresence } from "framer-motion";
 import { Terminal, Menu, X } from "lucide-react";
 
@@ -32,7 +33,7 @@ export default function Navbar() {
       }`}
     >
       <div className="max-w-7xl mx-auto px-6 lg:px-8 h-16 flex items-center justify-between">
-        <a href="/" className="flex items-center gap-2.5 group">
+        <Link href="/" className="flex items-center gap-2.5 group">
           <div className="relative w-7 h-7">
             <div className="absolute inset-0 bg-cyan-400/20 rounded-md blur-sm group-hover:bg-cyan-400/40 transition-all duration-300" />
             <div className="relative flex items-center justify-center w-7 h-7 rounded-md border border-cyan-400/40 bg-black/40">
@@ -45,7 +46,7 @@ export default function Navbar() {
           <span className="hidden sm:block text-[10px] font-mono text-cyan-400/60 tracking-widest border border-cyan-400/20 rounded px-1.5 py-0.5">
             TERMINAL
           </span>
-        </a>
+        </Link>
 
         <nav className="hidden md:flex items-center gap-8">
           {navLinks.map((link) => (

@@ -1,6 +1,7 @@
 "use client";
 
 import { useState, useEffect, useRef } from "react";
+import Link from "next/link";
 import { motion, AnimatePresence } from "framer-motion";
 import { Terminal, ArrowRight, CheckCircle2, Zap } from "lucide-react";
 
@@ -144,7 +145,7 @@ export default function StayTunedPage() {
         transition={{ duration: 0.5, ease: "easeOut" }}
         className="relative z-10 flex items-center justify-between px-6 md:px-12 py-6"
       >
-        <a href="/" className="flex items-center gap-2.5 group">
+        <Link href="/" className="flex items-center gap-2.5 group">
           <div className="relative w-8 h-8">
             <div className="absolute inset-0 bg-cyan-400/15 rounded-md blur-sm" />
             <div className="relative flex items-center justify-center w-8 h-8 rounded-md border border-cyan-400/30 bg-black/60">
@@ -157,7 +158,7 @@ export default function StayTunedPage() {
           <span className="text-[9px] font-mono text-cyan-400/50 tracking-widest border border-cyan-400/15 rounded px-1.5 py-0.5">
             TERMINAL
           </span>
-        </a>
+        </Link>
 
         <div className="flex items-center gap-2 text-[10px] font-mono tracking-widest text-white/30">
           <div className="w-1.5 h-1.5 rounded-full bg-emerald-400 animate-pulse" />
@@ -357,9 +358,9 @@ export default function StayTunedPage() {
       >
         <div>© 2026 Platstock Technologies Inc. All rights reserved.</div>
         <div className="flex items-center gap-5">
-          <a href="/" className="hover:text-white/50 transition-colors">Back to Site</a>
-          <a href="/stay-tuned" className="hover:text-white/50 transition-colors">Privacy</a>
-          <a href="/stay-tuned" className="hover:text-white/50 transition-colors">Contact</a>
+          <Link href="/" className="hover:text-white/50 transition-colors">Back to Site</Link>
+          <Link href="/stay-tuned" className="hover:text-white/50 transition-colors">Privacy</Link>
+          <Link href="/stay-tuned" className="hover:text-white/50 transition-colors">Contact</Link>
         </div>
       </motion.footer>
     </div>

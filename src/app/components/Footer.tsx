@@ -1,5 +1,6 @@
 "use client";
 
+import Link from "next/link";
 import { Terminal, ArrowRight } from "lucide-react";
 
 export default function Footer() {
@@ -10,7 +11,7 @@ export default function Footer() {
       <div className="relative max-w-7xl mx-auto px-6 lg:px-8 py-20">
         <div className="grid lg:grid-cols-2 gap-16 items-start mb-16">
           <div className="space-y-6">
-            <a href="/" className="inline-flex items-center gap-2.5 group">
+            <Link href="/" className="inline-flex items-center gap-2.5 group">
               <div className="relative w-8 h-8">
                 <div className="absolute inset-0 bg-cyan-400/15 rounded-md blur-sm" />
                 <div className="relative flex items-center justify-center w-8 h-8 rounded-md border border-cyan-400/30 bg-black/60">
@@ -23,7 +24,7 @@ export default function Footer() {
               <span className="text-[10px] font-mono text-cyan-400/50 tracking-widest border border-cyan-400/15 rounded px-1.5 py-0.5">
                 TERMINAL
               </span>
-            </a>
+            </Link>
             <p className="text-sm text-white/35 leading-relaxed max-w-sm">
               Democratizing institutional-grade quantitative analytics. Built for boutique hedge funds and family offices navigating the next era of capital markets.
             </p>

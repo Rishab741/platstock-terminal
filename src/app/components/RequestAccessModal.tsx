@@ -44,6 +44,7 @@ export default function RequestAccessModal() {
   const [form, setForm] = useState<FormState>(empty);
   const [submitted, setSubmitted] = useState(false);
   const [loading, setLoading] = useState(false);
+  const [refCode, setRefCode] = useState("");
 
   useEffect(() => {
     const handler = () => setOpen(true);
@@ -74,6 +75,7 @@ export default function RequestAccessModal() {
         body: JSON.stringify(form),
       });
       if (!res.ok) throw new Error("Submission failed");
+      setRefCode(Math.random().toString(36).slice(2, 10).toUpperCase());
       setSubmitted(true);
     } catch {
       setError("Something went wrong. Please try again.");
@@ -164,7 +166,7 @@ export default function RequestAccessModal() {
                         </p>
                       </div>
                       <div className="text-[10px] font-mono text-white/20 tracking-widest border border-white/[0.06] rounded-full px-3 py-1.5">
-                        REF # {Math.random().toString(36).slice(2, 10).toUpperCase()}
+                        REF # {refCode}
                       </div>
                       <button
                         onClick={() => setOpen(false)}
