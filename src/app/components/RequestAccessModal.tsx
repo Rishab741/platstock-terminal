@@ -189,7 +189,7 @@ export default function RequestAccessModal() {
                           <input
                             required
                             type="text"
-                            placeholder="Alex Chen"
+                            placeholder="Full name"
                             className={field}
                             value={form.name}
                             onChange={(e) => setForm({ ...form, name: e.target.value })}
@@ -200,7 +200,7 @@ export default function RequestAccessModal() {
                           <input
                             required
                             type="email"
-                            placeholder="alex@alphafund.com"
+                            placeholder="Work email"
                             className={field}
                             value={form.email}
                             onChange={(e) => setForm({ ...form, email: e.target.value })}
@@ -213,7 +213,7 @@ export default function RequestAccessModal() {
                         <input
                           required
                           type="text"
-                          placeholder="Alpha Capital Partners"
+                          placeholder="Firm / company name"
                           className={field}
                           value={form.company}
                           onChange={(e) => setForm({ ...form, company: e.target.value })}
