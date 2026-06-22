@@ -1,6 +1,7 @@
 "use client";
 
 import { useState, useEffect, useRef } from "react";
+import { validateEmail } from "@/lib/validation";
 import Link from "next/link";
 import { motion, AnimatePresence } from "framer-motion";
 import { Terminal, ArrowRight, CheckCircle2, Zap } from "lucide-react";
@@ -95,8 +96,6 @@ function TerminalBadge() {
   );
 }
 
-const EMAIL_REGEX = /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/;
-
 export default function StayTunedPage() {
   const [email, setEmail] = useState("");
   const [status, setStatus] = useState<"idle" | "submitting" | "success" | "error">("idle");
@@ -107,16 +106,10 @@ export default function StayTunedPage() {
     e.preventDefault();
     if (status === "submitting") return;
 
-    // Client-side validation
     const trimmed = email.trim();
-    if (!trimmed) {
-      setErrorMsg("Please enter your email address.");
-      setStatus("error");
-      setTimeout(() => setStatus("idle"), 3000);
-      return;
-    }
-    if (!EMAIL_REGEX.test(trimmed)) {
-      setErrorMsg("Please enter a valid email address.");
+    const emailError = validateEmail(trimmed);
+    if (emailError) {
+      setErrorMsg(emailError);
       setStatus("error");
       setTimeout(() => setStatus("idle"), 3000);
       return;

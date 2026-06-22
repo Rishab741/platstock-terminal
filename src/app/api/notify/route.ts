@@ -3,8 +3,9 @@ import { NextRequest, NextResponse } from "next/server";
 import { validateEmail, sanitizeText } from "@/lib/validation";
 import { checkRateLimit } from "@/lib/rateLimit";
 
+export const runtime = "edge";
+
 export async function POST(req: NextRequest) {
-  // Env validation — fail fast with a clean 500 before touching the DB
   const supabaseUrl = process.env.NEXT_PUBLIC_SUPABASE_URL;
   const supabaseKey = process.env.SUPABASE_SERVICE_ROLE_KEY;
   if (!supabaseUrl || !supabaseKey) {
@@ -12,14 +13,12 @@ export async function POST(req: NextRequest) {
     return NextResponse.json({ error: "Server configuration error" }, { status: 500 });
   }
 
-  // Content-Type guard
   if (!req.headers.get("content-type")?.includes("application/json")) {
     return NextResponse.json({ error: "Content-Type must be application/json" }, { status: 415 });
   }
 
-  // Rate limit: 5 submissions per minute per IP
   const ip = req.headers.get("x-forwarded-for")?.split(",")[0].trim() ?? "unknown";
-  const { allowed, retryAfterSeconds } = checkRateLimit(`notify:${ip}`, 5, 60_000);
+  const { allowed, retryAfterSeconds } = await checkRateLimit("notify", ip);
   if (!allowed) {
     return NextResponse.json(
       { error: "Too many requests. Please wait before trying again." },
@@ -27,7 +26,6 @@ export async function POST(req: NextRequest) {
     );
   }
 
-  // Parse body
   let body: unknown;
   try {
     body = await req.json();
@@ -41,7 +39,6 @@ export async function POST(req: NextRequest) {
 
   const { email: rawEmail } = body as Record<string, unknown>;
 
-  // Email validation
   const emailError = validateEmail(rawEmail);
   if (emailError) {
     return NextResponse.json({ error: emailError }, { status: 400 });
@@ -49,14 +46,10 @@ export async function POST(req: NextRequest) {
 
   const email = sanitizeText(rawEmail, 254)!.toLowerCase();
 
-  // Upsert — unique constraint on email handles duplicates silently
   const supabase = createClient(supabaseUrl, supabaseKey);
   const { error } = await supabase
-    .from("waitlist")
-    .upsert(
-      { email },
-      { onConflict: "email", ignoreDuplicates: true }
-    );
+    .from("leads")
+    .upsert({ email, type: "waitlist" }, { onConflict: "email", ignoreDuplicates: true });
 
   if (error) {
     console.error("[notify] Supabase error:", error.message);

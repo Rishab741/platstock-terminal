@@ -1,43 +1,30 @@
-// In-memory rate limiter — persists across requests within the same warm serverless instance.
-// Best-effort on Vercel (multiple instances don't share state).
-// For guaranteed per-IP limiting at scale, replace with Upstash Redis:
-//   https://upstash.com  →  @upstash/ratelimit + @upstash/redis
+import { Ratelimit } from "@upstash/ratelimit";
+import { Redis } from "@upstash/redis";
 
-interface Entry {
-  count: number;
-  resetAt: number;
-}
+const redis = Redis.fromEnv();
 
-const store = new Map<string, Entry>();
-let lastCleanup = Date.now();
+const limiters = {
+  notify: new Ratelimit({
+    redis,
+    limiter: Ratelimit.slidingWindow(5, "60 s"),
+    prefix: "rl:notify",
+  }),
+  "access-request": new Ratelimit({
+    redis,
+    limiter: Ratelimit.slidingWindow(3, "600 s"),
+    prefix: "rl:access-request",
+  }),
+};
 
-function cleanup() {
-  const now = Date.now();
-  if (now - lastCleanup < 5 * 60_000) return;
-  lastCleanup = now;
-  for (const [key, entry] of store) {
-    if (entry.resetAt < now) store.delete(key);
-  }
-}
+export type RateLimitRoute = keyof typeof limiters;
 
-export function checkRateLimit(
-  identifier: string,
-  limit: number,
-  windowMs: number
-): { allowed: boolean; retryAfterSeconds: number } {
-  cleanup();
-  const now = Date.now();
-  const entry = store.get(identifier);
-
-  if (!entry || entry.resetAt < now) {
-    store.set(identifier, { count: 1, resetAt: now + windowMs });
-    return { allowed: true, retryAfterSeconds: 0 };
-  }
-
-  if (entry.count >= limit) {
-    return { allowed: false, retryAfterSeconds: Math.ceil((entry.resetAt - now) / 1000) };
-  }
-
-  entry.count++;
-  return { allowed: true, retryAfterSeconds: 0 };
+export async function checkRateLimit(
+  route: RateLimitRoute,
+  ip: string
+): Promise<{ allowed: boolean; retryAfterSeconds: number }> {
+  const { success, reset } = await limiters[route].limit(ip);
+  return {
+    allowed: success,
+    retryAfterSeconds: success ? 0 : Math.ceil((reset - Date.now()) / 1000),
+  };
 }

@@ -3,8 +3,9 @@ import { NextRequest, NextResponse } from "next/server";
 import { validateAccessRequest } from "@/lib/validation";
 import { checkRateLimit } from "@/lib/rateLimit";
 
+export const runtime = "edge";
+
 export async function POST(req: NextRequest) {
-  // Env validation
   const supabaseUrl = process.env.NEXT_PUBLIC_SUPABASE_URL;
   const supabaseKey = process.env.SUPABASE_SERVICE_ROLE_KEY;
   if (!supabaseUrl || !supabaseKey) {
@@ -12,14 +13,12 @@ export async function POST(req: NextRequest) {
     return NextResponse.json({ error: "Server configuration error" }, { status: 500 });
   }
 
-  // Content-Type guard
   if (!req.headers.get("content-type")?.includes("application/json")) {
     return NextResponse.json({ error: "Content-Type must be application/json" }, { status: 415 });
   }
 
-  // Rate limit: 3 submissions per 10 minutes per IP (stricter — full form, higher DB cost)
   const ip = req.headers.get("x-forwarded-for")?.split(",")[0].trim() ?? "unknown";
-  const { allowed, retryAfterSeconds } = checkRateLimit(`access-request:${ip}`, 3, 10 * 60_000);
+  const { allowed, retryAfterSeconds } = await checkRateLimit("access-request", ip);
   if (!allowed) {
     return NextResponse.json(
       { error: "Too many requests. Please wait before trying again." },
@@ -27,7 +26,6 @@ export async function POST(req: NextRequest) {
     );
   }
 
-  // Parse body
   let body: unknown;
   try {
     body = await req.json();
@@ -35,7 +33,6 @@ export async function POST(req: NextRequest) {
     return NextResponse.json({ error: "Invalid JSON body" }, { status: 400 });
   }
 
-  // Validate + sanitize all fields
   const result = validateAccessRequest(body);
   if ("error" in result) {
     return NextResponse.json({ error: result.error }, { status: 400 });
@@ -44,18 +41,17 @@ export async function POST(req: NextRequest) {
   const { name, email, company, role, aum, interest } = result.data;
 
   const supabase = createClient(supabaseUrl, supabaseKey);
-
-  // Upsert on email — prevents duplicate rows for the same applicant
-  const { error } = await supabase.from("access_requests").upsert(
+  const { error } = await supabase.from("leads").upsert(
     {
-      name,
       email,
+      type: "access_request",
+      name,
       company,
       role,
       aum_range: aum,
       interest: interest ?? null,
     },
-    { onConflict: "email", ignoreDuplicates: true }
+    { onConflict: "email" }
   );
 
   if (error) {
