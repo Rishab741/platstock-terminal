@@ -15,6 +15,9 @@ function getLocalDevOrigins(): string[] {
 
 const nextConfig: NextConfig = {
   allowedDevOrigins: getLocalDevOrigins(),
+  turbopack: {
+    root: __dirname,
+  },
 };
 
 export default nextConfig;
