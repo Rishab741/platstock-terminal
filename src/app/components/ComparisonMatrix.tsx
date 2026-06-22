@@ -2,7 +2,6 @@
 
 import { useRef } from "react";
 import { motion, useInView } from "framer-motion";
-import { CheckCircle2, XCircle, MinusCircle } from "lucide-react";
 
 const fadeInUp = {
   hidden: { opacity: 0, y: 20, filter: "blur(4px)" },
@@ -122,23 +121,39 @@ const capabilities: {
   },
 ];
 
+function IconSprite() {
+  return (
+    <svg style={{ display: "none" }} aria-hidden="true">
+      <symbol id="cm-check" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+        <circle cx="12" cy="12" r="10" /><path d="m9 12 2 2 4-4" />
+      </symbol>
+      <symbol id="cm-x" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+        <circle cx="12" cy="12" r="10" /><path d="m15 9-6 6" /><path d="m9 9 6 6" />
+      </symbol>
+      <symbol id="cm-minus" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+        <circle cx="12" cy="12" r="10" /><path d="M8 12h8" />
+      </symbol>
+    </svg>
+  );
+}
+
 function Cell({ value }: { value: CellValue }) {
   if (value === "yes")
     return (
       <div className="flex justify-center">
-        <CheckCircle2 className="w-4 h-4 text-emerald-400" />
+        <svg className="w-4 h-4 text-emerald-400" aria-hidden="true"><use href="#cm-check" /></svg>
       </div>
     );
   if (value === "no")
     return (
       <div className="flex justify-center">
-        <XCircle className="w-4 h-4 text-white/15" />
+        <svg className="w-4 h-4 text-white/15" aria-hidden="true"><use href="#cm-x" /></svg>
       </div>
     );
   if (value === "partial")
     return (
       <div className="flex justify-center">
-        <MinusCircle className="w-4 h-4 text-yellow-500/50" />
+        <svg className="w-4 h-4 text-yellow-500/50" aria-hidden="true"><use href="#cm-minus" /></svg>
       </div>
     );
   return <span className="text-xs text-white/50 font-mono">{value}</span>;
@@ -158,6 +173,8 @@ export default function ComparisonMatrix() {
   const categories = [...new Set(capabilities.map((c) => c.category))];
 
   return (
+    <>
+    <IconSprite />
     <section
       id="capabilities"
       ref={ref}
@@ -275,12 +292,12 @@ export default function ComparisonMatrix() {
 
           <div className="px-6 py-4 border-t border-white/[0.06] bg-white/[0.01] flex flex-wrap gap-4">
             {[
-              { icon: CheckCircle2, label: "Fully Supported", color: "text-emerald-400" },
-              { icon: MinusCircle, label: "Partial / Add-on Cost", color: "text-yellow-500/60" },
-              { icon: XCircle, label: "Not Available", color: "text-white/20" },
-            ].map(({ icon: Icon, label, color }) => (
+              { id: "cm-check", label: "Fully Supported", color: "text-emerald-400" },
+              { id: "cm-minus", label: "Partial / Add-on Cost", color: "text-yellow-500/60" },
+              { id: "cm-x", label: "Not Available", color: "text-white/20" },
+            ].map(({ id, label, color }) => (
               <div key={label} className="flex items-center gap-1.5">
-                <Icon className={`w-3.5 h-3.5 ${color}`} />
+                <svg className={`w-3.5 h-3.5 ${color}`} aria-hidden="true"><use href={`#${id}`} /></svg>
                 <span className="text-[10px] font-mono text-white/30">
                   {label}
                 </span>
@@ -290,5 +307,6 @@ export default function ComparisonMatrix() {
         </motion.div>
       </div>
     </section>
+    </>
   );
 }

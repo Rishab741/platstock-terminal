@@ -1,15 +1,17 @@
 export const dynamic = "force-static";
 
+import loadDynamic from "next/dynamic";
 import Navbar from "./components/Navbar";
 import HeroSection from "./components/HeroSection";
 import Ticker from "./components/Ticker";
-import MarketFriction from "./components/MarketFriction";
-import EcosystemSection from "./components/EcosystemSection";
-import ComparisonMatrix from "./components/ComparisonMatrix";
-import RoadmapSection from "./components/RoadmapSection";
-import Footer from "./components/Footer";
 import RequestAccessModal from "./components/RequestAccessModal";
 import FluidBackground from "./components/FluidBackground";
+
+const MarketFriction = loadDynamic(() => import("./components/MarketFriction"));
+const EcosystemSection = loadDynamic(() => import("./components/EcosystemSection"));
+const ComparisonMatrix = loadDynamic(() => import("./components/ComparisonMatrix"));
+const RoadmapSection = loadDynamic(() => import("./components/RoadmapSection"));
+const Footer = loadDynamic(() => import("./components/Footer"));
 
 export default function Home() {
   return (
