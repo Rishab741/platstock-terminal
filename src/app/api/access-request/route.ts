@@ -54,7 +54,6 @@ export async function POST(req: NextRequest) {
       role,
       aum_range: aum,
       interest: interest ?? null,
-      submitted_at: new Date().toISOString(),
     },
     { onConflict: "email", ignoreDuplicates: true }
   );

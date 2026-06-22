@@ -54,7 +54,7 @@ export async function POST(req: NextRequest) {
   const { error } = await supabase
     .from("waitlist")
     .upsert(
-      { email, submitted_at: new Date().toISOString() },
+      { email },
       { onConflict: "email", ignoreDuplicates: true }
     );
 
