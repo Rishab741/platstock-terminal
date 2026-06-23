@@ -2,8 +2,15 @@
 
 import { useState, useEffect } from "react";
 import Link from "next/link";
-import { motion, AnimatePresence } from "framer-motion";
-import { Terminal, Menu, X } from "lucide-react";
+import { motion } from "framer-motion";
+import { Terminal, Menu } from "lucide-react";
+import { Button } from "@/components/ui/button";
+import {
+  Sheet,
+  SheetContent,
+  SheetTrigger,
+  SheetClose,
+} from "@/components/ui/sheet";
 
 const navLinks = [
   { label: "Architecture", href: "#architecture" },
@@ -13,7 +20,6 @@ const navLinks = [
 
 export default function Navbar() {
   const [scrolled, setScrolled] = useState(false);
-  const [menuOpen, setMenuOpen] = useState(false);
 
   useEffect(() => {
     const onScroll = () => setScrolled(window.scrollY > 40);
@@ -33,6 +39,7 @@ export default function Navbar() {
       }`}
     >
       <div className="max-w-7xl mx-auto px-6 lg:px-8 h-16 flex items-center justify-between">
+        {/* Logo */}
         <Link href="/" className="flex items-center gap-2.5 group">
           <div className="relative w-7 h-7">
             <div className="absolute inset-0 bg-cyan-400/20 rounded-md blur-sm group-hover:bg-cyan-400/40 transition-all duration-300" />
@@ -48,6 +55,7 @@ export default function Navbar() {
           </span>
         </Link>
 
+        {/* Desktop Nav */}
         <nav className="hidden md:flex items-center gap-8">
           {navLinks.map((link) => (
             <a
@@ -60,58 +68,91 @@ export default function Navbar() {
           ))}
         </nav>
 
+        {/* Desktop CTA */}
         <div className="hidden md:flex items-center gap-3">
-          
           <button
             onClick={() => window.dispatchEvent(new CustomEvent("open-access-modal"))}
             className="relative text-xs font-mono tracking-wider px-4 py-2 rounded-md overflow-hidden group"
           >
             <div className="absolute inset-0 bg-gradient-to-r from-violet-600 to-cyan-500 opacity-80 group-hover:opacity-100 transition-opacity duration-300" />
             <div className="absolute inset-0 bg-gradient-to-r from-violet-600 to-cyan-500 blur-md opacity-0 group-hover:opacity-60 transition-opacity duration-300" />
-            <span className="relative text-white font-semibold">
-              Request Access
-            </span>
+            <span className="relative text-white font-semibold">Request Access</span>
           </button>
         </div>
 
-        <button
-          className="md:hidden text-white/60 hover:text-white"
-          onClick={() => setMenuOpen(!menuOpen)}
-        >
-          {menuOpen ? <X className="w-5 h-5" /> : <Menu className="w-5 h-5" />}
-        </button>
-      </div>
-
-      <AnimatePresence>
-        {menuOpen && (
-          <motion.div
-            initial={{ height: 0, opacity: 0 }}
-            animate={{ height: "auto", opacity: 1 }}
-            exit={{ height: 0, opacity: 0 }}
-            transition={{ duration: 0.3 }}
-            className="md:hidden overflow-hidden bg-black/90 backdrop-blur-xl border-b border-white/[0.06]"
+        {/* Mobile Menu — shadcn Sheet */}
+        <Sheet>
+          <SheetTrigger
+            render={
+              <Button
+                variant="ghost"
+                size="icon-sm"
+                className="md:hidden text-white/60 hover:text-white hover:bg-white/5"
+                aria-label="Open menu"
+              />
+            }
           >
-            <div className="px-6 py-4 flex flex-col gap-4">
-              {navLinks.map((link) => (
-                <a
-                  key={link.label}
-                  href={link.href}
-                  onClick={() => setMenuOpen(false)}
-                  className="text-xs tracking-widest uppercase text-white/50 hover:text-cyan-400 transition-colors"
-                >
-                  {link.label}
-                </a>
-              ))}
-              <button
-                onClick={() => { setMenuOpen(false); window.dispatchEvent(new CustomEvent("open-access-modal")); }}
-                className="text-xs font-mono text-center py-2 rounded-md bg-gradient-to-r from-violet-600 to-cyan-500 text-white font-semibold mt-2"
+            <Menu className="w-5 h-5" />
+          </SheetTrigger>
+          <SheetContent
+            side="right"
+            showCloseButton={false}
+            className="bg-black/95 backdrop-blur-xl border-l border-white/[0.06] w-72 p-0"
+          >
+            {/* Sheet header */}
+            <div className="flex items-center justify-between px-5 py-4 border-b border-white/[0.06]">
+              <div className="flex items-center gap-2">
+                <div className="flex items-center justify-center w-6 h-6 rounded border border-cyan-400/30 bg-black/40">
+                  <Terminal className="w-3 h-3 text-cyan-400" />
+                </div>
+                <span className="text-xs font-semibold tracking-widest uppercase text-white/70">
+                  Platstock
+                </span>
+              </div>
+              <SheetClose
+                render={
+                  <Button
+                    variant="ghost"
+                    size="icon-sm"
+                    className="text-white/40 hover:text-white hover:bg-white/5"
+                    aria-label="Close menu"
+                  />
+                }
               >
-                Request Access
-              </button>
+                <svg className="w-4 h-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
+                  <path d="M18 6 6 18M6 6l12 12" />
+                </svg>
+              </SheetClose>
             </div>
-          </motion.div>
-        )}
-      </AnimatePresence>
+
+            {/* Nav links */}
+            <nav className="flex flex-col gap-1 px-3 py-4">
+              {navLinks.map((link) => (
+                <SheetClose key={link.label} render={<a href={link.href} />}>
+                  <span className="flex items-center px-3 py-2.5 rounded-lg text-xs tracking-widest uppercase text-white/40 hover:text-white/80 hover:bg-white/5 transition-all duration-200 font-mono cursor-pointer">
+                    {link.label}
+                  </span>
+                </SheetClose>
+              ))}
+            </nav>
+
+            {/* Mobile CTA */}
+            <div className="px-5 pb-6 mt-2">
+              <SheetClose
+                render={
+                  <button
+                    onClick={() => window.dispatchEvent(new CustomEvent("open-access-modal"))}
+                    className="relative w-full text-xs font-mono tracking-wider py-2.5 rounded-md overflow-hidden group"
+                  />
+                }
+              >
+                <div className="absolute inset-0 bg-gradient-to-r from-violet-600 to-cyan-500" />
+                <span className="relative text-white font-semibold">Request Access</span>
+              </SheetClose>
+            </div>
+          </SheetContent>
+        </Sheet>
+      </div>
     </motion.header>
   );
 }

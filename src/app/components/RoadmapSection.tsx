@@ -2,6 +2,7 @@
 
 import { useRef } from "react";
 import { motion, useInView } from "framer-motion";
+import { Badge } from "@/components/ui/badge";
 
 type Status = "complete" | "active" | "upcoming";
 
@@ -256,33 +257,35 @@ export default function RoadmapSection() {
 
                       <div className="flex items-center gap-1.5 mt-1">
                         {isComplete && (
-                          <>
-                            <div className="w-1.5 h-1.5 rounded-full" style={{ background: m.color }} />
-                            <span className="text-[9px] font-mono tracking-[0.18em]" style={{ color: `${m.color}90` }}>
-                              COMPLETE
-                            </span>
-                          </>
+                          <Badge
+                            variant="outline"
+                            className="h-auto py-0.5 px-2 text-[9px] font-mono tracking-widest border-emerald-500/30 bg-emerald-500/10 text-emerald-400"
+                          >
+                            ✓ COMPLETE
+                          </Badge>
                         )}
                         {isActive && (
-                          <>
-                            <motion.div
-                              className="w-1.5 h-1.5 rounded-full"
+                          <Badge
+                            variant="outline"
+                            className="h-auto py-0.5 px-2 text-[9px] font-mono tracking-widest gap-1.5"
+                            style={{ borderColor: `${m.color}40`, color: m.color, background: `${m.color}10` }}
+                          >
+                            <motion.span
+                              className="inline-block w-1 h-1 rounded-full"
                               style={{ background: m.color }}
-                              animate={{ scale: [1, 1.4, 1], opacity: [1, 0.6, 1] }}
+                              animate={{ scale: [1, 1.5, 1], opacity: [1, 0.5, 1] }}
                               transition={{ duration: 1.8, repeat: Infinity }}
                             />
-                            <span className="text-[9px] font-mono tracking-[0.18em]" style={{ color: `${m.color}90` }}>
-                              IN PROGRESS
-                            </span>
-                          </>
+                            IN PROGRESS
+                          </Badge>
                         )}
                         {isUpcoming && (
-                          <>
-                            <div className="w-1.5 h-1.5 rounded-full bg-white/15" />
-                            <span className="text-[9px] font-mono tracking-[0.18em] text-white/20">
-                              UPCOMING
-                            </span>
-                          </>
+                          <Badge
+                            variant="outline"
+                            className="h-auto py-0.5 px-2 text-[9px] font-mono tracking-widest border-white/10 bg-white/5 text-white/25"
+                          >
+                            UPCOMING
+                          </Badge>
                         )}
                       </div>
                     </div>

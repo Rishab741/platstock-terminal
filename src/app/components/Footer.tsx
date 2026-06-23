@@ -2,6 +2,7 @@
 
 import Link from "next/link";
 import { Terminal, ArrowRight } from "lucide-react";
+import { Button } from "@/components/ui/button";
 
 export default function Footer() {
   return (
@@ -29,14 +30,15 @@ export default function Footer() {
               Democratizing institutional-grade quantitative analytics. Built for boutique hedge funds and family offices navigating the next era of capital markets.
             </p>
             <div className="flex gap-3">
-              <button
+              <Button
+                variant="gradient"
+                size="lg"
+                className="gap-2 px-5 h-10"
                 onClick={() => window.dispatchEvent(new CustomEvent("open-access-modal"))}
-                className="group relative inline-flex items-center gap-2 px-5 py-2.5 rounded-lg overflow-hidden text-sm font-semibold"
               >
-                <div className="absolute inset-0 bg-gradient-to-r from-violet-600 to-cyan-500" />
-                <span className="relative text-white">Request Access</span>
-                <ArrowRight className="relative w-4 h-4 text-white/80 group-hover:translate-x-0.5 transition-transform" />
-              </button>
+                Request Access
+                <ArrowRight className="w-4 h-4 group-hover/button:translate-x-0.5 transition-transform" />
+              </Button>
             </div>
           </div>
 

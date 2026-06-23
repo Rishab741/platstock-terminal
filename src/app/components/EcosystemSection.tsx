@@ -3,6 +3,7 @@
 import { useRef, useState } from "react";
 import { motion, useInView } from "framer-motion";
 import { Cpu, Database, Layout, ChevronRight } from "lucide-react";
+import { Badge } from "@/components/ui/badge";
 
 const fadeInUp = {
   hidden: { opacity: 0, y: 30, filter: "blur(4px)" },
@@ -319,9 +320,10 @@ function PillarCard({
 
         <div className="flex flex-wrap gap-1.5">
           {pillar.tags.map((tag) => (
-            <span
+            <Badge
               key={tag}
-              className="text-[9px] font-mono px-2 py-0.5 rounded-full border tracking-wider"
+              variant="outline"
+              className="text-[9px] font-mono tracking-wider h-auto py-0.5 px-2 rounded-full"
               style={{
                 borderColor: `${pillar.accent}25`,
                 color: `${pillar.accent}70`,
@@ -329,7 +331,7 @@ function PillarCard({
               }}
             >
               {tag}
-            </span>
+            </Badge>
           ))}
         </div>
       </div>
