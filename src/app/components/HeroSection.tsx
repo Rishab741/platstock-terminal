@@ -19,28 +19,28 @@ const fadeInUp = {
 };
 
 const terminalLines = [
-  { type: "cmd", text: "$ platstock init --mode=sovereign" },
-  { type: "out", text: "Connecting to Alpha Engine..." },
+  { type: "cmd",     text: "$ platstock init --mode=sovereign" },
+  { type: "out",     text: "Connecting to Alpha Engine..." },
   { type: "success", text: "✓ Monte Carlo engine [ONLINE]" },
-  { type: "cmd", text: "$ fetch --portfolio=HEDGE_ALPHA_01" },
-  { type: "out", text: "Calculating Sharpe ratios..." },
-  { type: "data", text: "SR: 2.847  |  β: 0.312  |  α: 14.2%" },
-  { type: "out", text: "Running behavioral profiling..." },
+  { type: "cmd",     text: "$ fetch --portfolio=HEDGE_ALPHA_01" },
+  { type: "out",     text: "Calculating Sharpe ratios..." },
+  { type: "data",    text: "SR: 2.847  |  β: 0.312  |  α: 14.2%" },
+  { type: "out",     text: "Running behavioral profiling..." },
   { type: "success", text: "✓ Ledger hash verified [CHAIN #4821]" },
-  { type: "data", text: "AUM: $847.3M  |  VaR(95%): -2.1%" },
-  { type: "cmd", text: "$ run --simulation=10000" },
+  { type: "data",    text: "AUM: $847.3M  |  VaR(95%): -2.1%" },
+  { type: "cmd",     text: "$ run --simulation=10000" },
 ];
 
 const metrics = [
-  { label: "AUM TRACKED", value: "$2.4B+", delta: "+12.3%" },
-  { label: "SHARPE RATIO", value: "2.847", delta: "+0.12" },
-  { label: "PORTFOLIOS", value: "1,240", delta: "+89" },
-  { label: "ALPHA SIGNAL", value: "14.2%", delta: "+2.1%" },
+  { label: "AUM TRACKED",  value: "$2.4B+", delta: "+12.3%" },
+  { label: "SHARPE RATIO", value: "2.847",  delta: "+0.12" },
+  { label: "PORTFOLIOS",   value: "1,240",  delta: "+89" },
+  { label: "ALPHA SIGNAL", value: "14.2%",  delta: "+2.1%" },
 ];
 
 function TerminalMockup() {
   const [visibleLines, setVisibleLines] = useState(0);
-  const [metricIdx, setMetricIdx] = useState(0);
+  const [metricIdx,    setMetricIdx]    = useState(0);
 
   useEffect(() => {
     if (visibleLines < terminalLines.length) {
@@ -61,14 +61,10 @@ function TerminalMockup() {
 
   const getLineColor = (type: string) => {
     switch (type) {
-      case "cmd":
-        return "text-cyan-400";
-      case "success":
-        return "text-emerald-400";
-      case "data":
-        return "text-violet-300";
-      default:
-        return "text-white/50";
+      case "cmd":     return "text-cyan-400";
+      case "success": return "text-emerald-400";
+      case "data":    return "text-violet-300";
+      default:        return "text-white/50";
     }
   };
 
@@ -187,20 +183,8 @@ export default function HeroSection() {
       <div className="relative max-w-7xl mx-auto px-6 lg:px-8 pt-36 pb-20 flex-1 flex flex-col justify-center">
         <div className="grid lg:grid-cols-2 gap-16 items-center">
           <div className="space-y-8">
-            <motion.div
-              custom={0}
-              variants={fadeInUp}
-              initial="hidden"
-              animate="visible"
-              className="inline-flex items-center gap-2 px-3 py-1.5 rounded-full border border-cyan-400/20 bg-cyan-400/5 text-[11px] font-mono tracking-widest text-cyan-400/80"
-            >
-              <div className="w-1.5 h-1.5 rounded-full bg-cyan-400 glow-pulse" />
-              AI-NATIVE CAPITAL TERMINAL
-              <ChevronRight className="w-3 h-3 opacity-50" />
-            </motion.div>
-
             <motion.h1
-              custom={1}
+              custom={0}
               variants={fadeInUp}
               initial="hidden"
               animate="visible"
@@ -224,7 +208,7 @@ export default function HeroSection() {
             </motion.h1>
 
             <motion.p
-              custom={2}
+              custom={1}
               variants={fadeInUp}
               initial="hidden"
               animate="visible"
@@ -236,7 +220,7 @@ export default function HeroSection() {
             </motion.p>
 
             <motion.div
-              custom={3}
+              custom={2}
               variants={fadeInUp}
               initial="hidden"
               animate="visible"
@@ -259,15 +243,15 @@ export default function HeroSection() {
             </motion.div>
 
             <motion.div
-              custom={4}
+              custom={3}
               variants={fadeInUp}
               initial="hidden"
               animate="visible"
               className="flex items-center gap-6 pt-2"
             >
               {[
-                { icon: Shield, label: "Hash-Chained Ledger" },
-                { icon: Zap, label: "Monte Carlo Engine" },
+                { icon: Shield,    label: "Hash-Chained Ledger" },
+                { icon: Zap,       label: "Monte Carlo Engine" },
                 { icon: BarChart3, label: "Live Alpha Profiling" },
               ].map(({ icon: Icon, label }) => (
                 <div
@@ -282,7 +266,7 @@ export default function HeroSection() {
           </div>
 
           <motion.div
-            custom={2}
+            custom={1}
             variants={fadeInUp}
             initial="hidden"
             animate="visible"
@@ -292,7 +276,7 @@ export default function HeroSection() {
         </div>
 
         <motion.div
-          custom={5}
+          custom={4}
           variants={fadeInUp}
           initial="hidden"
           animate="visible"
@@ -300,12 +284,8 @@ export default function HeroSection() {
         >
           {[
             { label: "Simulation Paths", value: "10K+", sub: "Monte Carlo Engine" },
-            {
-              label: "Quant Models",
-              value: "3",
-              sub: "Monte Carlo · Sharpe · VaR",
-            },
-            { label: "Infrastructure", value: "SOC2", sub: "Architecture Ready" },
+            { label: "Quant Models",     value: "3",    sub: "Monte Carlo · Sharpe · VaR" },
+            { label: "Infrastructure",   value: "SOC2", sub: "Architecture Ready" },
           ].map((stat) => (
             <div
               key={stat.label}
@@ -322,7 +302,6 @@ export default function HeroSection() {
           ))}
         </motion.div>
       </div>
-
     </section>
   );
 }
