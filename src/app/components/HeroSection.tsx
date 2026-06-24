@@ -244,23 +244,17 @@ export default function HeroSection() {
             >
               <button
                 onClick={() => window.dispatchEvent(new CustomEvent("open-access-modal"))}
-                className="group relative inline-flex items-center gap-2 px-6 py-3 rounded-lg overflow-hidden"
+                className="group inline-flex items-center gap-2 px-6 py-3 rounded-lg border border-white/[0.10] bg-transparent text-sm font-semibold text-white/65 tracking-wide hover:border-violet-500/40 hover:bg-violet-500/[0.05] hover:text-white hover:shadow-[0_0_22px_rgba(124,58,237,0.14)] transition-all duration-300"
               >
-                <div className="absolute inset-0 bg-gradient-to-r from-violet-600 to-cyan-500" />
-                <div className="absolute inset-0 bg-gradient-to-r from-violet-600 to-cyan-500 blur-lg opacity-0 group-hover:opacity-70 transition-opacity duration-300" />
-                <span className="relative text-sm font-semibold text-white tracking-wide">
-                  Request Terminal Access
-                </span>
-                <ArrowRight className="relative w-4 h-4 text-white group-hover:translate-x-0.5 transition-transform" />
+                Request Terminal Access
+                <ArrowRight className="w-4 h-4 group-hover:translate-x-0.5 transition-transform duration-200" />
               </button>
               <a
                 href="#architecture"
-                className="group inline-flex items-center gap-2 px-6 py-3 rounded-lg border border-white/[0.12] bg-white/[0.03] hover:bg-white/[0.06] hover:border-white/20 transition-all duration-200"
+                className="group inline-flex items-center gap-2 px-6 py-3 rounded-lg border border-white/[0.07] bg-transparent text-sm font-medium text-white/40 hover:border-white/[0.15] hover:text-white/70 transition-all duration-300"
               >
-                <span className="text-sm font-medium text-white/70 tracking-wide">
-                  View Architecture
-                </span>
-                <ChevronRight className="w-4 h-4 text-white/40 group-hover:text-white/60 group-hover:translate-x-0.5 transition-all" />
+                View Architecture
+                <ChevronRight className="w-4 h-4 text-white/25 group-hover:text-white/50 group-hover:translate-x-0.5 transition-all duration-200" />
               </a>
             </motion.div>
 
