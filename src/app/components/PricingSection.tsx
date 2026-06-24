@@ -106,7 +106,7 @@ export default function PricingSection() {
             </span>
           </h2>
           <p className="text-white/40 max-w-lg mx-auto text-sm leading-relaxed mb-8">
-            Bloomberg costs $24,000 per seat per year. Platstock gives you more for a fraction of that.
+            Legacy trading terminals charge $24,000+ per seat per year. Platstock gives you more for a fraction of that.
           </p>
 
           {/* Billing toggle */}

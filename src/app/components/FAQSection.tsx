@@ -12,8 +12,8 @@ import {
 const faqs = [
   {
     category: "Product",
-    q: "How is Platstock different from Bloomberg Terminal?",
-    a: "Bloomberg is a $24,000/seat/year data aggregation platform. Platstock is a quantitative analytics terminal built specifically for boutique hedge funds — with Monte Carlo simulation, behavioral anomaly detection, and a cryptographic audit ledger that Bloomberg doesn't have at any price. We're not replacing Bloomberg's data feed; we're replacing Bloomberg's analytics and compliance layer at 5% of the cost.",
+    q: "How is Platstock different from legacy trading terminals?",
+    a: "Legacy trading terminals charge $24,000+/seat/year and are designed for the largest buy-side institutions. Platstock is purpose-built for boutique hedge funds — with Monte Carlo simulation, behavioral anomaly detection, and a cryptographic audit ledger that legacy platforms don't offer at any price point. We complement your existing data subscriptions by replacing the analytics and compliance layer at a fraction of the cost.",
   },
   {
     category: "Product",

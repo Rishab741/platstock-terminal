@@ -75,7 +75,7 @@ export default function FinalCTA() {
           transition={{ delay: 0.1, duration: 0.8, ease: [0.16, 1, 0.3, 1] }}
           className="text-4xl sm:text-5xl lg:text-6xl font-bold text-white tracking-tight leading-[1.05] mb-6"
         >
-          The Terminal Your{" "}
+          The Terminal{" "}
           <br className="hidden sm:block" />
           <span
             style={{
@@ -85,7 +85,7 @@ export default function FinalCTA() {
               backgroundClip: "text",
             }}
           >
-            Bloomberg Doesn&apos;t Have.
+            Legacy Platforms Can&apos;t Build.
           </span>
         </motion.h2>
 

@@ -16,6 +16,7 @@ const navLinks = [
   { label: "Architecture", href: "#architecture" },
   { label: "Capabilities", href: "#capabilities" },
   { label: "Roadmap", href: "#roadmap" },
+  { label: "Pricing", href: "/pricing" },
 ];
 
 export default function Navbar() {

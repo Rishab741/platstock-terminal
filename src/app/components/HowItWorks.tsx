@@ -70,7 +70,7 @@ export default function HowItWorks() {
             </span>
           </h2>
           <p className="text-white/40 max-w-lg mx-auto text-sm leading-relaxed">
-            No six-month Bloomberg implementation. No IT procurement nightmare. Three steps, 48 hours.
+            No six-month legacy platform implementation. No IT procurement nightmare. Three steps, 48 hours.
           </p>
         </motion.div>
 
