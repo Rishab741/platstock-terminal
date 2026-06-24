@@ -244,7 +244,7 @@ export default function HeroSection() {
             >
               <button
                 onClick={() => window.dispatchEvent(new CustomEvent("open-access-modal"))}
-                className="group inline-flex items-center gap-2 px-6 py-3 rounded-lg border border-white/[0.10] bg-transparent text-sm font-semibold text-white/65 tracking-wide hover:border-violet-500/40 hover:bg-violet-500/[0.05] hover:text-white hover:shadow-[0_0_22px_rgba(124,58,237,0.14)] transition-all duration-300"
+                className="group inline-flex items-center gap-2 px-6 py-3 rounded-lg border border-white/[0.10] bg-transparent text-sm font-semibold text-white/65 tracking-wide hover:border-violet-500/50 hover:[background:linear-gradient(135deg,rgba(124,58,237,0.22),rgba(6,182,212,0.14))] hover:text-white hover:shadow-[0_0_26px_rgba(124,58,237,0.22)] transition-all duration-300"
               >
                 Request Terminal Access
                 <ArrowRight className="w-4 h-4 group-hover:translate-x-0.5 transition-transform duration-200" />

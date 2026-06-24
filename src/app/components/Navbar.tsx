@@ -95,7 +95,7 @@ export default function Navbar() {
         <div className="hidden md:flex items-center gap-3">
           <button
             onClick={() => window.dispatchEvent(new CustomEvent("open-access-modal"))}
-            className="text-xs font-mono tracking-wider px-4 py-2 rounded-md border border-white/[0.10] bg-transparent text-white/60 hover:border-violet-500/40 hover:bg-violet-500/[0.06] hover:text-white hover:shadow-[0_0_14px_rgba(124,58,237,0.12)] transition-all duration-300"
+            className="text-xs font-mono tracking-wider px-4 py-2 rounded-md border border-white/[0.10] bg-transparent text-white/60 hover:border-violet-500/50 hover:[background:linear-gradient(135deg,rgba(124,58,237,0.22),rgba(6,182,212,0.14))] hover:text-white hover:shadow-[0_0_16px_rgba(124,58,237,0.20)] transition-all duration-300"
           >
             Request Access
           </button>
@@ -163,7 +163,7 @@ export default function Navbar() {
                 render={
                   <button
                     onClick={() => window.dispatchEvent(new CustomEvent("open-access-modal"))}
-                    className="w-full text-xs font-mono tracking-wider py-2.5 rounded-md border border-white/[0.10] bg-transparent text-white/60 hover:border-violet-500/40 hover:bg-violet-500/[0.06] hover:text-white transition-all duration-300"
+                    className="w-full text-xs font-mono tracking-wider py-2.5 rounded-md border border-white/[0.10] bg-transparent text-white/60 hover:border-violet-500/50 hover:[background:linear-gradient(135deg,rgba(124,58,237,0.22),rgba(6,182,212,0.14))] hover:text-white hover:shadow-[0_0_14px_rgba(124,58,237,0.18)] transition-all duration-300"
                   />
                 }
               >
