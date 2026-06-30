@@ -13,15 +13,13 @@ const tickerItems = [
   { symbol: "SPX", price: "5,320.4", delta: "+0.73%", up: true },
   { symbol: "VIX", price: "14.82", delta: "-2.34%", up: false },
   { symbol: "BTC", price: "67,420", delta: "+4.21%", up: true },
-  { symbol: "SHARPE", price: "2.847", delta: "+0.12", up: true },
-  { symbol: "ALPHA", price: "14.2%", delta: "+2.1%", up: true },
 ];
 
 export default function Ticker() {
   const doubled = [...tickerItems, ...tickerItems];
 
   return (
-    <div className="relative overflow-hidden border-y border-white/[0.05] bg-black/40 py-3">
+    <div className="relative overflow-hidden border-y border-white/[0.06] py-3" style={{ background: "linear-gradient(180deg, rgba(0,0,0,0.60) 0%, rgba(6,6,10,0.80) 100%)" }}>
       <div className="absolute left-0 top-0 bottom-0 w-20 bg-gradient-to-r from-[#030303] to-transparent z-10 pointer-events-none" />
       <div className="absolute right-0 top-0 bottom-0 w-20 bg-gradient-to-l from-[#030303] to-transparent z-10 pointer-events-none" />
 

@@ -5,7 +5,7 @@ import { motion, useInView } from "framer-motion";
 import { Separator } from "@/components/ui/separator";
 
 const metrics = [
-  { value: "$2.4B+", label: "AUM Tracked", sub: "Across active portfolios" },
+  { value: "3+", label: "Quant Models", sub: "Monte Carlo · Sharpe · VaR" },
   { value: "10,000", label: "Monte Carlo Paths", sub: "Per simulation request" },
   { value: "<50ms", label: "Alpha Engine Latency", sub: "P99 response time" },
   { value: "100%", label: "Data Sovereignty", sub: "You own your data" },
