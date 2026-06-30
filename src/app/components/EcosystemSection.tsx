@@ -2,7 +2,7 @@
 
 import { useRef, useState } from "react";
 import { motion, useInView } from "framer-motion";
-import { Cpu, Database, Layout, ChevronRight } from "lucide-react";
+import { Cpu, Database, Layout, ArrowRight } from "lucide-react";
 import { Badge } from "@/components/ui/badge";
 
 const fadeInUp = {
@@ -20,19 +20,22 @@ const pillars = [
     id: "alpha",
     number: "01",
     icon: Cpu,
-    title: "The Alpha Engine",
-    subtitle: "Quantitative Execution Layer",
+    title: "Alpha Engine",
+    subtitle: "Predictive Intelligence",
     accent: "#06b6d4",
-    accentDim: "rgba(6,182,212,0.12)",
+    accentDim: "rgba(6,182,212,0.09)",
     tags: ["FastAPI", "Python", "Monte Carlo", "Async"],
     description:
-      "Asynchronous FastAPI microservice executes 10,000 Monte Carlo simulation paths per request. Decoupled from the UI layer for zero-latency portfolio analytics.",
-    formula: "SR = (Rp − Rf) / σp",
-    formulaSub: "Sharpe Ratio · Live calculation",
+      "Run 10,000 forward-looking simulations per request. See exactly how your portfolio holds up before the market moves — not after.",
+    outcomes: [
+      "Forward-looking risk scenarios, not historical averages",
+      "Execution decoupled from UI — zero latency at full load",
+      "Wall Street modeling depth at enterprise SaaS pricing",
+    ],
     metrics: [
-      { label: "Simulations", value: "10,000" },
-      { label: "Latency", value: "<50ms" },
-      { label: "Models", value: "3 Active" },
+      { label: "Sim. Paths", value: "10K+" },
+      { label: "Latency",    value: "<50ms" },
+      { label: "Models",     value: "3 Live" },
     ],
     visual: "alpha",
   },
@@ -41,18 +44,21 @@ const pillars = [
     number: "02",
     icon: Database,
     title: "Sovereign Data",
-    subtitle: "Cryptographic Infrastructure",
+    subtitle: "Cryptographic Trust",
     accent: "#7c3aed",
-    accentDim: "rgba(124,58,237,0.12)",
+    accentDim: "rgba(124,58,237,0.09)",
     tags: ["Postgres", "Supabase", "Deno Edge", "Hash Chain"],
     description:
-      "Postgres + Supabase foundation with a server-side Hash-Chained Ledger. Every record is cryptographically anchored to the previous. Deno Edge functions profile behavioral anomalies in real-time.",
-    formula: "H(n) = SHA256(H(n-1) ∥ Tn)",
-    formulaSub: "Hash Chain · Immutable audit trail",
+      "Every position change is permanently sealed and linked to the previous record. Your audit trail is litigation-proof, regulator-ready, and tamper-impossible.",
+    outcomes: [
+      "Every record cryptographically sealed at the moment of write",
+      "Regulator-ready trail — zero SQL tampering risk",
+      "Behavioral anomalies surfaced before they become events",
+    ],
     metrics: [
-      { label: "Chain Length", value: "#4,821" },
-      { label: "Integrity", value: "100%" },
-      { label: "Audit", value: "Real-time" },
+      { label: "Chain Depth", value: "#4,821" },
+      { label: "Integrity",   value: "100%" },
+      { label: "Audit",       value: "Real-time" },
     ],
     visual: "chain",
   },
@@ -60,49 +66,63 @@ const pillars = [
     id: "ui",
     number: "03",
     icon: Layout,
-    title: "Unified UI Layer",
-    subtitle: "Cross-Platform Terminal",
+    title: "Unified Terminal",
+    subtitle: "Cross-Platform Power",
     accent: "#a78bfa",
-    accentDim: "rgba(167,139,250,0.12)",
+    accentDim: "rgba(167,139,250,0.09)",
     tags: ["Next.js", "React Native", "Expo", "Tailwind"],
     description:
-      "Next.js analytical desktop terminals pair with a React Native / Expo mobile companion. One data layer, two form factors delivering institutional-grade UX on every screen.",
-    formula: "Desktop ↔ Mobile",
-    formulaSub: "Seamless state sync across platforms",
+      "Your full portfolio terminal on your desk and in your pocket. One login, real-time sync, institutional analytics on every screen you own.",
+    outcomes: [
+      "Full analytical depth on web and iOS — one unified login",
+      "Portfolio state syncs live across all devices instantly",
+      "Sub-1.2s load time — institutional UX at startup speed",
+    ],
     metrics: [
       { label: "Platforms", value: "Web + iOS" },
-      { label: "FCP", value: "<1.2s" },
-      { label: "Sync", value: "Live" },
+      { label: "FCP",       value: "<1.2s" },
+      { label: "Sync",      value: "Live" },
     ],
     visual: "ui",
   },
 ];
 
+/* ─── Animated Visuals ──────────────────────────────── */
+
 function AlphaVisual({ accent }: { accent: string }) {
-  const bars = [0.4, 0.7, 0.55, 0.9, 0.65, 0.8, 0.45, 0.75, 0.6, 0.85];
+  const bars = [0.38, 0.62, 0.50, 0.88, 0.72, 0.95, 0.55, 0.78, 0.65, 0.84];
   return (
-    <div className="h-24 flex items-end gap-1 px-2">
+    <div className="relative h-20 flex items-end gap-1 px-1">
+      {/* Baseline grid lines */}
+      {[0.25, 0.5, 0.75].map((pct) => (
+        <div
+          key={pct}
+          className="absolute inset-x-0 pointer-events-none"
+          style={{
+            bottom: `${pct * 100}%`,
+            borderTop: `1px dashed ${accent}18`,
+          }}
+        />
+      ))}
       {bars.map((h, i) => (
         <motion.div
           key={i}
-          className="flex-1 rounded-sm"
-          style={{ background: `${accent}30` }}
+          className="relative flex-1 rounded-sm overflow-hidden"
+          style={{ background: `${accent}18` }}
           initial={{ height: 0 }}
           animate={{ height: `${h * 100}%` }}
-          transition={{
-            delay: i * 0.05,
-            duration: 0.6,
-            ease: [0.16, 1, 0.3, 1] as [number, number, number, number],
-          }}
+          transition={{ delay: i * 0.05, duration: 0.7, ease: [0.16, 1, 0.3, 1] as [number, number, number, number] }}
         >
           <motion.div
-            className="w-full rounded-sm"
-            style={{
-              height: "100%",
-              background: `linear-gradient(to top, ${accent}60, ${accent}20)`,
-            }}
-            animate={{ opacity: [0.6, 1, 0.6] }}
-            transition={{ delay: i * 0.1, duration: 2, repeat: Infinity }}
+            className="absolute inset-0"
+            style={{ background: `linear-gradient(to top, ${accent}70, ${accent}25)` }}
+            animate={{ opacity: [0.65, 1, 0.65] }}
+            transition={{ delay: i * 0.1, duration: 2.4, repeat: Infinity, ease: "easeInOut" }}
+          />
+          {/* Top cap highlight */}
+          <div
+            className="absolute top-0 inset-x-0 h-px rounded-full"
+            style={{ background: accent }}
           />
         </motion.div>
       ))}
@@ -111,39 +131,47 @@ function AlphaVisual({ accent }: { accent: string }) {
 }
 
 function ChainVisual({ accent }: { accent: string }) {
-  const nodes = Array.from({ length: 5 }, (_, i) => i);
+  const nodes = [4817, 4818, 4819, 4820, 4821];
   return (
-    <div className="flex items-center justify-center gap-0 py-4">
-      {nodes.map((n) => (
+    <div className="flex items-center justify-center py-3">
+      {nodes.map((hash, n) => (
         <div key={n} className="flex items-center">
           <motion.div
-            className="relative w-12 h-8 rounded border flex items-center justify-center"
-            style={{
-              borderColor: `${accent}40`,
-              background: `${accent}08`,
-            }}
-            initial={{ opacity: 0, scale: 0.8 }}
+            className="relative flex flex-col items-center justify-center rounded-lg border px-2.5 py-1.5 gap-0.5"
+            style={{ borderColor: `${accent}35`, background: `${accent}07` }}
+            initial={{ opacity: 0, scale: 0.75 }}
             animate={{ opacity: 1, scale: 1 }}
-            transition={{ delay: n * 0.1 + 0.3 }}
+            transition={{ delay: n * 0.08 + 0.25, duration: 0.4, ease: [0.16, 1, 0.3, 1] as [number, number, number, number] }}
           >
-            <span className="text-[8px] font-mono" style={{ color: `${accent}80` }}>
-              #{4817 + n}
+            <span className="text-[7px] font-mono text-white/20 leading-none">BLOCK</span>
+            <span className="text-[9px] font-mono font-semibold leading-none" style={{ color: `${accent}90` }}>
+              #{hash}
             </span>
+            {/* Pulse dot top-right */}
             <motion.div
-              className="absolute -top-0.5 -right-0.5 w-2 h-2 rounded-full"
-              style={{ background: accent }}
-              animate={{ opacity: [0.4, 1, 0.4] }}
-              transition={{ delay: n * 0.2, duration: 1.5, repeat: Infinity }}
+              className="absolute -top-0.5 -right-0.5 w-1.5 h-1.5 rounded-full"
+              style={{ background: n === nodes.length - 1 ? accent : `${accent}50` }}
+              animate={{ opacity: n === nodes.length - 1 ? [0.5, 1, 0.5] : 1 }}
+              transition={{ duration: 1.6, repeat: Infinity, ease: "easeInOut" }}
             />
           </motion.div>
           {n < nodes.length - 1 && (
-            <div
-              className="chain-line h-px"
-              style={{
-                width: "16px",
-                background: `linear-gradient(90deg, ${accent}60, ${accent}20)`,
-              }}
-            />
+            <motion.div
+              className="flex items-center"
+              initial={{ opacity: 0 }}
+              animate={{ opacity: 1 }}
+              transition={{ delay: n * 0.08 + 0.4 }}
+            >
+              {[0, 1, 2].map((d) => (
+                <motion.div
+                  key={d}
+                  className="w-1 h-px mx-0.5 rounded-full"
+                  style={{ background: `${accent}50` }}
+                  animate={{ opacity: [0.3, 1, 0.3] }}
+                  transition={{ delay: d * 0.15 + n * 0.1, duration: 1.2, repeat: Infinity }}
+                />
+              ))}
+            </motion.div>
           )}
         </div>
       ))}
@@ -153,45 +181,65 @@ function ChainVisual({ accent }: { accent: string }) {
 
 function UIVisual({ accent }: { accent: string }) {
   return (
-    <div className="flex items-center justify-center gap-3 py-2">
+    <div className="flex items-end justify-center gap-4 py-1 h-20">
+      {/* Desktop frame */}
       <motion.div
-        className="rounded border p-2"
-        style={{ borderColor: `${accent}30`, background: `${accent}05` }}
-        initial={{ x: -10, opacity: 0 }}
+        className="rounded border overflow-hidden shrink-0"
+        style={{ borderColor: `${accent}30`, background: `${accent}05`, width: 76, height: 52 }}
+        initial={{ x: -12, opacity: 0 }}
         animate={{ x: 0, opacity: 1 }}
-        transition={{ delay: 0.3 }}
+        transition={{ delay: 0.3, duration: 0.5, ease: [0.16, 1, 0.3, 1] as [number, number, number, number] }}
       >
-        <div className="w-16 h-10 flex flex-col gap-1">
-          <div className="h-1.5 rounded-sm w-full" style={{ background: `${accent}40` }} />
-          <div className="flex gap-1 flex-1">
-            <div className="w-5 rounded-sm" style={{ background: `${accent}20` }} />
-            <div className="flex-1 rounded-sm" style={{ background: `${accent}10` }} />
+        {/* Top bar */}
+        <div className="h-2.5 border-b flex items-center px-1.5 gap-1" style={{ borderColor: `${accent}20`, background: `${accent}10` }}>
+          {[0, 1, 2].map((d) => (
+            <div key={d} className="w-1 h-1 rounded-full" style={{ background: `${accent}${40 + d * 10}` }} />
+          ))}
+        </div>
+        {/* Content */}
+        <div className="flex gap-1 p-1.5 h-full">
+          <div className="rounded-sm w-5 shrink-0" style={{ background: `${accent}18` }} />
+          <div className="flex-1 flex flex-col gap-1">
+            <div className="rounded-sm h-1.5 w-3/4" style={{ background: `${accent}30` }} />
+            <div className="rounded-sm h-1 w-1/2" style={{ background: `${accent}18` }} />
+            <div className="rounded-sm flex-1 mt-0.5" style={{ background: `${accent}10` }} />
           </div>
         </div>
       </motion.div>
+
+      {/* Sync indicator */}
       <motion.div
-        style={{ color: `${accent}60` }}
-        animate={{ x: [0, 3, 0] }}
-        transition={{ duration: 1.5, repeat: Infinity }}
+        className="flex flex-col items-center gap-1 pb-2"
+        animate={{ x: [0, 2, 0] }}
+        transition={{ duration: 2, repeat: Infinity, ease: "easeInOut" }}
       >
-        <ChevronRight className="w-4 h-4" />
+        <ArrowRight className="w-3 h-3" style={{ color: `${accent}60` }} />
+        <div className="text-[7px] font-mono" style={{ color: `${accent}40` }}>LIVE</div>
       </motion.div>
+
+      {/* Mobile frame */}
       <motion.div
-        className="rounded border p-2"
-        style={{ borderColor: `${accent}30`, background: `${accent}05` }}
-        initial={{ x: 10, opacity: 0 }}
+        className="rounded border overflow-hidden shrink-0"
+        style={{ borderColor: `${accent}30`, background: `${accent}05`, width: 30, height: 52 }}
+        initial={{ x: 12, opacity: 0 }}
         animate={{ x: 0, opacity: 1 }}
-        transition={{ delay: 0.4 }}
+        transition={{ delay: 0.4, duration: 0.5, ease: [0.16, 1, 0.3, 1] as [number, number, number, number] }}
       >
-        <div className="w-8 h-14 flex flex-col gap-1">
-          <div className="h-1 rounded-sm" style={{ background: `${accent}40`, width: "60%" }} />
-          <div className="flex-1 rounded-sm" style={{ background: `${accent}10` }} />
-          <div className="h-1.5 rounded-sm w-full" style={{ background: `${accent}30` }} />
+        <div className="h-2 flex items-center justify-center border-b" style={{ borderColor: `${accent}20`, background: `${accent}10` }}>
+          <div className="w-3 h-0.5 rounded-full" style={{ background: `${accent}40` }} />
+        </div>
+        <div className="flex flex-col gap-1 p-1 h-full">
+          <div className="rounded-sm h-1.5 w-full" style={{ background: `${accent}28` }} />
+          <div className="rounded-sm h-1 w-2/3" style={{ background: `${accent}18` }} />
+          <div className="rounded-sm flex-1" style={{ background: `${accent}10` }} />
+          <div className="rounded-sm h-2 w-full" style={{ background: `${accent}22` }} />
         </div>
       </motion.div>
     </div>
   );
 }
+
+/* ─── Pillar Card ────────────────────────────────────── */
 
 function PillarCard({
   pillar,
@@ -210,9 +258,7 @@ function PillarCard({
 
   const handleMouseMove = (e: React.MouseEvent) => {
     const rect = cardRef.current?.getBoundingClientRect();
-    if (rect) {
-      setMouse({ x: e.clientX - rect.left, y: e.clientY - rect.top });
-    }
+    if (rect) setMouse({ x: e.clientX - rect.left, y: e.clientY - rect.top });
   };
 
   return (
@@ -222,102 +268,99 @@ function PillarCard({
       variants={fadeInUp}
       className="relative rounded-xl border overflow-hidden cursor-default transition-all duration-300 group card-inset-glow"
       style={{
-        borderColor: isActive
-          ? `${pillar.accent}40`
-          : "rgba(255,255,255,0.06)",
+        borderColor: isActive ? `${pillar.accent}38` : "rgba(255,255,255,0.06)",
         background: isActive ? pillar.accentDim : "rgba(255,255,255,0.02)",
       }}
       onMouseEnter={() => onHover(pillar.id)}
       onMouseLeave={() => onHover(null)}
       onMouseMove={handleMouseMove}
     >
+      {/* Radial cursor glow */}
       <div
-        className="pointer-events-none absolute inset-0 opacity-0 group-hover:opacity-100 transition-opacity duration-300"
+        className="pointer-events-none absolute inset-0 opacity-0 group-hover:opacity-100 transition-opacity duration-400"
         style={{
-          background: `radial-gradient(400px circle at ${mouse.x}px ${mouse.y}px, ${pillar.accent}15, transparent 70%)`,
+          background: `radial-gradient(380px circle at ${mouse.x}px ${mouse.y}px, ${pillar.accent}12, transparent 70%)`,
         }}
       />
 
+      {/* Top accent line */}
+      <motion.div
+        className="absolute top-0 left-0 right-0 h-px"
+        style={{ background: `linear-gradient(90deg, transparent, ${pillar.accent}50, transparent)` }}
+        animate={{ opacity: isActive ? 1 : 0 }}
+        transition={{ duration: 0.3 }}
+      />
+
       <div className="relative p-6 space-y-5">
+
+        {/* ── Header ── */}
         <div className="flex items-start justify-between">
           <div className="flex items-center gap-3">
             <div
-              className="w-10 h-10 rounded-lg border flex items-center justify-center"
-              style={{
-                borderColor: `${pillar.accent}30`,
-                background: `${pillar.accent}10`,
-              }}
+              className="w-10 h-10 rounded-lg border flex items-center justify-center shrink-0"
+              style={{ borderColor: `${pillar.accent}28`, background: `${pillar.accent}0e` }}
             >
               <Icon className="w-4.5 h-4.5" style={{ color: pillar.accent }} />
             </div>
             <div>
-              <div
-                className="text-xs font-mono tracking-widest"
-                style={{ color: `${pillar.accent}60` }}
-              >
-                {pillar.number} / LAYER
+              <div className="text-[9px] font-mono tracking-[0.2em] mb-0.5" style={{ color: `${pillar.accent}55` }}>
+                {pillar.number} · {pillar.subtitle.toUpperCase()}
               </div>
-              <h3 className="text-sm font-semibold text-white/90">
-                {pillar.title}
-              </h3>
+              <h3 className="text-sm font-semibold text-white/90 leading-none">{pillar.title}</h3>
             </div>
           </div>
         </div>
 
-        <div
-          className="rounded-lg border p-3"
-          style={{
-            borderColor: `${pillar.accent}15`,
-            background: "rgba(0,0,0,0.3)",
-          }}
-        >
-          {pillar.visual === "alpha" && <AlphaVisual accent={pillar.accent} />}
-          {pillar.visual === "chain" && <ChainVisual accent={pillar.accent} />}
-          {pillar.visual === "ui" && <UIVisual accent={pillar.accent} />}
-        </div>
-
-        <div
-          className="rounded-lg border p-3 font-mono"
-          style={{
-            borderColor: `${pillar.accent}20`,
-            background: "rgba(0,0,0,0.4)",
-          }}
-        >
-          <div
-            className="text-sm font-semibold"
-            style={{ color: pillar.accent }}
-          >
-            {pillar.formula}
-          </div>
-          <div className="text-[10px] text-white/30 mt-0.5">
-            {pillar.formulaSub}
-          </div>
-        </div>
-
-        <p className="text-xs text-white/45 leading-relaxed">
+        {/* ── Description ── */}
+        <p className="text-[12.5px] text-white/50 leading-relaxed">
           {pillar.description}
         </p>
 
+        {/* ── Animated visual ── */}
+        <div
+          className="rounded-lg border p-3"
+          style={{ borderColor: `${pillar.accent}12`, background: "rgba(0,0,0,0.28)" }}
+        >
+          {pillar.visual === "alpha" && <AlphaVisual accent={pillar.accent} />}
+          {pillar.visual === "chain" && <ChainVisual accent={pillar.accent} />}
+          {pillar.visual === "ui"    && <UIVisual    accent={pillar.accent} />}
+        </div>
+
+        {/* ── Business outcomes (replaces formulas) ── */}
+        <div
+          className="rounded-lg border p-3.5 space-y-2.5"
+          style={{ borderColor: `${pillar.accent}14`, background: `${pillar.accent}05` }}
+        >
+          {pillar.outcomes.map((outcome, j) => (
+            <div key={j} className="flex items-start gap-2.5">
+              <div
+                className="w-1 h-1 rounded-full mt-[6px] shrink-0"
+                style={{ background: pillar.accent }}
+              />
+              <span className="text-[11.5px] text-white/58 leading-snug">{outcome}</span>
+            </div>
+          ))}
+        </div>
+
+        {/* ── Metrics ── */}
         <div className="grid grid-cols-3 gap-2">
           {pillar.metrics.map((m) => (
             <div
               key={m.label}
               className="rounded-lg border px-2 py-2 text-center"
-              style={{ borderColor: "rgba(255,255,255,0.05)" }}
+              style={{ borderColor: "rgba(255,255,255,0.05)", background: "rgba(0,0,0,0.2)" }}
             >
-              <div
-                className="text-xs font-mono font-semibold font-tabular"
-                style={{ color: pillar.accent }}
-              >
+              <div className="text-xs font-mono font-semibold font-tabular" style={{ color: pillar.accent }}>
                 {m.value}
               </div>
-              <div className="text-[9px] text-white/25 mt-0.5 font-mono">
+              <div className="text-[8.5px] text-white/25 mt-0.5 font-mono tracking-wide">
                 {m.label}
               </div>
             </div>
           ))}
         </div>
 
+        {/* ── Tags ── */}
         <div className="flex flex-wrap gap-1.5">
           {pillar.tags.map((tag) => (
             <Badge
@@ -325,9 +368,9 @@ function PillarCard({
               variant="outline"
               className="text-[9px] font-mono tracking-wider h-auto py-0.5 px-2 rounded-full"
               style={{
-                borderColor: `${pillar.accent}25`,
-                color: `${pillar.accent}70`,
-                background: `${pillar.accent}08`,
+                borderColor: `${pillar.accent}22`,
+                color: `${pillar.accent}65`,
+                background: `${pillar.accent}07`,
               }}
             >
               {tag}
@@ -339,6 +382,8 @@ function PillarCard({
   );
 }
 
+/* ─── Section ────────────────────────────────────────── */
+
 export default function EcosystemSection() {
   const ref = useRef<HTMLDivElement>(null);
   const inView = useInView(ref, { once: true, margin: "-80px" });
@@ -346,10 +391,12 @@ export default function EcosystemSection() {
 
   return (
     <section id="architecture" ref={ref} className="relative py-32 overflow-hidden">
-      <div className="absolute top-0 left-1/2 -translate-x-1/2 w-[600px] h-px bg-gradient-to-r from-transparent via-violet-500/40 to-transparent" />
-      <div className="absolute bottom-0 left-1/2 -translate-x-1/2 w-[600px] h-px bg-gradient-to-r from-transparent via-cyan-500/30 to-transparent" />
+      <div className="absolute top-0 left-1/2 -translate-x-1/2 w-[700px] h-px bg-gradient-to-r from-transparent via-violet-500/35 to-transparent" />
+      <div className="absolute bottom-0 left-1/2 -translate-x-1/2 w-[700px] h-px bg-gradient-to-r from-transparent via-cyan-500/25 to-transparent" />
 
       <div className="relative max-w-7xl mx-auto px-6 lg:px-8">
+
+        {/* ── Section header ── */}
         <motion.div
           custom={0}
           variants={fadeInUp}
@@ -358,26 +405,27 @@ export default function EcosystemSection() {
           className="text-center mb-16"
         >
           <div className="inline-flex items-center gap-2 px-3 py-1.5 rounded-full border border-violet-500/20 bg-violet-500/5 text-[11px] font-mono tracking-widest text-violet-400/70 mb-6">
-            THREE-TIER ARCHITECTURE
+            INTELLIGENT INFRASTRUCTURE
           </div>
           <h2 className="text-3xl sm:text-4xl font-bold text-white heading-section mb-4">
-            The Interactive{" "}
+            Three Systems.{" "}
             <span
               style={{
-                background: "linear-gradient(135deg, #7c3aed 0%, #06b6d4 100%)",
+                background: "linear-gradient(135deg, #8b5cf6 0%, #06b6d4 100%)",
                 WebkitBackgroundClip: "text",
                 WebkitTextFillColor: "transparent",
                 backgroundClip: "text",
               }}
             >
-              Ecosystem
+              One Platform.
             </span>
           </h2>
           <p className="text-white/40 max-w-lg mx-auto text-sm leading-relaxed">
-            Three precision-engineered layers that work in concert to deliver institutional-grade analytics at startup velocity.
+            Purpose-built layers working in concert — institutional-grade analytics without institutional-grade complexity.
           </p>
         </motion.div>
 
+        {/* ── Cards ── */}
         <motion.div
           initial="hidden"
           animate={inView ? "visible" : "hidden"}
