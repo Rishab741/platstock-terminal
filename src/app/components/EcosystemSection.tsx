@@ -220,7 +220,7 @@ function PillarCard({
       ref={cardRef}
       custom={index}
       variants={fadeInUp}
-      className="relative rounded-xl border overflow-hidden cursor-default transition-all duration-300 group"
+      className="relative rounded-xl border overflow-hidden cursor-default transition-all duration-300 group card-inset-glow"
       style={{
         borderColor: isActive
           ? `${pillar.accent}40`
@@ -360,7 +360,7 @@ export default function EcosystemSection() {
           <div className="inline-flex items-center gap-2 px-3 py-1.5 rounded-full border border-violet-500/20 bg-violet-500/5 text-[11px] font-mono tracking-widest text-violet-400/70 mb-6">
             THREE-TIER ARCHITECTURE
           </div>
-          <h2 className="text-3xl sm:text-4xl font-bold text-white tracking-tight mb-4">
+          <h2 className="text-3xl sm:text-4xl font-bold text-white heading-section mb-4">
             The Interactive{" "}
             <span
               style={{

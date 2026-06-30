@@ -70,7 +70,7 @@ export default function MarketFriction() {
           <div className="inline-flex items-center gap-2 px-3 py-1.5 rounded-full border border-red-500/20 bg-red-500/5 text-[11px] font-mono tracking-widest text-red-400/70 mb-6">
             SYSTEMIC CONSTRAINTS IDENTIFIED
           </div>
-          <h2 className="text-3xl sm:text-4xl font-bold text-white tracking-tight mb-4">
+          <h2 className="text-3xl sm:text-4xl font-bold text-white heading-section mb-4">
             The Legacy Paradigm{" "}
             <span
               style={{
@@ -98,7 +98,7 @@ export default function MarketFriction() {
                 variants={fadeInUp}
                 initial="hidden"
                 animate={inView ? "visible" : "hidden"}
-                className="group grid lg:grid-cols-[auto_1fr_1fr] gap-0 rounded-xl border border-white/[0.06] overflow-hidden hover:border-white/[0.12] transition-colors duration-300"
+                className="group grid lg:grid-cols-[auto_1fr_1fr] gap-0 rounded-xl border border-white/[0.06] overflow-hidden hover:border-white/[0.11] transition-all duration-300 card-inset-glow"
               >
                 <div className="flex items-center justify-center px-8 py-6 bg-white/[0.02] border-b lg:border-b-0 lg:border-r border-white/[0.06]">
                   <div className="flex flex-col items-center gap-3 text-center">

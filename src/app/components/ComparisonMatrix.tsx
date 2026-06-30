@@ -202,7 +202,7 @@ export default function ComparisonMatrix() {
             <div className="inline-flex items-center gap-2 px-3 py-1.5 rounded-full border border-cyan-500/20 bg-cyan-500/5 text-[11px] font-mono tracking-widest text-cyan-400/70 mb-6">
               DEFENSIBILITY MATRIX
             </div>
-            <h2 className="text-3xl sm:text-4xl font-bold text-white tracking-tight mb-4">
+            <h2 className="text-3xl sm:text-4xl font-bold text-white heading-section mb-4">
               Built for{" "}
               <span
                 style={{
@@ -225,7 +225,7 @@ export default function ComparisonMatrix() {
             variants={fadeInUp}
             initial="hidden"
             animate={inView ? "visible" : "hidden"}
-            className="rounded-xl border border-white/[0.07] overflow-hidden bg-card/30"
+            className="rounded-xl border border-white/[0.07] overflow-hidden bg-card/30 card-inset-glow"
           >
             <Table>
               <TableHeader>

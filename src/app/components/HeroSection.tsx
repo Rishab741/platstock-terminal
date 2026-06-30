@@ -70,9 +70,15 @@ function TerminalMockup() {
 
   return (
     <div className="relative float-anim">
-      <div className="absolute -inset-4 bg-gradient-to-r from-violet-600/20 to-cyan-500/20 rounded-2xl blur-2xl" />
-      <div className="relative rounded-xl overflow-hidden border border-white/[0.08] bg-black/70 backdrop-blur-xl shadow-2xl">
-        <div className="flex items-center gap-2 px-4 py-3 border-b border-white/[0.06] bg-white/[0.02]">
+      <div className="absolute -inset-6 bg-gradient-to-r from-violet-600/20 to-cyan-500/15 rounded-3xl blur-3xl" />
+      <div
+        className="relative rounded-xl overflow-hidden border border-white/[0.07] bg-black/75 backdrop-blur-xl"
+        style={{ boxShadow: "var(--shadow-terminal)" }}
+      >
+        <div
+          className="flex items-center gap-2 px-4 py-3 border-b border-white/[0.06]"
+          style={{ background: "linear-gradient(180deg, rgba(255,255,255,0.025) 0%, rgba(255,255,255,0.010) 100%)" }}
+        >
           <div className="flex gap-1.5">
             <div className="w-3 h-3 rounded-full bg-red-500/70" />
             <div className="w-3 h-3 rounded-full bg-yellow-500/70" />
@@ -188,14 +194,14 @@ export default function HeroSection() {
               variants={fadeInUp}
               initial="hidden"
               animate="visible"
-              className="text-4xl sm:text-5xl lg:text-6xl font-bold leading-[1.08] tracking-tight"
+              className="text-4xl sm:text-5xl lg:text-[3.75rem] xl:text-[4.25rem] font-bold heading-display"
             >
               <span className="text-white">Democratizing</span>
               <br />
               <span
                 style={{
                   background:
-                    "linear-gradient(135deg, #7c3aed 0%, #06b6d4 100%)",
+                    "linear-gradient(135deg, #8b5cf6 0%, #06b6d4 55%, #22d3ee 100%)",
                   WebkitBackgroundClip: "text",
                   WebkitTextFillColor: "transparent",
                   backgroundClip: "text",
@@ -212,7 +218,7 @@ export default function HeroSection() {
               variants={fadeInUp}
               initial="hidden"
               animate="visible"
-              className="text-base text-white/50 leading-relaxed max-w-lg"
+              className="text-base text-white/55 leading-relaxed max-w-lg tracking-[0.005em]"
             >
               An AI-Native B2B Capital Tracking & Portfolio Analytics Terminal
               productizing elite quantitative modeling and secure sovereign
@@ -280,7 +286,8 @@ export default function HeroSection() {
           variants={fadeInUp}
           initial="hidden"
           animate="visible"
-          className="mt-20 grid grid-cols-1 sm:grid-cols-3 gap-px bg-white/[0.04] rounded-xl overflow-hidden border border-white/[0.06]"
+          className="mt-20 grid grid-cols-1 sm:grid-cols-3 gap-px rounded-xl overflow-hidden border border-white/[0.06] card-inset-glow"
+          style={{ background: "rgba(255,255,255,0.03)" }}
         >
           {[
             { label: "Simulation Paths", value: "10K+", sub: "Monte Carlo Engine" },
@@ -289,7 +296,7 @@ export default function HeroSection() {
           ].map((stat) => (
             <div
               key={stat.label}
-              className="bg-black/40 px-6 py-5 text-center hover:bg-white/[0.02] transition-colors"
+              className="px-6 py-5 text-center hover:bg-white/[0.025] transition-colors duration-200 bg-black/50"
             >
               <div className="text-2xl font-bold font-mono text-white font-tabular">
                 {stat.value}

@@ -55,11 +55,15 @@ export default function Navbar() {
         duration: entered.current ? 0.3 : 0.8,
         ease: [0.16, 1, 0.3, 1] as [number, number, number, number],
       }}
-      className={`fixed top-0 left-0 right-0 z-50 transition-[backdrop-filter,background-color,border-color] duration-500 ${
+      className={`fixed top-0 left-0 right-0 z-50 transition-[backdrop-filter,background-color,border-color,box-shadow] duration-500 ${
         scrolled
-          ? "backdrop-blur-xl bg-black/55 border-b border-white/[0.05]"
+          ? "backdrop-blur-2xl border-b border-white/[0.05]"
           : "bg-transparent"
       }`}
+      style={scrolled ? {
+        background: "linear-gradient(180deg, rgba(6,6,10,0.72) 0%, rgba(6,6,10,0.55) 100%)",
+        boxShadow: "0 1px 0 0 rgba(255,255,255,0.04), 0 4px 24px rgba(0,0,0,0.35)",
+      } : undefined}
     >
       <div className="max-w-7xl mx-auto px-6 lg:px-8 h-16 flex items-center justify-between">
         {/* Logo */}

@@ -148,7 +148,7 @@ export default function RoadmapSection() {
 
           <div className="flex flex-col lg:flex-row lg:items-end justify-between gap-6">
             <div>
-              <h2 className="text-3xl sm:text-4xl font-bold text-white tracking-tight leading-tight">
+              <h2 className="text-3xl sm:text-4xl font-bold text-white heading-section">
                 The Precision{" "}
                 <span
                   style={{
