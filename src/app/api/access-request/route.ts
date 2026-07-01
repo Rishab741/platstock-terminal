@@ -22,7 +22,7 @@ function adminEmailHtml(
   company: string,
   role: string,
   aum: string,
-  interest: string | undefined,
+  interest: string | null | undefined,
   refCode: string,
 ): string {
   return `
