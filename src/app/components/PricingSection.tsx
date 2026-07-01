@@ -3,8 +3,6 @@
 import { useRef, useState } from "react";
 import { motion, useInView } from "framer-motion";
 import { Check, Minus, ArrowRight } from "lucide-react";
-import { Badge } from "@/components/ui/badge";
-import { Button } from "@/components/ui/button";
 
 const plans = [
   {
@@ -15,7 +13,7 @@ const plans = [
     annual: 399,
     aum: "Up to $100M AUM",
     seats: "3 user seats",
-    accent: "#06b6d4",
+    accent: "#948C7C",
     featured: false,
     features: [
       { label: "Core Terminal Access", included: true },
@@ -36,7 +34,7 @@ const plans = [
     annual: 1199,
     aum: "Up to $1B AUM",
     seats: "20 user seats",
-    accent: "#7c3aed",
+    accent: "#C9A24B",
     featured: true,
     features: [
       { label: "Core Terminal Access", included: true },
@@ -57,7 +55,7 @@ const plans = [
     annual: null,
     aum: "Unlimited AUM",
     seats: "Unlimited seats",
-    accent: "#a78bfa",
+    accent: "#E8D3A0",
     featured: false,
     features: [
       { label: "Core Terminal Access", included: true },
@@ -72,6 +70,15 @@ const plans = [
   },
 ];
 
+const fadeUp = {
+  hidden: { opacity: 0, y: 20 },
+  visible: (i: number) => ({
+    opacity: 1,
+    y: 0,
+    transition: { delay: i * 0.12 + 0.2, duration: 0.9, ease: [0.16, 1, 0.3, 1] as [number, number, number, number] },
+  }),
+};
+
 export default function PricingSection() {
   const ref = useRef<HTMLDivElement>(null);
   const inView = useInView(ref, { once: true, margin: "-80px" });
@@ -79,58 +86,74 @@ export default function PricingSection() {
 
   return (
     <section id="pricing" ref={ref} className="relative py-32 overflow-hidden">
-      <div className="absolute inset-0 bg-gradient-to-b from-transparent via-violet-950/8 to-transparent pointer-events-none" />
 
-      <div className="relative max-w-7xl mx-auto px-6 lg:px-8">
+      <div className="relative max-w-[1240px] mx-auto px-8 lg:px-12">
         {/* Header */}
         <motion.div
-          initial={{ opacity: 0, y: 20, filter: "blur(4px)" }}
-          animate={inView ? { opacity: 1, y: 0, filter: "blur(0px)" } : {}}
-          transition={{ duration: 0.7, ease: [0.16, 1, 0.3, 1] }}
+          initial={{ opacity: 0, y: 20 }}
+          animate={inView ? { opacity: 1, y: 0 } : {}}
+          transition={{ duration: 0.9, ease: [0.16, 1, 0.3, 1] }}
           className="text-center mb-14"
         >
-          <div className="inline-flex items-center gap-2 px-3 py-1.5 rounded-full border border-violet-500/20 bg-violet-500/5 text-[11px] font-mono tracking-widest text-violet-400/70 mb-6">
-            TRANSPARENT PRICING
+          <div
+            className="inline-block border text-[10px] tracking-[0.2em] uppercase px-3 py-1.5 mb-7"
+            style={{ fontFamily: "var(--font-mono)", borderColor: "#1B2334", color: "#948C7C", borderRadius: "2px" }}
+          >
+            Transparent Pricing
           </div>
-          <h2 className="text-3xl sm:text-4xl font-bold text-white tracking-tight mb-4">
+          <h2
+            className="mb-4"
+            style={{
+              fontFamily: "var(--font-display)",
+              fontWeight: 500,
+              fontSize: "clamp(1.8rem, 3vw, 2.6rem)",
+              lineHeight: 1.1,
+              color: "#F4EFE4",
+            }}
+          >
             Institutional Access,{" "}
-            <span
-              style={{
-                background: "linear-gradient(135deg, #7c3aed 0%, #06b6d4 100%)",
-                WebkitBackgroundClip: "text",
-                WebkitTextFillColor: "transparent",
-                backgroundClip: "text",
-              }}
-            >
-              SaaS Economics
-            </span>
+            <span style={{ fontStyle: "italic", color: "#C9A24B" }}>SaaS Economics</span>
           </h2>
-          <p className="text-white/40 max-w-lg mx-auto text-sm leading-relaxed mb-8">
+          <p className="text-[14px] max-w-lg mx-auto leading-relaxed mb-10" style={{ color: "#948C7C" }}>
             Legacy trading terminals charge $24,000+ per seat per year. Platstock gives you more for a fraction of that.
           </p>
 
           {/* Billing toggle */}
-          <div className="inline-flex items-center gap-3 p-1 rounded-full border border-white/[0.07] bg-white/[0.02]">
+          <div
+            className="inline-flex items-center gap-0 overflow-hidden"
+            style={{ border: "1px solid #1B2334", borderRadius: "2px" }}
+          >
             <button
               onClick={() => setAnnual(false)}
-              className={`px-4 py-1.5 rounded-full text-xs font-mono tracking-wider transition-all duration-200 ${
-                !annual
-                  ? "bg-white/10 text-white"
-                  : "text-white/35 hover:text-white/55"
-              }`}
+              className="px-5 py-2 text-[11px] tracking-widest transition-all duration-200"
+              style={{
+                fontFamily: "var(--font-mono)",
+                background: !annual ? "#1B2334" : "transparent",
+                color: !annual ? "#F4EFE4" : "#948C7C",
+                borderRight: "1px solid #1B2334",
+              }}
             >
               Monthly
             </button>
             <button
               onClick={() => setAnnual(true)}
-              className={`flex items-center gap-2 px-4 py-1.5 rounded-full text-xs font-mono tracking-wider transition-all duration-200 ${
-                annual
-                  ? "bg-white/10 text-white"
-                  : "text-white/35 hover:text-white/55"
-              }`}
+              className="flex items-center gap-2.5 px-5 py-2 text-[11px] tracking-widest transition-all duration-200"
+              style={{
+                fontFamily: "var(--font-mono)",
+                background: annual ? "#1B2334" : "transparent",
+                color: annual ? "#F4EFE4" : "#948C7C",
+              }}
             >
               Annual
-              <span className="text-[9px] px-1.5 py-0.5 rounded-full bg-emerald-500/20 text-emerald-400 font-mono tracking-wider">
+              <span
+                className="text-[9px] px-1.5 py-0.5 tracking-wider"
+                style={{
+                  border: "1px solid rgba(201,162,75,0.3)",
+                  color: "#C9A24B",
+                  background: "rgba(201,162,75,0.08)",
+                  borderRadius: "1px",
+                }}
+              >
                 SAVE 20%
               </span>
             </button>
@@ -138,60 +161,67 @@ export default function PricingSection() {
         </motion.div>
 
         {/* Pricing cards */}
-        <div className="grid lg:grid-cols-3 gap-5">
+        <div className="grid lg:grid-cols-3 gap-4">
           {plans.map((plan, i) => (
             <motion.div
               key={plan.id}
-              initial={{ opacity: 0, y: 28 }}
-              animate={inView ? { opacity: 1, y: 0 } : {}}
-              transition={{
-                delay: i * 0.12 + 0.2,
-                duration: 0.7,
-                ease: [0.16, 1, 0.3, 1],
+              custom={i}
+              variants={fadeUp}
+              initial="hidden"
+              animate={inView ? "visible" : "hidden"}
+              className="relative overflow-hidden flex flex-col"
+              style={{
+                border: plan.featured ? "1px solid rgba(201,162,75,0.4)" : "1px solid #1B2334",
+                background: plan.featured ? "rgba(201,162,75,0.03)" : "#121826",
+                borderRadius: "2px",
               }}
-              className={`relative rounded-xl border overflow-hidden flex flex-col ${
-                plan.featured
-                  ? "border-violet-500/40 bg-violet-950/20"
-                  : "border-white/[0.06] bg-white/[0.015]"
-              }`}
             >
-              {/* Featured glow */}
+              {/* Featured top line */}
               {plan.featured && (
-                <>
-                  <div className="absolute inset-0 bg-gradient-to-b from-violet-600/8 to-transparent pointer-events-none" />
-                  <div className="absolute top-0 left-0 right-0 h-px bg-gradient-to-r from-transparent via-violet-500/60 to-transparent" />
-                </>
+                <div
+                  className="absolute top-0 left-0 right-0 h-px"
+                  style={{ background: "linear-gradient(90deg, transparent, #C9A24B, transparent)" }}
+                />
               )}
 
               {/* Featured badge */}
               {plan.featured && (
-                <div className="absolute -top-px left-1/2 -translate-x-1/2">
-                  <Badge
-                    variant="outline"
-                    className="rounded-b-lg rounded-t-none border-t-0 border-violet-500/50 bg-violet-600/30 text-violet-300 text-[9px] font-mono tracking-widest px-3 h-auto py-1"
+                <div className="absolute top-0 left-1/2 -translate-x-1/2">
+                  <span
+                    className="inline-block text-[8px] tracking-[0.2em] px-3 py-1"
+                    style={{
+                      fontFamily: "var(--font-mono)",
+                      border: "1px solid rgba(201,162,75,0.35)",
+                      borderTop: "none",
+                      color: "#C9A24B",
+                      background: "rgba(201,162,75,0.08)",
+                    }}
                   >
                     MOST POPULAR
-                  </Badge>
+                  </span>
                 </div>
               )}
 
-              <div className="relative p-7 flex flex-col flex-1">
+              <div className="relative p-7 flex flex-col flex-1 pt-8">
                 {/* Plan header */}
                 <div className="mb-6">
                   <div
-                    className="text-[10px] font-mono tracking-[0.2em] mb-2"
-                    style={{ color: `${plan.accent}70` }}
+                    className="text-[9px] tracking-[0.2em] mb-2"
+                    style={{ fontFamily: "var(--font-mono)", color: `${plan.accent}80` }}
                   >
                     {plan.aum} · {plan.seats}
                   </div>
-                  <h3 className="text-lg font-semibold text-white/90 mb-1">
+                  <h3
+                    className="text-[18px] mb-1"
+                    style={{ fontFamily: "var(--font-display)", color: "#F4EFE4" }}
+                  >
                     {plan.name}
                   </h3>
-                  <p className="text-xs text-white/35">{plan.tagline}</p>
+                  <p className="text-[12px]" style={{ color: "#948C7C" }}>{plan.tagline}</p>
                 </div>
 
                 {/* Price */}
-                <div className="mb-7 pb-7 border-b border-white/[0.06]">
+                <div className="mb-7 pb-7" style={{ borderBottom: "1px solid #1B2334" }}>
                   {plan.monthly !== null ? (
                     <div className="flex items-end gap-2">
                       <motion.span
@@ -199,34 +229,40 @@ export default function PricingSection() {
                         initial={{ opacity: 0, y: 8 }}
                         animate={{ opacity: 1, y: 0 }}
                         transition={{ duration: 0.3 }}
-                        className="text-4xl font-bold font-mono text-white"
+                        className="text-4xl font-bold"
+                        style={{ fontFamily: "var(--font-mono)", color: "#E8D3A0" }}
                       >
                         ${annual ? plan.annual : plan.monthly}
                       </motion.span>
-                      <span className="text-sm text-white/30 mb-1 font-mono">
+                      <span className="text-sm mb-1" style={{ fontFamily: "var(--font-mono)", color: "#948C7C" }}>
                         /month
                       </span>
                     </div>
                   ) : (
-                    <div className="text-4xl font-bold text-white">Custom</div>
+                    <div
+                      className="text-4xl"
+                      style={{ fontFamily: "var(--font-display)", fontStyle: "italic", color: "#F4EFE4" }}
+                    >
+                      Custom
+                    </div>
                   )}
                   {annual && plan.annual !== null && (
                     <motion.p
                       initial={{ opacity: 0 }}
                       animate={{ opacity: 1 }}
-                      className="text-[10px] font-mono text-emerald-400/60 mt-1"
+                      className="text-[10px] mt-1"
+                      style={{ fontFamily: "var(--font-mono)", color: "rgba(201,162,75,0.55)" }}
                     >
-                      Billed ${(plan.annual! * 12).toLocaleString()}/year · You save $
-                      {((plan.monthly! - plan.annual!) * 12).toLocaleString()}/yr
+                      Billed ${(plan.annual! * 12).toLocaleString()}/year · You save ${((plan.monthly! - plan.annual!) * 12).toLocaleString()}/yr
                     </motion.p>
                   )}
                   {!annual && plan.monthly && (
-                    <p className="text-[10px] font-mono text-white/20 mt-1">
+                    <p className="text-[10px] mt-1" style={{ fontFamily: "var(--font-mono)", color: "rgba(148,140,124,0.4)" }}>
                       Billed monthly · Cancel anytime
                     </p>
                   )}
                   {plan.monthly === null && (
-                    <p className="text-[10px] font-mono text-white/20 mt-1">
+                    <p className="text-[10px] mt-1" style={{ fontFamily: "var(--font-mono)", color: "rgba(148,140,124,0.4)" }}>
                       Tailored to your fund's needs
                     </p>
                   )}
@@ -237,17 +273,13 @@ export default function PricingSection() {
                   {plan.features.map((f) => (
                     <li key={f.label} className="flex items-center gap-3">
                       {f.included ? (
-                        <Check
-                          className="w-3.5 h-3.5 shrink-0"
-                          style={{ color: plan.accent }}
-                        />
+                        <Check className="w-3.5 h-3.5 shrink-0" style={{ color: plan.accent }} />
                       ) : (
-                        <Minus className="w-3.5 h-3.5 shrink-0 text-white/15" />
+                        <Minus className="w-3.5 h-3.5 shrink-0" style={{ color: "rgba(148,140,124,0.25)" }} />
                       )}
                       <span
-                        className={`text-xs leading-snug ${
-                          f.included ? "text-white/55" : "text-white/20"
-                        }`}
+                        className="text-[12px] leading-snug"
+                        style={{ color: f.included ? "rgba(244,239,228,0.55)" : "rgba(148,140,124,0.3)" }}
                       >
                         {f.label}
                       </span>
@@ -257,38 +289,43 @@ export default function PricingSection() {
 
                 {/* CTA */}
                 {plan.featured ? (
-                  <Button
-                    variant="gradient"
-                    className="w-full gap-2"
-                    onClick={() =>
-                      window.dispatchEvent(new CustomEvent("open-access-modal"))
-                    }
+                  <button
+                    className="w-full flex items-center justify-center gap-2 py-3 text-[13px] font-medium cursor-pointer transition-opacity duration-200 hover:opacity-90"
+                    style={{ background: "#C9A24B", color: "#0A0E17", borderRadius: "2px" }}
+                    onClick={() => window.dispatchEvent(new CustomEvent("open-access-modal"))}
                   >
-                    Request Access
-                    <ArrowRight className="w-4 h-4" />
-                  </Button>
+                    Request Access <ArrowRight className="w-4 h-4" />
+                  </button>
                 ) : plan.monthly === null ? (
-                  <Button
-                    variant="outline"
-                    className="w-full gap-2 border-white/[0.08] text-white/50 hover:text-white hover:border-white/20"
-                    onClick={() =>
-                      window.dispatchEvent(new CustomEvent("open-access-modal"))
-                    }
+                  <button
+                    className="w-full flex items-center justify-center gap-2 py-3 text-[13px] cursor-pointer transition-colors duration-200"
+                    style={{
+                      border: "1px solid #1B2334",
+                      color: "#948C7C",
+                      background: "transparent",
+                      borderRadius: "2px",
+                    }}
+                    onMouseEnter={(e) => { e.currentTarget.style.borderColor = "rgba(201,162,75,0.4)"; e.currentTarget.style.color = "#C9A24B"; }}
+                    onMouseLeave={(e) => { e.currentTarget.style.borderColor = "#1B2334"; e.currentTarget.style.color = "#948C7C"; }}
+                    onClick={() => window.dispatchEvent(new CustomEvent("open-access-modal"))}
                   >
-                    Contact Sales
-                    <ArrowRight className="w-4 h-4" />
-                  </Button>
+                    Contact Sales <ArrowRight className="w-4 h-4" />
+                  </button>
                 ) : (
-                  <Button
-                    variant="outline"
-                    className="w-full gap-2 border-white/[0.08] text-white/50 hover:text-white hover:border-white/20"
-                    onClick={() =>
-                      window.dispatchEvent(new CustomEvent("open-access-modal"))
-                    }
+                  <button
+                    className="w-full flex items-center justify-center gap-2 py-3 text-[13px] cursor-pointer transition-colors duration-200"
+                    style={{
+                      border: "1px solid #1B2334",
+                      color: "#948C7C",
+                      background: "transparent",
+                      borderRadius: "2px",
+                    }}
+                    onMouseEnter={(e) => { e.currentTarget.style.borderColor = "rgba(201,162,75,0.4)"; e.currentTarget.style.color = "#C9A24B"; }}
+                    onMouseLeave={(e) => { e.currentTarget.style.borderColor = "#1B2334"; e.currentTarget.style.color = "#948C7C"; }}
+                    onClick={() => window.dispatchEvent(new CustomEvent("open-access-modal"))}
                   >
-                    Get Started
-                    <ArrowRight className="w-4 h-4" />
-                  </Button>
+                    Get Started <ArrowRight className="w-4 h-4" />
+                  </button>
                 )}
               </div>
             </motion.div>
@@ -300,7 +337,8 @@ export default function PricingSection() {
           initial={{ opacity: 0 }}
           animate={inView ? { opacity: 1 } : {}}
           transition={{ delay: 0.7, duration: 0.6 }}
-          className="text-center text-[11px] font-mono text-white/20 mt-8"
+          className="text-center text-[11px] mt-8"
+          style={{ fontFamily: "var(--font-mono)", color: "rgba(148,140,124,0.35)" }}
         >
           All plans include a 14-day free trial · No credit card required to apply · SOC2 audit-ready infrastructure
         </motion.p>

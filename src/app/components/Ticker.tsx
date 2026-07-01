@@ -19,26 +19,48 @@ export default function Ticker() {
   const doubled = [...tickerItems, ...tickerItems];
 
   return (
-    <div className="relative overflow-hidden border-y border-white/[0.06] py-3" style={{ background: "linear-gradient(180deg, rgba(0,0,0,0.60) 0%, rgba(6,6,10,0.80) 100%)" }}>
-      <div className="absolute left-0 top-0 bottom-0 w-20 bg-gradient-to-r from-[#030303] to-transparent z-10 pointer-events-none" />
-      <div className="absolute right-0 top-0 bottom-0 w-20 bg-gradient-to-l from-[#030303] to-transparent z-10 pointer-events-none" />
+    <div
+      className="relative overflow-hidden py-3"
+      style={{
+        background: "#121826",
+        borderTop: "1px solid #1B2334",
+        borderBottom: "1px solid #1B2334",
+      }}
+    >
+      <div
+        className="absolute left-0 top-0 bottom-0 w-20 z-10 pointer-events-none"
+        style={{ background: "linear-gradient(to right, #121826, transparent)" }}
+      />
+      <div
+        className="absolute right-0 top-0 bottom-0 w-20 z-10 pointer-events-none"
+        style={{ background: "linear-gradient(to left, #121826, transparent)" }}
+      />
 
       <div className="ticker-track flex items-center gap-0">
         {doubled.map((item, i) => (
           <div
             key={i}
-            className="flex items-center gap-3 px-6 border-r border-white/[0.04] whitespace-nowrap"
+            className="flex items-center gap-3 px-6 whitespace-nowrap"
+            style={{ borderRight: "1px solid rgba(27,35,52,0.7)" }}
           >
-            <span className="text-[10px] font-mono font-bold tracking-widest text-white/60">
+            <span
+              className="text-[10px] font-bold tracking-widest"
+              style={{ fontFamily: "var(--font-mono)", color: "#948C7C" }}
+            >
               {item.symbol}
             </span>
-            <span className="text-[11px] font-mono text-white/80 font-tabular">
+            <span
+              className="text-[11px]"
+              style={{ fontFamily: "var(--font-mono)", color: "#E8D3A0" }}
+            >
               {item.price}
             </span>
             <span
-              className={`text-[10px] font-mono font-tabular ${
-                item.up ? "text-emerald-400" : "text-red-400"
-              }`}
+              className="text-[10px]"
+              style={{
+                fontFamily: "var(--font-mono)",
+                color: item.up ? "#10b981" : "#ef4444",
+              }}
             >
               {item.delta}
             </span>

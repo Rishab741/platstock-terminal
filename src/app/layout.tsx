@@ -1,5 +1,6 @@
 import type { Metadata } from "next";
 import localFont from "next/font/local";
+import { Fraunces, IBM_Plex_Mono } from "next/font/google";
 import "./globals.css";
 import { cn } from "@/lib/utils";
 
@@ -13,6 +14,19 @@ const geistMono = localFont({
   src: "../../node_modules/geist/dist/fonts/geist-mono/GeistMono-Variable.woff2",
   variable: "--font-geist-mono",
   weight: "100 900",
+});
+
+const fraunces = Fraunces({
+  subsets: ["latin"],
+  weight: ["400", "500", "600"],
+  style: ["normal", "italic"],
+  variable: "--font-display",
+});
+
+const plexMono = IBM_Plex_Mono({
+  subsets: ["latin"],
+  weight: ["400", "500"],
+  variable: "--font-mono",
 });
 
 export const metadata: Metadata = {
@@ -32,10 +46,12 @@ export default function RootLayout({
       className={cn(
         "dark h-full antialiased",
         geistSans.variable,
-        geistMono.variable
+        geistMono.variable,
+        fraunces.variable,
+        plexMono.variable,
       )}
     >
-      <body className="min-h-full flex flex-col bg-[#030303] text-white">
+      <body className="min-h-full flex flex-col bg-[#0A0E17] text-white">
         {children}
       </body>
     </html>

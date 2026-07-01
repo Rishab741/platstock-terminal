@@ -70,33 +70,39 @@ export default function FAQSection() {
 
   return (
     <section id="faq" ref={ref} className="relative py-32 overflow-hidden">
-      <div className="absolute top-0 left-1/2 -translate-x-1/2 w-[800px] h-px bg-gradient-to-r from-transparent via-white/[0.06] to-transparent" />
+      <div
+        className="absolute top-0 left-0 right-0 h-px"
+        style={{ background: "linear-gradient(90deg, transparent, #1B2334, transparent)" }}
+      />
 
-      <div className="relative max-w-5xl mx-auto px-6 lg:px-8">
+      <div className="relative max-w-[1240px] mx-auto px-8 lg:px-12">
         {/* Header */}
         <motion.div
-          initial={{ opacity: 0, y: 20, filter: "blur(4px)" }}
-          animate={inView ? { opacity: 1, y: 0, filter: "blur(0px)" } : {}}
-          transition={{ duration: 0.7, ease: [0.16, 1, 0.3, 1] }}
-          className="text-center mb-16"
+          initial={{ opacity: 0, y: 20 }}
+          animate={inView ? { opacity: 1, y: 0 } : {}}
+          transition={{ duration: 0.9, ease: [0.16, 1, 0.3, 1] }}
+          className="mb-16"
         >
-          <div className="inline-flex items-center gap-2 px-3 py-1.5 rounded-full border border-violet-500/20 bg-violet-500/5 text-[11px] font-mono tracking-widest text-violet-400/70 mb-6">
-            FREQUENTLY ASKED QUESTIONS
+          <div
+            className="inline-block border text-[10px] tracking-[0.2em] uppercase px-3 py-1.5 mb-7"
+            style={{ fontFamily: "var(--font-mono)", borderColor: "#1B2334", color: "#948C7C", borderRadius: "2px" }}
+          >
+            Frequently Asked Questions
           </div>
-          <h2 className="text-3xl sm:text-4xl font-bold text-white tracking-tight mb-4">
+          <h2
+            className="mb-4"
+            style={{
+              fontFamily: "var(--font-display)",
+              fontWeight: 500,
+              fontSize: "clamp(1.8rem, 3vw, 2.6rem)",
+              lineHeight: 1.1,
+              color: "#F4EFE4",
+            }}
+          >
             Everything You Need{" "}
-            <span
-              style={{
-                background: "linear-gradient(135deg, #7c3aed 0%, #06b6d4 100%)",
-                WebkitBackgroundClip: "text",
-                WebkitTextFillColor: "transparent",
-                backgroundClip: "text",
-              }}
-            >
-              to Know
-            </span>
+            <span style={{ fontStyle: "italic", color: "#C9A24B" }}>to Know</span>
           </h2>
-          <p className="text-white/40 max-w-lg mx-auto text-sm leading-relaxed">
+          <p className="text-[14px] max-w-lg leading-relaxed" style={{ color: "#948C7C" }}>
             Answers to the questions compliance teams, CIOs, and portfolio managers ask before signing on.
           </p>
         </motion.div>
@@ -108,17 +114,19 @@ export default function FAQSection() {
               key={category}
               initial={{ opacity: 0, y: 18 }}
               animate={inView ? { opacity: 1, y: 0 } : {}}
-              transition={{
-                delay: ci * 0.1 + 0.2,
-                duration: 0.6,
-                ease: [0.16, 1, 0.3, 1],
-              }}
+              transition={{ delay: ci * 0.1 + 0.2, duration: 0.7, ease: [0.16, 1, 0.3, 1] }}
             >
-              <div className="text-[10px] font-mono tracking-[0.25em] text-white/25 uppercase mb-4">
+              <div
+                className="text-[9px] tracking-[0.25em] uppercase mb-4"
+                style={{ fontFamily: "var(--font-mono)", color: "rgba(148,140,124,0.4)" }}
+              >
                 {category}
               </div>
 
-              <div className="rounded-xl border border-white/[0.06] overflow-hidden bg-white/[0.01]">
+              <div
+                className="overflow-hidden"
+                style={{ border: "1px solid #1B2334", background: "#121826", borderRadius: "2px" }}
+              >
                 <Accordion>
                   {faqs
                     .filter((f) => f.category === category)
@@ -126,12 +134,19 @@ export default function FAQSection() {
                       <AccordionItem
                         key={fi}
                         value={`${category}-${fi}`}
-                        className="border-b border-white/[0.05] last:border-b-0 px-6"
+                        className="px-6 last:border-b-0"
+                        style={{ borderBottom: "1px solid #1B2334" }}
                       >
-                        <AccordionTrigger className="py-4 text-sm text-white/65 hover:text-white/90 hover:no-underline transition-colors duration-200 font-normal">
+                        <AccordionTrigger
+                          className="py-4 text-[13px] hover:no-underline transition-colors duration-200 font-normal"
+                          style={{ color: "rgba(244,239,228,0.65)" }}
+                        >
                           {faq.q}
                         </AccordionTrigger>
-                        <AccordionContent className="text-white/40 text-sm leading-relaxed pb-5">
+                        <AccordionContent
+                          className="text-[13px] leading-relaxed pb-5"
+                          style={{ color: "#948C7C" }}
+                        >
                           {faq.a}
                         </AccordionContent>
                       </AccordionItem>
@@ -147,13 +162,16 @@ export default function FAQSection() {
           initial={{ opacity: 0 }}
           animate={inView ? { opacity: 1 } : {}}
           transition={{ delay: 0.6, duration: 0.6 }}
-          className="mt-14 text-center"
+          className="mt-14"
         >
-          <p className="text-sm text-white/25">
+          <p className="text-[13px]" style={{ color: "rgba(148,140,124,0.45)" }}>
             Have a question not listed here?{" "}
             <a
               href="mailto:hello@platstock.io"
-              className="text-violet-400/60 hover:text-violet-400 transition-colors duration-200"
+              className="transition-colors duration-200"
+              style={{ color: "#C9A24B" }}
+              onMouseEnter={(e) => (e.currentTarget.style.color = "#E8D3A0")}
+              onMouseLeave={(e) => (e.currentTarget.style.color = "#C9A24B")}
             >
               Email us directly
             </a>

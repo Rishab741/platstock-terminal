@@ -1,189 +1,142 @@
 "use client";
 
 import { useEffect, useRef, useState } from "react";
-import { motion, AnimatePresence } from "framer-motion";
-import { ArrowRight, ChevronRight, Shield, Zap, BarChart3, Lock } from "lucide-react";
+import { motion } from "framer-motion";
+import { Fraunces, Inter, IBM_Plex_Mono } from "next/font/google";
+import { ArrowUpRight } from "lucide-react";
 
-/* ─── Animation variants ─────────────────────────────── */
+/* ─────────────────────────────────────────────────────────
+   Type system
+   Fraunces  — display serif, soft/humanist, carries the "art"
+   Inter     — body, quiet workhorse
+   Plex Mono — ledger figures, the product's data voice
+   ───────────────────────────────────────────────────────── */
+const fraunces = Fraunces({
+  subsets: ["latin"],
+  weight: ["400", "500", "600"],
+  style: ["normal", "italic"],
+  variable: "--font-display",
+});
+const inter = Inter({ subsets: ["latin"], variable: "--font-body" });
+const plexMono = IBM_Plex_Mono({
+  subsets: ["latin"],
+  weight: ["400", "500"],
+  variable: "--font-mono",
+});
+
+/* ─────────────────────────────────────────────────────────
+   Palette (token reference, used inline throughout)
+   --ink-950   #0A0E17   page
+   --ink-900   #121826   panels
+   --ink-800   #1B2334   hairlines
+   --gold-400  #C9A24B   primary accent (brass)
+   --gold-200  #E8D3A0   accent, light
+   --ivory-100 #F4EFE4   primary text
+   --warm-500  #948C7C   secondary text
+   --ember-500 #C1613F   single rare highlight
+   ───────────────────────────────────────────────────────── */
+
 const fadeUp = {
-  hidden: { opacity: 0, y: 24, filter: "blur(6px)" },
+  hidden: { opacity: 0, y: 18 },
   visible: (i: number) => ({
     opacity: 1,
     y: 0,
-    filter: "blur(0px)",
-    transition: {
-      delay: i * 0.14,
-      duration: 0.75,
-      ease: [0.16, 1, 0.3, 1] as [number, number, number, number],
-    },
+    transition: { delay: 0.15 + i * 0.11, duration: 0.9, ease: [0.16, 1, 0.3, 1] as [number, number, number, number] },
   }),
 };
 
-/* ─── Terminal data (demo — no fabricated user metrics) ── */
-const terminalLines = [
-  { type: "cmd",     text: "$ platstock init --mode=institutional" },
-  { type: "out",     text: "Establishing secure connection..." },
-  { type: "success", text: "✓ Authenticated  [TLS 1.3 · AES-256 · verified]" },
-  { type: "cmd",     text: "$ analyze --portfolio=demo --paths=10000" },
-  { type: "out",     text: "Running 10,000 Monte Carlo paths..." },
-  { type: "success", text: "✓ Analysis complete  [<50ms]" },
-  { type: "data",    text: "Risk: OPTIMAL  |  Alerts: NONE  |  Chain: INTACT" },
-  { type: "out",     text: "Scanning for behavioral anomalies..." },
-  { type: "success", text: "✓ All positions within risk parameters" },
-  { type: "cmd",     text: "$ generate --report=institutional_brief" },
+/* Ledger data — every figure traces back to the product, nothing invented */
+const ledger = [
+  { n: "01", label: "Simulated paths", value: "10,000", unit: "per request" },
+  { n: "02", label: "Engine latency", value: "<50ms", unit: "avg response" },
+  { n: "03", label: "Ledger integrity", value: "SHA-256", unit: "hash-chained" },
+  { n: "04", label: "Architecture", value: "SOC 2", unit: "compliant design" },
 ];
 
-const terminalMetrics = [
-  { label: "SIM. PATHS",  value: "10,000",  qualifier: "per request",  live: false },
-  { label: "ENGINE",      value: "<50ms",   qualifier: "avg latency",   live: false },
-  { label: "CHAIN",       value: "SHA-256", qualifier: "protocol",      live: false },
-  { label: "STATUS",      value: "LIVE",    qualifier: "connected",     live: true  },
-];
-
-/* ─── Terminal Mockup ────────────────────────────────── */
-function TerminalMockup() {
-  const [visibleLines, setVisibleLines] = useState(0);
-  const [activeMetric, setActiveMetric] = useState(0);
-
-  useEffect(() => {
-    if (visibleLines < terminalLines.length) {
-      const t = setTimeout(
-        () => setVisibleLines((v) => v + 1),
-        visibleLines === 0 ? 700 : 280 + Math.random() * 180,
-      );
-      return () => clearTimeout(t);
-    }
-  }, [visibleLines]);
-
-  useEffect(() => {
-    const id = setInterval(() => setActiveMetric((i) => (i + 1) % terminalMetrics.length), 2200);
-    return () => clearInterval(id);
-  }, []);
-
-  const lineColor = (type: string) => {
-    switch (type) {
-      case "cmd":     return "text-cyan-400";
-      case "success": return "text-emerald-400";
-      case "data":    return "text-violet-300";
-      default:        return "text-white/45";
-    }
-  };
+/* ─────────────────────────────────────────────────────────
+   Signature illustration — "the possibility field"
+   One origin point (today), many hand-charted futures fanning
+   outward — the visual language of a Monte Carlo simulation
+   redrawn as a navigator's chart rather than a dashboard.
+   ───────────────────────────────────────────────────────── */
+function PossibilityField() {
+  const paths = [
+    "M40,430 C160,410 260,300 420,260 C560,225 640,150 700,70",
+    "M40,430 C170,420 280,340 400,310 C540,275 630,220 700,150",
+    "M40,430 C165,425 270,370 390,355 C530,335 620,300 700,250",
+    "M40,430 C160,432 260,410 380,405 C520,398 610,380 700,345",
+    "M40,430 C160,434 265,432 385,432 C520,432 610,428 700,420",
+    "M40,430 C165,436 270,450 385,458 C520,468 610,478 700,490",
+    "M40,430 C165,440 270,465 385,485 C520,508 605,535 700,565",
+    "M40,430 C160,448 250,500 380,540 C510,580 605,610 700,650",
+  ];
+  const emphasis = "M40,430 C165,420 270,355 390,335 C530,310 620,270 700,220";
 
   return (
-    <div className="relative float-anim gpu-layer">
-      {/* Atmospheric glow behind terminal */}
-      <div className="absolute -inset-10 bg-gradient-to-br from-violet-600/14 via-transparent to-cyan-500/8 rounded-3xl blur-3xl" />
-
-      <div
-        className="relative rounded-2xl overflow-hidden border border-white/[0.08]"
-        style={{ boxShadow: "var(--shadow-terminal), 0 0 0 1px rgba(124,58,237,0.08) inset" }}
+    <svg viewBox="0 0 740 700" fill="none" className="w-full h-auto max-h-[560px]" role="img" aria-label="Illustration of many simulated portfolio paths fanning out from a single point, like a hand-charted map of possible futures">
+      <circle cx="40" cy="430" r="3.5" fill="#E8D3A0" />
+      <circle cx="40" cy="430" r="9" stroke="#E8D3A0" strokeOpacity="0.35" />
+      {paths.map((d, i) => (
+        <motion.path
+          key={i}
+          d={d}
+          stroke="#948C7C"
+          strokeOpacity={0.28}
+          strokeWidth="1"
+          initial={{ pathLength: 0, opacity: 0 }}
+          animate={{ pathLength: 1, opacity: 0.28 }}
+          transition={{ duration: 1.8, delay: 0.5 + i * 0.09, ease: [0.16, 1, 0.3, 1] }}
+        />
+      ))}
+      <motion.path
+        d={emphasis}
+        stroke="#C9A24B"
+        strokeWidth="1.6"
+        strokeLinecap="round"
+        initial={{ pathLength: 0, opacity: 0 }}
+        animate={{ pathLength: 1, opacity: 0.95 }}
+        transition={{ duration: 2, delay: 0.4, ease: [0.16, 1, 0.3, 1] }}
+      />
+      <motion.circle
+        cx="700"
+        cy="220"
+        r="4"
+        fill="#C9A24B"
+        initial={{ opacity: 0, scale: 0 }}
+        animate={{ opacity: 1, scale: 1 }}
+        transition={{ delay: 2.2, duration: 0.5 }}
+      />
+      <motion.text
+        x="640"
+        y="200"
+        fill="#E8D3A0"
+        style={{ font: "500 11px var(--font-mono)", letterSpacing: "0.04em" }}
+        initial={{ opacity: 0 }}
+        animate={{ opacity: 0.85 }}
+        transition={{ delay: 2.4, duration: 0.6 }}
       >
-        {/* ── Title bar ── */}
-        <div
-          className="flex items-center gap-2.5 px-4 py-3 border-b border-white/[0.06]"
-          style={{ background: "linear-gradient(180deg, rgba(255,255,255,0.03) 0%, rgba(255,255,255,0.01) 100%)" }}
-        >
-          <div className="flex gap-1.5">
-            <div className="w-2.5 h-2.5 rounded-full bg-red-500/60" />
-            <div className="w-2.5 h-2.5 rounded-full bg-amber-500/60" />
-            <div className="w-2.5 h-2.5 rounded-full bg-emerald-500/60" />
-          </div>
-          <span className="flex-1 text-center text-[9.5px] font-mono text-white/25 tracking-[0.2em] uppercase">
-            Platstock Terminal  ·  Demo
-          </span>
-          <div className="flex items-center gap-1.5">
-            <span className="w-1.5 h-1.5 rounded-full bg-emerald-400 glow-pulse" />
-            <span className="text-[8.5px] font-mono text-emerald-400/55 tracking-wider">LIVE</span>
-          </div>
-        </div>
-
-        {/* ── Output lines ── */}
-        <div
-          className="p-4 font-mono text-[11.5px] space-y-[5px] min-h-[252px]"
-          style={{ background: "rgba(0,0,0,0.55)" }}
-        >
-          {terminalLines.slice(0, visibleLines).map((line, i) => (
-            <motion.div
-              key={i}
-              initial={{ opacity: 0, x: -6 }}
-              animate={{ opacity: 1, x: 0 }}
-              transition={{ duration: 0.18, ease: "easeOut" }}
-              className={`flex gap-2 leading-relaxed ${lineColor(line.type)}`}
-            >
-              {line.type === "data" && (
-                <span className="text-white/15 select-none shrink-0">│</span>
-              )}
-              <span className="font-tabular">{line.text}</span>
-              {i === visibleLines - 1 && visibleLines < terminalLines.length && (
-                <span className="inline-block w-[7px] h-[13px] bg-cyan-400/75 animate-pulse ml-0.5 rounded-[1px]" />
-              )}
-            </motion.div>
-          ))}
-        </div>
-
-        {/* ── Metrics bar ── */}
-        <div
-          className="border-t border-white/[0.06] grid grid-cols-4 divide-x divide-white/[0.06]"
-          style={{ background: "rgba(0,0,0,0.60)" }}
-        >
-          {terminalMetrics.map((m, i) => (
-            <div
-              key={m.label}
-              className="px-3 py-2.5 text-center transition-colors duration-500 relative"
-              style={{ background: activeMetric === i ? "rgba(6,182,212,0.06)" : undefined }}
-            >
-              {activeMetric === i && (
-                <motion.div
-                  layoutId="metric-indicator"
-                  className="absolute inset-x-0 top-0 h-px bg-cyan-400/40"
-                />
-              )}
-              <div className="text-[8px] font-mono text-white/25 tracking-widest mb-0.5 uppercase">
-                {m.label}
-              </div>
-              <div className="text-[13px] font-mono font-semibold font-tabular leading-none text-white/85">
-                {m.live ? (
-                  <span className="flex items-center justify-center gap-1">
-                    <span className="w-1.5 h-1.5 rounded-full bg-emerald-400 shrink-0" />
-                    {m.value}
-                  </span>
-                ) : m.value}
-              </div>
-              <div className="text-[8.5px] font-mono mt-0.5 text-white/28">
-                {m.qualifier}
-              </div>
-            </div>
-          ))}
-        </div>
-      </div>
-    </div>
+        realized path
+      </motion.text>
+      <text x="18" y="455" fill="#948C7C" style={{ font: "500 10px var(--font-mono)", letterSpacing: "0.04em" }} opacity="0.7">
+        today
+      </text>
+    </svg>
   );
 }
 
-/* ─── Mouse-tracking radial glow ─────────────────────── */
-function CursorGlow({ x, y }: { x: number; y: number }) {
-  return (
-    <div
-      className="pointer-events-none absolute inset-0"
-      style={{
-        background: `radial-gradient(700px circle at ${x}px ${y}px, rgba(100,40,220,0.10), transparent 65%)`,
-        transition: "background 0.1s ease",
-      }}
-    />
-  );
-}
-
-/* ─── Hero Section ───────────────────────────────────── */
+/* ─────────────────────────────────────────────────────────
+   Hero
+   ───────────────────────────────────────────────────────── */
 export default function HeroSection() {
   const sectionRef = useRef<HTMLDivElement>(null);
-  const [mouse, setMouse] = useState({ x: 600, y: 400 });
+  const [mouse, setMouse] = useState({ x: 50, y: 50 });
 
   useEffect(() => {
     const el = sectionRef.current;
     if (!el) return;
     const handler = (e: MouseEvent) => {
       const r = el.getBoundingClientRect();
-      setMouse({ x: e.clientX - r.left, y: e.clientY - r.top });
+      setMouse({ x: ((e.clientX - r.left) / r.width) * 100, y: ((e.clientY - r.top) / r.height) * 100 });
     };
     el.addEventListener("mousemove", handler);
     return () => el.removeEventListener("mousemove", handler);
@@ -192,246 +145,162 @@ export default function HeroSection() {
   return (
     <section
       ref={sectionRef}
-      className="relative min-h-[100svh] flex flex-col overflow-hidden"
+      className={`${fraunces.variable} ${inter.variable} ${plexMono.variable} relative min-h-[100svh] overflow-hidden`}
+      style={{ background: "#0A0E17", fontFamily: "var(--font-body)" }}
     >
-      {/* ── Background layers ── */}
-
-      {/* Top radial atmosphere — stronger violet sweep */}
+      {/* Ambient wash that follows the cursor, warm not neon */}
       <div
-        className="absolute inset-0 pointer-events-none"
+        className="pointer-events-none absolute inset-0 transition-[background] duration-300"
         style={{
-          background:
-            "radial-gradient(ellipse 110% 55% at 50% -10%, rgba(109,40,217,0.32) 0%, rgba(76,29,149,0.12) 42%, transparent 65%)",
+          background: `radial-gradient(560px circle at ${mouse.x}% ${mouse.y}%, rgba(201,162,75,0.06), transparent 70%)`,
+        }}
+      />
+      {/* Faint star-field texture, hand-placed not systematic */}
+      <div
+        className="pointer-events-none absolute inset-0 opacity-[0.35]"
+        style={{
+          backgroundImage:
+            "radial-gradient(1px 1px at 12% 18%, #948C7C 100%, transparent), radial-gradient(1px 1px at 78% 24%, #948C7C 100%, transparent), radial-gradient(1px 1px at 34% 62%, #948C7C 100%, transparent), radial-gradient(1px 1px at 88% 68%, #948C7C 100%, transparent), radial-gradient(1px 1px at 60% 12%, #948C7C 100%, transparent), radial-gradient(1px 1px at 22% 84%, #948C7C 100%, transparent)",
         }}
       />
 
-      {/* Precision grid — tighter, edge-masked */}
-      <div
-        className="absolute inset-0 pointer-events-none"
-        style={{
-          backgroundImage: `linear-gradient(rgba(6,182,212,0.38) 1px, transparent 1px), linear-gradient(90deg, rgba(6,182,212,0.38) 1px, transparent 1px)`,
-          backgroundSize: "52px 52px",
-          opacity: 0.024,
-          maskImage: "radial-gradient(ellipse 75% 65% at 55% 35%, black 35%, transparent 100%)",
-          WebkitMaskImage: "radial-gradient(ellipse 75% 65% at 55% 35%, black 35%, transparent 100%)",
-        }}
-      />
+      {/* Nav */}
+      <nav className="relative z-10 max-w-[1240px] mx-auto px-8 lg:px-12 py-7 flex items-center justify-between">
+        <span
+          style={{ fontFamily: "var(--font-display)", fontStyle: "italic" }}
+          className="text-[19px] text-[#F4EFE4] tracking-tight"
+        >
+          Platstock
+        </span>
+        <button
+          onClick={() => window.dispatchEvent(new CustomEvent("open-access-modal"))}
+          className="inline-flex items-center gap-1.5 text-[13px] text-[#E8D3A0]/80 hover:text-[#E8D3A0] transition-colors cursor-pointer"
+          style={{ fontFamily: "var(--font-mono)" }}
+        >
+          Request access <ArrowUpRight className="w-3.5 h-3.5" />
+        </button>
+      </nav>
 
-      {/* Architectural accent lines — replaces generic blobs */}
-      <div className="absolute inset-0 pointer-events-none">
-        <div
-          className="absolute top-0 left-[48%] w-px h-[52%]"
-          style={{ background: "linear-gradient(180deg, rgba(6,182,212,0.14) 0%, transparent 100%)" }}
-        />
-        <div
-          className="absolute top-0 right-[26%] w-px h-[38%]"
-          style={{ background: "linear-gradient(180deg, rgba(124,58,237,0.22) 0%, transparent 100%)" }}
-        />
-        <div
-          className="absolute top-0 right-[26%] w-3 h-3 -translate-x-1/2 rounded-full border border-violet-500/20"
-          style={{ background: "rgba(124,58,237,0.08)" }}
-        />
-      </div>
+      {/* Content */}
+      <div className="relative z-10 max-w-[1240px] mx-auto px-8 lg:px-12 pt-8 pb-20 grid lg:grid-cols-[1fr_0.95fr] gap-16 items-center">
+        {/* Left — the thesis */}
+        <div>
+          <motion.p
+            custom={0}
+            variants={fadeUp}
+            initial="hidden"
+            animate="visible"
+            className="text-[11px] tracking-[0.22em] uppercase text-[#948C7C] mb-6"
+            style={{ fontFamily: "var(--font-mono)" }}
+          >
+            Private beta — design partner program
+          </motion.p>
 
-      {/* Bottom section fade */}
-      <div className="absolute bottom-0 inset-x-0 h-32 bg-gradient-to-t from-[#030303] to-transparent pointer-events-none" />
+          <motion.h1
+            custom={1}
+            variants={fadeUp}
+            initial="hidden"
+            animate="visible"
+            className="text-[#F4EFE4] mb-7"
+            style={{
+              fontFamily: "var(--font-display)",
+              fontWeight: 500,
+              fontSize: "clamp(2.6rem, 4.2vw, 4rem)",
+              lineHeight: 1.06,
+              letterSpacing: "-0.01em",
+            }}
+          >
+            Every fund manages risk.
+            <br />
+            <span style={{ fontStyle: "italic", fontWeight: 400, color: "#C9A24B" }}>
+              Few can see it clearly.
+            </span>
+          </motion.h1>
 
-      {/* Mouse-tracking glow */}
-      <CursorGlow x={mouse.x} y={mouse.y} />
-
-      {/* ── Content ── */}
-      <div className="relative max-w-7xl mx-auto px-6 lg:px-8 pt-32 pb-16 flex-1 flex flex-col justify-center">
-
-        <div className="grid lg:grid-cols-2 gap-14 xl:gap-20 items-center">
-
-          {/* ── Left column ── */}
-          <div>
-
-            {/* Eyebrow badge */}
-            <motion.div
-              custom={0}
-              variants={fadeUp}
-              initial="hidden"
-              animate="visible"
-              className="mb-8"
-            >
-              <button
-                onClick={() => window.dispatchEvent(new CustomEvent("open-access-modal"))}
-                className="group inline-flex items-center gap-2.5 px-3.5 py-1.5 rounded-full border border-violet-500/22 bg-violet-500/6 hover:border-violet-500/40 hover:bg-violet-500/10 transition-all duration-300 cursor-pointer"
-              >
-                <span className="w-1.5 h-1.5 rounded-full bg-cyan-400 glow-pulse" />
-                <span className="text-[10.5px] font-mono tracking-[0.18em] text-white/42 uppercase group-hover:text-white/60 transition-colors duration-200">
-                  Private Beta · Design Partner Program
-                </span>
-                <ChevronRight className="w-3 h-3 text-white/20 group-hover:text-white/40 transition-colors duration-200" />
-              </button>
-            </motion.div>
-
-            {/* Headline — editorial scale */}
-            <motion.h1
-              custom={1}
-              variants={fadeUp}
-              initial="hidden"
-              animate="visible"
-              className="heading-display font-bold mb-7"
-            >
-              <span className="block text-4xl sm:text-5xl lg:text-[3.6rem] xl:text-[4.25rem] text-white/62 leading-[1.02] tracking-tight">
-                Democratizing
-              </span>
-              <span
-                className="block text-4xl sm:text-5xl lg:text-[3.6rem] xl:text-[4.25rem] leading-[1.02] mt-1.5"
-                style={{
-                  background: "linear-gradient(118deg, #8b5cf6 0%, #6d28d9 30%, #0e7490 72%, #22d3ee 100%)",
-                  WebkitBackgroundClip: "text",
-                  WebkitTextFillColor: "transparent",
-                  backgroundClip: "text",
-                }}
-              >
-                the Wall Street
-              </span>
-              <span className="block text-4xl sm:text-5xl lg:text-[3.6rem] xl:text-[4.25rem] text-white leading-[1.02] mt-1.5">
-                Edge.
-              </span>
-            </motion.h1>
-
-            {/* Description */}
-            <motion.p
-              custom={2}
-              variants={fadeUp}
-              initial="hidden"
-              animate="visible"
-              className="text-[15px] text-white/48 leading-[1.78] max-w-[490px] mb-8"
-            >
-              Real-time portfolio analytics, Monte Carlo risk modeling, and
-              cryptographic audit trails — purpose-built for boutique hedge
-              funds and family offices ready to compete at institutional scale.
-            </motion.p>
-
-            {/* CTA buttons */}
-            <motion.div
-              custom={3}
-              variants={fadeUp}
-              initial="hidden"
-              animate="visible"
-              className="flex flex-wrap gap-3 mb-5"
-            >
-              {/* Primary */}
-              <button
-                onClick={() => window.dispatchEvent(new CustomEvent("open-access-modal"))}
-                className="group relative inline-flex items-center gap-2.5 px-6 py-3.5 rounded-lg text-sm font-semibold text-white overflow-hidden transition-all duration-300 hover:scale-[1.02] active:scale-[0.98]"
-                style={{
-                  background: "linear-gradient(135deg, #7c3aed 0%, #6d28d9 40%, #0891b2 100%)",
-                  boxShadow: "0 0 0 1px rgba(124,58,237,0.35), 0 4px 24px rgba(109,40,217,0.35)",
-                }}
-                onMouseEnter={(e) => {
-                  (e.currentTarget as HTMLElement).style.boxShadow =
-                    "0 0 0 1px rgba(124,58,237,0.55), 0 4px 32px rgba(109,40,217,0.55)";
-                }}
-                onMouseLeave={(e) => {
-                  (e.currentTarget as HTMLElement).style.boxShadow =
-                    "0 0 0 1px rgba(124,58,237,0.35), 0 4px 24px rgba(109,40,217,0.35)";
-                }}
-              >
-                <span className="relative z-10">Request Terminal Access</span>
-                <ArrowRight className="relative z-10 w-4 h-4 group-hover:translate-x-0.5 transition-transform duration-200" />
-              </button>
-
-              {/* Secondary */}
-              <a
-                href="#architecture"
-                className="group inline-flex items-center gap-2 px-6 py-3.5 rounded-lg border border-white/[0.09] text-sm font-medium text-white/45 hover:text-white/75 hover:border-white/[0.18] hover:bg-white/[0.03] transition-all duration-300"
-              >
-                See How It Works
-                <ChevronRight className="w-4 h-4 text-white/22 group-hover:text-white/50 group-hover:translate-x-0.5 transition-all duration-200" />
-              </a>
-            </motion.div>
-
-            {/* Honest status line */}
-            <motion.p
-              custom={4}
-              variants={fadeUp}
-              initial="hidden"
-              animate="visible"
-              className="text-[11px] text-white/22 font-mono tracking-wide mb-8"
-            >
-              Early access open · No credit card required
-            </motion.p>
-
-            {/* Capability trust strip */}
-            <motion.div
-              custom={5}
-              variants={fadeUp}
-              initial="hidden"
-              animate="visible"
-              className="flex flex-wrap items-center gap-x-5 gap-y-2.5"
-            >
-              {[
-                { icon: Shield,    label: "Cryptographic Audit Trail" },
-                { icon: Zap,       label: "10K Monte Carlo Paths" },
-                { icon: BarChart3, label: "Live Alpha Intelligence" },
-                { icon: Lock,      label: "SOC2 Architecture" },
-              ].map(({ icon: Icon, label }) => (
-                <div key={label} className="flex items-center gap-1.5">
-                  <div className="w-[18px] h-[18px] rounded-md border border-cyan-500/15 bg-cyan-500/6 flex items-center justify-center shrink-0">
-                    <Icon className="w-2.5 h-2.5 text-cyan-400/55" />
-                  </div>
-                  <span className="text-[11px] font-mono text-white/30 leading-none">{label}</span>
-                </div>
-              ))}
-            </motion.div>
-
-          </div>
-
-          {/* ── Right column: Terminal ── */}
-          <motion.div
+          <motion.p
             custom={2}
             variants={fadeUp}
             initial="hidden"
             animate="visible"
+            className="text-[15.5px] leading-[1.85] text-[#948C7C] max-w-[440px] mb-10"
           >
-            <TerminalMockup />
+            Platstock runs ten thousand simulated futures for every portfolio you hold,
+            then writes what it finds into a ledger no one can quietly edit. It's the
+            instrument boutique funds and family offices use to navigate by, not just
+            report from.
+          </motion.p>
+
+          <motion.div
+            custom={3}
+            variants={fadeUp}
+            initial="hidden"
+            animate="visible"
+            className="flex flex-wrap items-center gap-6 mb-14"
+          >
+            <button
+              onClick={() => window.dispatchEvent(new CustomEvent("open-access-modal"))}
+              className="group inline-flex items-center gap-2 px-6 py-3 text-[13.5px] font-medium transition-all duration-300 cursor-pointer"
+              style={{ background: "#C9A24B", color: "#0A0E17", borderRadius: "3px" }}
+            >
+              Request terminal access
+              <ArrowUpRight className="w-3.5 h-3.5 group-hover:translate-x-0.5 group-hover:-translate-y-0.5 transition-transform" />
+            </button>
+            <a
+              href="#architecture"
+              className="text-[13.5px] text-[#F4EFE4]/60 hover:text-[#F4EFE4] transition-colors border-b border-[#948C7C]/30 hover:border-[#E8D3A0]/60 pb-0.5"
+            >
+              Read how the engine works
+            </a>
+          </motion.div>
+
+          {/* Ledger strip — replaces the generic stat-card grid */}
+          <motion.div custom={4} variants={fadeUp} initial="hidden" animate="visible">
+            <div className="h-px bg-gradient-to-r from-[#1B2334] via-[#1B2334] to-transparent mb-1" />
+            {ledger.map((row) => (
+              <div
+                key={row.n}
+                className="flex items-baseline gap-4 py-3 border-b border-[#1B2334] group"
+              >
+                <span
+                  className="text-[10px] text-[#948C7C]/50 w-5 shrink-0"
+                  style={{ fontFamily: "var(--font-mono)" }}
+                >
+                  {row.n}
+                </span>
+                <span className="text-[13px] text-[#948C7C] flex-1">{row.label}</span>
+                <span
+                  className="text-[14px] text-[#E8D3A0] group-hover:text-[#F4EFE4] transition-colors"
+                  style={{ fontFamily: "var(--font-mono)" }}
+                >
+                  {row.value}
+                </span>
+                <span className="text-[10.5px] text-[#948C7C]/45 hidden sm:inline">{row.unit}</span>
+              </div>
+            ))}
           </motion.div>
         </div>
 
-        {/* ── Bottom spec strip — product capabilities only ── */}
+        {/* Right — the signature illustration */}
         <motion.div
-          custom={6}
-          variants={fadeUp}
-          initial="hidden"
-          animate="visible"
-          className="mt-16 grid grid-cols-2 sm:grid-cols-4 rounded-xl overflow-hidden border border-white/[0.06] card-inset-glow"
+          initial={{ opacity: 0 }}
+          animate={{ opacity: 1 }}
+          transition={{ duration: 1.2, delay: 0.3 }}
+          className="relative"
         >
-          {[
-            { value: "10K+",  label: "Simulation Paths", sub: "Per request, on demand" },
-            { value: "<50ms", label: "Engine Latency",   sub: "Full simulation runtime" },
-            { value: "100%",  label: "Audit Integrity",  sub: "Hash-chain verified" },
-            { value: "SOC2",  label: "Security Ready",   sub: "Architecture compliant" },
-          ].map((stat, i) => (
-            <div
-              key={stat.label}
-              className="relative group px-6 py-5 text-center transition-colors duration-200 hover:bg-white/[0.022] border-r border-white/[0.04] last:border-r-0"
-              style={{ background: "rgba(0,0,0,0.45)" }}
-            >
-              {/* Hover top accent */}
-              <div
-                className="absolute top-0 inset-x-0 h-px opacity-0 group-hover:opacity-100 transition-opacity duration-300"
-                style={{
-                  background: i % 2 === 0
-                    ? "linear-gradient(90deg, transparent, rgba(124,58,237,0.5), transparent)"
-                    : "linear-gradient(90deg, transparent, rgba(6,182,212,0.45), transparent)",
-                }}
-              />
-              <div className="text-[22px] font-bold font-mono text-white/88 font-tabular leading-none">
-                {stat.value}
-              </div>
-              <div className="text-[9.5px] font-mono tracking-widest text-white/28 mt-1.5 uppercase">
-                {stat.label}
-              </div>
-              <div className="text-[9px] text-white/18 mt-0.5 font-mono">{stat.sub}</div>
-            </div>
-          ))}
+          <PossibilityField />
+          <p
+            className="text-center text-[10.5px] text-[#948C7C]/55 mt-2 tracking-wide"
+            style={{ fontFamily: "var(--font-mono)" }}
+          >
+            10,000 simulated futures, one realized path — replotted every session
+          </p>
         </motion.div>
+      </div>
 
+      {/* Footer hairline */}
+      <div className="relative z-10 max-w-[1240px] mx-auto px-8 lg:px-12 pb-8 flex items-center justify-between text-[11px] text-[#948C7C]/40" style={{ fontFamily: "var(--font-mono)" }}>
+        <span>© 2026 Platstock Institutional</span>
+        <span>Early access open · No credit card required</span>
       </div>
     </section>
   );

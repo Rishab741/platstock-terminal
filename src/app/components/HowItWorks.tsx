@@ -12,8 +12,7 @@ const steps = [
     description:
       "Submit your firm's details — AUM, strategy type, and primary use case. We review every application to ensure a great fit for both sides.",
     detail: "15-minute application · Reviewed within 48 hours",
-    accent: "#06b6d4",
-    accentDim: "rgba(6,182,212,0.08)",
+    accent: "#C9A24B",
   },
   {
     number: "02",
@@ -22,8 +21,7 @@ const steps = [
     description:
       "Our team personally walks you through the terminal, configures your risk models, and connects your portfolio data. No IT department required.",
     detail: "Live session · Custom model calibration included",
-    accent: "#7c3aed",
-    accentDim: "rgba(124,58,237,0.08)",
+    accent: "#E8D3A0",
   },
   {
     number: "03",
@@ -32,8 +30,7 @@ const steps = [
     description:
       "Full terminal access with live Monte Carlo simulations, behavioral anomaly alerts, and your cryptographic audit ledger — live from day one.",
     detail: "Day one deployment · Ongoing support included",
-    accent: "#a78bfa",
-    accentDim: "rgba(167,139,250,0.08)",
+    accent: "#C1613F",
   },
 ];
 
@@ -43,33 +40,39 @@ export default function HowItWorks() {
 
   return (
     <section ref={ref} className="relative py-32 overflow-hidden">
-      <div className="absolute top-0 left-1/2 -translate-x-1/2 w-[800px] h-px bg-gradient-to-r from-transparent via-cyan-500/20 to-transparent" />
+      <div
+        className="absolute top-0 left-0 right-0 h-px"
+        style={{ background: "linear-gradient(90deg, transparent, #1B2334, transparent)" }}
+      />
 
-      <div className="relative max-w-7xl mx-auto px-6 lg:px-8">
+      <div className="relative max-w-[1240px] mx-auto px-8 lg:px-12">
         {/* Header */}
         <motion.div
-          initial={{ opacity: 0, y: 20, filter: "blur(4px)" }}
-          animate={inView ? { opacity: 1, y: 0, filter: "blur(0px)" } : {}}
-          transition={{ duration: 0.7, ease: [0.16, 1, 0.3, 1] }}
-          className="text-center mb-20"
+          initial={{ opacity: 0, y: 20 }}
+          animate={inView ? { opacity: 1, y: 0 } : {}}
+          transition={{ duration: 0.9, ease: [0.16, 1, 0.3, 1] }}
+          className="mb-20"
         >
-          <div className="inline-flex items-center gap-2 px-3 py-1.5 rounded-full border border-cyan-500/20 bg-cyan-500/5 text-[11px] font-mono tracking-widest text-cyan-400/70 mb-6">
-            GETTING STARTED
+          <div
+            className="inline-block border text-[10px] tracking-[0.2em] uppercase px-3 py-1.5 mb-7"
+            style={{ fontFamily: "var(--font-mono)", borderColor: "#1B2334", color: "#948C7C", borderRadius: "2px" }}
+          >
+            Getting Started
           </div>
-          <h2 className="text-3xl sm:text-4xl font-bold text-white heading-section mb-4">
+          <h2
+            className="mb-4"
+            style={{
+              fontFamily: "var(--font-display)",
+              fontWeight: 500,
+              fontSize: "clamp(1.8rem, 3vw, 2.6rem)",
+              lineHeight: 1.1,
+              color: "#F4EFE4",
+            }}
+          >
             From Application to{" "}
-            <span
-              style={{
-                background: "linear-gradient(135deg, #06b6d4 0%, #7c3aed 100%)",
-                WebkitBackgroundClip: "text",
-                WebkitTextFillColor: "transparent",
-                backgroundClip: "text",
-              }}
-            >
-              Live Analytics
-            </span>
+            <span style={{ fontStyle: "italic", color: "#C9A24B" }}>Live Analytics</span>
           </h2>
-          <p className="text-white/40 max-w-lg mx-auto text-sm leading-relaxed">
+          <p className="text-[14px] max-w-lg leading-relaxed" style={{ color: "#948C7C" }}>
             No six-month legacy platform implementation. No IT procurement nightmare. Three steps, 48 hours.
           </p>
         </motion.div>
@@ -77,13 +80,10 @@ export default function HowItWorks() {
         {/* Steps */}
         <div className="relative">
           {/* Connecting line desktop */}
-          <div className="hidden lg:block absolute top-[52px] left-[calc(16.666%+48px)] right-[calc(16.666%+48px)] h-px">
+          <div className="hidden lg:block absolute top-[20px] left-[calc(16.666%+28px)] right-[calc(16.666%+28px)] h-px">
             <motion.div
               className="h-full"
-              style={{
-                background: "linear-gradient(90deg, #06b6d4, #7c3aed, #a78bfa)",
-                opacity: 0.2,
-              }}
+              style={{ background: "linear-gradient(90deg, #C9A24B, #E8D3A0, #C1613F)", opacity: 0.25 }}
               initial={{ scaleX: 0, transformOrigin: "left" }}
               animate={inView ? { scaleX: 1 } : {}}
               transition={{ delay: 0.6, duration: 0.8, ease: [0.16, 1, 0.3, 1] }}
@@ -98,38 +98,24 @@ export default function HowItWorks() {
                   key={step.number}
                   initial={{ opacity: 0, y: 24 }}
                   animate={inView ? { opacity: 1, y: 0 } : {}}
-                  transition={{
-                    delay: i * 0.15 + 0.2,
-                    duration: 0.7,
-                    ease: [0.16, 1, 0.3, 1],
-                  }}
+                  transition={{ delay: i * 0.15 + 0.2, duration: 0.7, ease: [0.16, 1, 0.3, 1] }}
                   className="relative group"
                 >
-                  {/* Step number indicator */}
+                  {/* Step indicator */}
                   <div className="flex items-center gap-4 mb-6">
                     <div
-                      className="relative flex items-center justify-center w-12 h-12 rounded-full border-2 shrink-0 z-10"
+                      className="relative flex items-center justify-center w-10 h-10 shrink-0 z-10"
                       style={{
-                        borderColor: `${step.accent}50`,
-                        background: step.accentDim,
+                        border: `1px solid ${step.accent}45`,
+                        background: `${step.accent}0a`,
+                        borderRadius: "2px",
                       }}
                     >
-                      <Icon className="w-5 h-5" style={{ color: step.accent }} />
-                      <motion.div
-                        className="absolute inset-0 rounded-full"
-                        style={{ background: `${step.accent}15` }}
-                        animate={{ scale: [1, 1.3, 1], opacity: [0.4, 0, 0.4] }}
-                        transition={{
-                          delay: i * 0.3,
-                          duration: 3,
-                          repeat: Infinity,
-                          ease: "easeInOut",
-                        }}
-                      />
+                      <Icon className="w-4.5 h-4.5" style={{ color: step.accent }} />
                     </div>
                     <div
-                      className="text-[10px] font-mono tracking-[0.3em]"
-                      style={{ color: `${step.accent}60` }}
+                      className="text-[10px] tracking-[0.25em]"
+                      style={{ fontFamily: "var(--font-mono)", color: `${step.accent}60` }}
                     >
                       STEP {step.number}
                     </div>
@@ -137,36 +123,23 @@ export default function HowItWorks() {
 
                   {/* Card body */}
                   <div
-                    className="rounded-xl border p-6 transition-all duration-300 group-hover:border-opacity-50"
-                    style={{
-                      borderColor: "rgba(255,255,255,0.06)",
-                      background: "rgba(255,255,255,0.015)",
-                    }}
+                    className="p-6 transition-colors duration-300"
+                    style={{ border: "1px solid #1B2334", background: "#121826", borderRadius: "2px" }}
                   >
-                    <div
-                      className="absolute inset-0 rounded-xl opacity-0 group-hover:opacity-100 transition-opacity duration-500 pointer-events-none"
-                      style={{
-                        background: `radial-gradient(ellipse 80% 60% at 20% 30%, ${step.accent}06, transparent)`,
-                      }}
-                    />
-
-                    <h3 className="text-base font-semibold text-white/85 mb-3 leading-snug">
+                    <h3 className="text-[15px] font-medium mb-3 leading-snug" style={{ color: "#F4EFE4" }}>
                       {step.title}
                     </h3>
-                    <p className="text-sm text-white/40 leading-relaxed mb-4">
+                    <p className="text-[13px] leading-relaxed mb-5" style={{ color: "#948C7C" }}>
                       {step.description}
                     </p>
                     <div
-                      className="flex items-center gap-2 pt-3 border-t"
-                      style={{ borderColor: "rgba(255,255,255,0.05)" }}
+                      className="flex items-center gap-2 pt-4"
+                      style={{ borderTop: "1px solid #1B2334" }}
                     >
-                      <div
-                        className="w-1 h-1 rounded-full shrink-0"
-                        style={{ background: step.accent }}
-                      />
+                      <div className="w-px h-3 shrink-0" style={{ background: step.accent }} />
                       <span
-                        className="text-[10px] font-mono tracking-wider"
-                        style={{ color: `${step.accent}60` }}
+                        className="text-[10px] tracking-wider"
+                        style={{ fontFamily: "var(--font-mono)", color: `${step.accent}55` }}
                       >
                         {step.detail}
                       </span>
@@ -183,24 +156,16 @@ export default function HowItWorks() {
           initial={{ opacity: 0 }}
           animate={inView ? { opacity: 1 } : {}}
           transition={{ delay: 0.8, duration: 0.6 }}
-          className="mt-16 text-center"
+          className="mt-16"
         >
           <button
-            className="inline-flex items-center gap-2 text-sm text-white/30 hover:text-white/60 transition-colors duration-200 cursor-pointer"
+            className="inline-flex items-center gap-2 text-[13px] cursor-pointer transition-colors duration-200 border-b pb-0.5"
+            style={{ color: "#948C7C", borderColor: "rgba(148,140,124,0.3)" }}
+            onMouseEnter={(e) => { e.currentTarget.style.color = "#C9A24B"; e.currentTarget.style.borderColor = "rgba(201,162,75,0.5)"; }}
+            onMouseLeave={(e) => { e.currentTarget.style.color = "#948C7C"; e.currentTarget.style.borderColor = "rgba(148,140,124,0.3)"; }}
             onClick={() => window.dispatchEvent(new CustomEvent("open-access-modal"))}
           >
-            <span>Ready to apply?</span>
-            <span
-              style={{
-                background: "linear-gradient(135deg, #7c3aed, #06b6d4)",
-                WebkitBackgroundClip: "text",
-                WebkitTextFillColor: "transparent",
-                backgroundClip: "text",
-              }}
-              className="font-medium"
-            >
-              Start your application →
-            </span>
+            Ready to apply? Start your application →
           </button>
         </motion.div>
       </div>

@@ -3,15 +3,13 @@
 import { useRef, useState } from "react";
 import { motion, useInView } from "framer-motion";
 import { Cpu, Database, Layout, ArrowRight } from "lucide-react";
-import { Badge } from "@/components/ui/badge";
 
 const fadeInUp = {
-  hidden: { opacity: 0, y: 30, filter: "blur(4px)" },
+  hidden: { opacity: 0, y: 30 },
   visible: (i: number) => ({
     opacity: 1,
     y: 0,
-    filter: "blur(0px)",
-    transition: { delay: i * 0.15, duration: 0.8, ease: [0.16, 1, 0.3, 1] as [number, number, number, number] },
+    transition: { delay: i * 0.15, duration: 0.9, ease: [0.16, 1, 0.3, 1] as [number, number, number, number] },
   }),
 };
 
@@ -22,8 +20,8 @@ const pillars = [
     icon: Cpu,
     title: "Alpha Engine",
     subtitle: "Predictive Intelligence",
-    accent: "#06b6d4",
-    accentDim: "rgba(6,182,212,0.09)",
+    accent: "#C9A24B",
+    accentDim: "rgba(201,162,75,0.06)",
     tags: ["FastAPI", "Python", "Monte Carlo", "Async"],
     description:
       "Run 10,000 forward-looking simulations per request. See exactly how your portfolio holds up before the market moves — not after.",
@@ -45,8 +43,8 @@ const pillars = [
     icon: Database,
     title: "Sovereign Data",
     subtitle: "Cryptographic Trust",
-    accent: "#7c3aed",
-    accentDim: "rgba(124,58,237,0.09)",
+    accent: "#E8D3A0",
+    accentDim: "rgba(232,211,160,0.05)",
     tags: ["Postgres", "Supabase", "Deno Edge", "Hash Chain"],
     description:
       "Every position change is permanently sealed and linked to the previous record. Your audit trail is litigation-proof, regulator-ready, and tamper-impossible.",
@@ -68,8 +66,8 @@ const pillars = [
     icon: Layout,
     title: "Unified Terminal",
     subtitle: "Cross-Platform Power",
-    accent: "#a78bfa",
-    accentDim: "rgba(167,139,250,0.09)",
+    accent: "#C1613F",
+    accentDim: "rgba(193,97,63,0.06)",
     tags: ["Next.js", "React Native", "Expo", "Tailwind"],
     description:
       "Your full portfolio terminal on your desk and in your pocket. One login, real-time sync, institutional analytics on every screen you own.",
@@ -93,37 +91,29 @@ function AlphaVisual({ accent }: { accent: string }) {
   const bars = [0.38, 0.62, 0.50, 0.88, 0.72, 0.95, 0.55, 0.78, 0.65, 0.84];
   return (
     <div className="relative h-20 flex items-end gap-1 px-1">
-      {/* Baseline grid lines */}
       {[0.25, 0.5, 0.75].map((pct) => (
         <div
           key={pct}
           className="absolute inset-x-0 pointer-events-none"
-          style={{
-            bottom: `${pct * 100}%`,
-            borderTop: `1px dashed ${accent}18`,
-          }}
+          style={{ bottom: `${pct * 100}%`, borderTop: `1px dashed ${accent}22` }}
         />
       ))}
       {bars.map((h, i) => (
         <motion.div
           key={i}
-          className="relative flex-1 rounded-sm overflow-hidden"
-          style={{ background: `${accent}18` }}
+          className="relative flex-1 overflow-hidden"
+          style={{ background: `${accent}14`, borderRadius: "1px" }}
           initial={{ height: 0 }}
           animate={{ height: `${h * 100}%` }}
           transition={{ delay: i * 0.05, duration: 0.7, ease: [0.16, 1, 0.3, 1] as [number, number, number, number] }}
         >
           <motion.div
             className="absolute inset-0"
-            style={{ background: `linear-gradient(to top, ${accent}70, ${accent}25)` }}
-            animate={{ opacity: [0.65, 1, 0.65] }}
+            style={{ background: `linear-gradient(to top, ${accent}60, ${accent}20)` }}
+            animate={{ opacity: [0.6, 1, 0.6] }}
             transition={{ delay: i * 0.1, duration: 2.4, repeat: Infinity, ease: "easeInOut" }}
           />
-          {/* Top cap highlight */}
-          <div
-            className="absolute top-0 inset-x-0 h-px rounded-full"
-            style={{ background: accent }}
-          />
+          <div className="absolute top-0 inset-x-0 h-px" style={{ background: accent }} />
         </motion.div>
       ))}
     </div>
@@ -137,20 +127,23 @@ function ChainVisual({ accent }: { accent: string }) {
       {nodes.map((hash, n) => (
         <div key={n} className="flex items-center">
           <motion.div
-            className="relative flex flex-col items-center justify-center rounded-lg border px-2.5 py-1.5 gap-0.5"
-            style={{ borderColor: `${accent}35`, background: `${accent}07` }}
+            className="relative flex flex-col items-center justify-center px-2.5 py-1.5 gap-0.5"
+            style={{
+              border: `1px solid ${accent}30`,
+              background: `${accent}07`,
+              borderRadius: "2px",
+            }}
             initial={{ opacity: 0, scale: 0.75 }}
             animate={{ opacity: 1, scale: 1 }}
             transition={{ delay: n * 0.08 + 0.25, duration: 0.4, ease: [0.16, 1, 0.3, 1] as [number, number, number, number] }}
           >
-            <span className="text-[7px] font-mono text-white/20 leading-none">BLOCK</span>
-            <span className="text-[9px] font-mono font-semibold leading-none" style={{ color: `${accent}90` }}>
+            <span className="text-[7px] font-mono leading-none" style={{ color: "rgba(148,140,124,0.4)" }}>BLOCK</span>
+            <span className="text-[9px] font-mono font-semibold leading-none" style={{ color: `${accent}90`, fontFamily: "var(--font-mono)" }}>
               #{hash}
             </span>
-            {/* Pulse dot top-right */}
             <motion.div
               className="absolute -top-0.5 -right-0.5 w-1.5 h-1.5 rounded-full"
-              style={{ background: n === nodes.length - 1 ? accent : `${accent}50` }}
+              style={{ background: n === nodes.length - 1 ? accent : `${accent}45` }}
               animate={{ opacity: n === nodes.length - 1 ? [0.5, 1, 0.5] : 1 }}
               transition={{ duration: 1.6, repeat: Infinity, ease: "easeInOut" }}
             />
@@ -166,7 +159,7 @@ function ChainVisual({ accent }: { accent: string }) {
                 <motion.div
                   key={d}
                   className="w-1 h-px mx-0.5 rounded-full"
-                  style={{ background: `${accent}50` }}
+                  style={{ background: `${accent}45` }}
                   animate={{ opacity: [0.3, 1, 0.3] }}
                   transition={{ delay: d * 0.15 + n * 0.1, duration: 1.2, repeat: Infinity }}
                 />
@@ -182,57 +175,70 @@ function ChainVisual({ accent }: { accent: string }) {
 function UIVisual({ accent }: { accent: string }) {
   return (
     <div className="flex items-end justify-center gap-4 py-1 h-20">
-      {/* Desktop frame */}
       <motion.div
-        className="rounded border overflow-hidden shrink-0"
-        style={{ borderColor: `${accent}30`, background: `${accent}05`, width: 76, height: 52 }}
+        className="overflow-hidden shrink-0"
+        style={{
+          border: `1px solid ${accent}28`,
+          background: `${accent}05`,
+          width: 76,
+          height: 52,
+          borderRadius: "2px",
+        }}
         initial={{ x: -12, opacity: 0 }}
         animate={{ x: 0, opacity: 1 }}
         transition={{ delay: 0.3, duration: 0.5, ease: [0.16, 1, 0.3, 1] as [number, number, number, number] }}
       >
-        {/* Top bar */}
-        <div className="h-2.5 border-b flex items-center px-1.5 gap-1" style={{ borderColor: `${accent}20`, background: `${accent}10` }}>
+        <div
+          className="h-2.5 flex items-center px-1.5 gap-1"
+          style={{ borderBottom: `1px solid ${accent}18`, background: `${accent}10` }}
+        >
           {[0, 1, 2].map((d) => (
             <div key={d} className="w-1 h-1 rounded-full" style={{ background: `${accent}${40 + d * 10}` }} />
           ))}
         </div>
-        {/* Content */}
         <div className="flex gap-1 p-1.5 h-full">
-          <div className="rounded-sm w-5 shrink-0" style={{ background: `${accent}18` }} />
+          <div className="w-5 shrink-0" style={{ background: `${accent}16`, borderRadius: "1px" }} />
           <div className="flex-1 flex flex-col gap-1">
-            <div className="rounded-sm h-1.5 w-3/4" style={{ background: `${accent}30` }} />
-            <div className="rounded-sm h-1 w-1/2" style={{ background: `${accent}18` }} />
-            <div className="rounded-sm flex-1 mt-0.5" style={{ background: `${accent}10` }} />
+            <div className="h-1.5 w-3/4" style={{ background: `${accent}28`, borderRadius: "1px" }} />
+            <div className="h-1 w-1/2" style={{ background: `${accent}16`, borderRadius: "1px" }} />
+            <div className="flex-1 mt-0.5" style={{ background: `${accent}10`, borderRadius: "1px" }} />
           </div>
         </div>
       </motion.div>
 
-      {/* Sync indicator */}
       <motion.div
         className="flex flex-col items-center gap-1 pb-2"
         animate={{ x: [0, 2, 0] }}
         transition={{ duration: 2, repeat: Infinity, ease: "easeInOut" }}
       >
-        <ArrowRight className="w-3 h-3" style={{ color: `${accent}60` }} />
-        <div className="text-[7px] font-mono" style={{ color: `${accent}40` }}>LIVE</div>
+        <ArrowRight className="w-3 h-3" style={{ color: `${accent}55` }} />
+        <div className="text-[7px]" style={{ fontFamily: "var(--font-mono)", color: `${accent}40` }}>LIVE</div>
       </motion.div>
 
-      {/* Mobile frame */}
       <motion.div
-        className="rounded border overflow-hidden shrink-0"
-        style={{ borderColor: `${accent}30`, background: `${accent}05`, width: 30, height: 52 }}
+        className="overflow-hidden shrink-0"
+        style={{
+          border: `1px solid ${accent}28`,
+          background: `${accent}05`,
+          width: 30,
+          height: 52,
+          borderRadius: "2px",
+        }}
         initial={{ x: 12, opacity: 0 }}
         animate={{ x: 0, opacity: 1 }}
         transition={{ delay: 0.4, duration: 0.5, ease: [0.16, 1, 0.3, 1] as [number, number, number, number] }}
       >
-        <div className="h-2 flex items-center justify-center border-b" style={{ borderColor: `${accent}20`, background: `${accent}10` }}>
-          <div className="w-3 h-0.5 rounded-full" style={{ background: `${accent}40` }} />
+        <div
+          className="h-2 flex items-center justify-center"
+          style={{ borderBottom: `1px solid ${accent}18`, background: `${accent}10` }}
+        >
+          <div className="w-3 h-0.5 rounded-full" style={{ background: `${accent}35` }} />
         </div>
         <div className="flex flex-col gap-1 p-1 h-full">
-          <div className="rounded-sm h-1.5 w-full" style={{ background: `${accent}28` }} />
-          <div className="rounded-sm h-1 w-2/3" style={{ background: `${accent}18` }} />
-          <div className="rounded-sm flex-1" style={{ background: `${accent}10` }} />
-          <div className="rounded-sm h-2 w-full" style={{ background: `${accent}22` }} />
+          <div className="h-1.5 w-full" style={{ background: `${accent}26`, borderRadius: "1px" }} />
+          <div className="h-1 w-2/3" style={{ background: `${accent}16`, borderRadius: "1px" }} />
+          <div className="flex-1" style={{ background: `${accent}10`, borderRadius: "1px" }} />
+          <div className="h-2 w-full" style={{ background: `${accent}20`, borderRadius: "1px" }} />
         </div>
       </motion.div>
     </div>
@@ -266,10 +272,11 @@ function PillarCard({
       ref={cardRef}
       custom={index}
       variants={fadeInUp}
-      className="relative rounded-xl border overflow-hidden cursor-default transition-all duration-300 group card-inset-glow"
+      className="relative overflow-hidden cursor-default transition-all duration-300 group"
       style={{
-        borderColor: isActive ? `${pillar.accent}38` : "rgba(255,255,255,0.06)",
-        background: isActive ? pillar.accentDim : "rgba(255,255,255,0.02)",
+        border: `1px solid ${isActive ? `${pillar.accent}35` : "#1B2334"}`,
+        background: isActive ? pillar.accentDim : "#121826",
+        borderRadius: "2px",
       }}
       onMouseEnter={() => onHover(pillar.id)}
       onMouseLeave={() => onHover(null)}
@@ -279,81 +286,107 @@ function PillarCard({
       <div
         className="pointer-events-none absolute inset-0 opacity-0 group-hover:opacity-100 transition-opacity duration-400"
         style={{
-          background: `radial-gradient(380px circle at ${mouse.x}px ${mouse.y}px, ${pillar.accent}12, transparent 70%)`,
+          background: `radial-gradient(320px circle at ${mouse.x}px ${mouse.y}px, ${pillar.accent}0e, transparent 70%)`,
         }}
       />
 
-      {/* Top accent line */}
+      {/* Top accent line on hover */}
       <motion.div
         className="absolute top-0 left-0 right-0 h-px"
-        style={{ background: `linear-gradient(90deg, transparent, ${pillar.accent}50, transparent)` }}
-        animate={{ opacity: isActive ? 1 : 0 }}
+        style={{ background: pillar.accent }}
+        animate={{ opacity: isActive ? 0.6 : 0 }}
         transition={{ duration: 0.3 }}
       />
 
       <div className="relative p-6 space-y-5">
 
         {/* ── Header ── */}
-        <div className="flex items-start justify-between">
-          <div className="flex items-center gap-3">
+        <div className="flex items-start gap-3">
+          <div
+            className="w-9 h-9 flex items-center justify-center shrink-0"
+            style={{
+              border: `1px solid ${pillar.accent}25`,
+              background: `${pillar.accent}0a`,
+              borderRadius: "2px",
+            }}
+          >
+            <Icon className="w-4 h-4" style={{ color: pillar.accent }} />
+          </div>
+          <div>
             <div
-              className="w-10 h-10 rounded-lg border flex items-center justify-center shrink-0"
-              style={{ borderColor: `${pillar.accent}28`, background: `${pillar.accent}0e` }}
+              className="text-[9px] tracking-[0.2em] mb-0.5 uppercase"
+              style={{ fontFamily: "var(--font-mono)", color: `${pillar.accent}55` }}
             >
-              <Icon className="w-4.5 h-4.5" style={{ color: pillar.accent }} />
+              {pillar.number} · {pillar.subtitle}
             </div>
-            <div>
-              <div className="text-[9px] font-mono tracking-[0.2em] mb-0.5" style={{ color: `${pillar.accent}55` }}>
-                {pillar.number} · {pillar.subtitle.toUpperCase()}
-              </div>
-              <h3 className="text-sm font-semibold text-white/90 leading-none">{pillar.title}</h3>
-            </div>
+            <h3 className="text-[14px] font-medium leading-none" style={{ color: "#F4EFE4" }}>
+              {pillar.title}
+            </h3>
           </div>
         </div>
 
         {/* ── Description ── */}
-        <p className="text-[12.5px] text-white/50 leading-relaxed">
+        <p className="text-[12.5px] leading-relaxed" style={{ color: "#948C7C" }}>
           {pillar.description}
         </p>
 
         {/* ── Animated visual ── */}
         <div
-          className="rounded-lg border p-3"
-          style={{ borderColor: `${pillar.accent}12`, background: "rgba(0,0,0,0.28)" }}
+          className="p-3"
+          style={{
+            border: `1px solid ${pillar.accent}10`,
+            background: "rgba(10,14,23,0.5)",
+            borderRadius: "2px",
+          }}
         >
           {pillar.visual === "alpha" && <AlphaVisual accent={pillar.accent} />}
           {pillar.visual === "chain" && <ChainVisual accent={pillar.accent} />}
           {pillar.visual === "ui"    && <UIVisual    accent={pillar.accent} />}
         </div>
 
-        {/* ── Business outcomes (replaces formulas) ── */}
+        {/* ── Business outcomes ── */}
         <div
-          className="rounded-lg border p-3.5 space-y-2.5"
-          style={{ borderColor: `${pillar.accent}14`, background: `${pillar.accent}05` }}
+          className="p-3.5 space-y-2.5"
+          style={{
+            border: `1px solid ${pillar.accent}12`,
+            background: `${pillar.accent}04`,
+            borderRadius: "2px",
+          }}
         >
           {pillar.outcomes.map((outcome, j) => (
             <div key={j} className="flex items-start gap-2.5">
               <div
-                className="w-1 h-1 rounded-full mt-[6px] shrink-0"
+                className="w-px h-3 mt-1 shrink-0"
                 style={{ background: pillar.accent }}
               />
-              <span className="text-[11.5px] text-white/58 leading-snug">{outcome}</span>
+              <span className="text-[11.5px] leading-snug" style={{ color: "rgba(244,239,228,0.55)" }}>
+                {outcome}
+              </span>
             </div>
           ))}
         </div>
 
         {/* ── Metrics ── */}
-        <div className="grid grid-cols-3 gap-2">
-          {pillar.metrics.map((m) => (
+        <div className="grid grid-cols-3 gap-px overflow-hidden" style={{ border: "1px solid #1B2334", borderRadius: "2px" }}>
+          {pillar.metrics.map((m, mi) => (
             <div
               key={m.label}
-              className="rounded-lg border px-2 py-2 text-center"
-              style={{ borderColor: "rgba(255,255,255,0.05)", background: "rgba(0,0,0,0.2)" }}
+              className="px-2 py-2.5 text-center"
+              style={{
+                background: "#0A0E17",
+                borderRight: mi < pillar.metrics.length - 1 ? "1px solid #1B2334" : "none",
+              }}
             >
-              <div className="text-xs font-mono font-semibold font-tabular" style={{ color: pillar.accent }}>
+              <div
+                className="text-xs font-semibold"
+                style={{ fontFamily: "var(--font-mono)", color: pillar.accent }}
+              >
                 {m.value}
               </div>
-              <div className="text-[8.5px] text-white/25 mt-0.5 font-mono tracking-wide">
+              <div
+                className="text-[8.5px] mt-0.5 tracking-wide"
+                style={{ fontFamily: "var(--font-mono)", color: "#948C7C" }}
+              >
                 {m.label}
               </div>
             </div>
@@ -363,18 +396,19 @@ function PillarCard({
         {/* ── Tags ── */}
         <div className="flex flex-wrap gap-1.5">
           {pillar.tags.map((tag) => (
-            <Badge
+            <span
               key={tag}
-              variant="outline"
-              className="text-[9px] font-mono tracking-wider h-auto py-0.5 px-2 rounded-full"
+              className="text-[9px] tracking-wider px-2 py-0.5"
               style={{
-                borderColor: `${pillar.accent}22`,
-                color: `${pillar.accent}65`,
-                background: `${pillar.accent}07`,
+                fontFamily: "var(--font-mono)",
+                border: `1px solid ${pillar.accent}20`,
+                color: `${pillar.accent}60`,
+                background: `${pillar.accent}06`,
+                borderRadius: "2px",
               }}
             >
               {tag}
-            </Badge>
+            </span>
           ))}
         </div>
       </div>
@@ -391,10 +425,16 @@ export default function EcosystemSection() {
 
   return (
     <section id="architecture" ref={ref} className="relative py-32 overflow-hidden">
-      <div className="absolute top-0 left-1/2 -translate-x-1/2 w-[700px] h-px bg-gradient-to-r from-transparent via-violet-500/35 to-transparent" />
-      <div className="absolute bottom-0 left-1/2 -translate-x-1/2 w-[700px] h-px bg-gradient-to-r from-transparent via-cyan-500/25 to-transparent" />
+      <div
+        className="absolute top-0 left-0 right-0 h-px"
+        style={{ background: "linear-gradient(90deg, transparent, #1B2334, transparent)" }}
+      />
+      <div
+        className="absolute bottom-0 left-0 right-0 h-px"
+        style={{ background: "linear-gradient(90deg, transparent, #1B2334, transparent)" }}
+      />
 
-      <div className="relative max-w-7xl mx-auto px-6 lg:px-8">
+      <div className="relative max-w-[1240px] mx-auto px-8 lg:px-12">
 
         {/* ── Section header ── */}
         <motion.div
@@ -402,25 +442,33 @@ export default function EcosystemSection() {
           variants={fadeInUp}
           initial="hidden"
           animate={inView ? "visible" : "hidden"}
-          className="text-center mb-16"
+          className="mb-16"
         >
-          <div className="inline-flex items-center gap-2 px-3 py-1.5 rounded-full border border-violet-500/20 bg-violet-500/5 text-[11px] font-mono tracking-widest text-violet-400/70 mb-6">
-            INTELLIGENT INFRASTRUCTURE
+          <div
+            className="inline-block border text-[10px] tracking-[0.2em] uppercase px-3 py-1.5 mb-7"
+            style={{
+              fontFamily: "var(--font-mono)",
+              borderColor: "#1B2334",
+              color: "#948C7C",
+              borderRadius: "2px",
+            }}
+          >
+            Intelligent Infrastructure
           </div>
-          <h2 className="text-3xl sm:text-4xl font-bold text-white heading-section mb-4">
+          <h2
+            className="mb-4"
+            style={{
+              fontFamily: "var(--font-display)",
+              fontWeight: 500,
+              fontSize: "clamp(1.8rem, 3vw, 2.6rem)",
+              lineHeight: 1.1,
+              color: "#F4EFE4",
+            }}
+          >
             Three Systems.{" "}
-            <span
-              style={{
-                background: "linear-gradient(135deg, #8b5cf6 0%, #06b6d4 100%)",
-                WebkitBackgroundClip: "text",
-                WebkitTextFillColor: "transparent",
-                backgroundClip: "text",
-              }}
-            >
-              One Platform.
-            </span>
+            <span style={{ fontStyle: "italic", color: "#C9A24B" }}>One Platform.</span>
           </h2>
-          <p className="text-white/40 max-w-lg mx-auto text-sm leading-relaxed">
+          <p className="text-[14px] leading-relaxed max-w-lg" style={{ color: "#948C7C" }}>
             Purpose-built layers working in concert — institutional-grade analytics without institutional-grade complexity.
           </p>
         </motion.div>
@@ -429,7 +477,7 @@ export default function EcosystemSection() {
         <motion.div
           initial="hidden"
           animate={inView ? "visible" : "hidden"}
-          className="grid lg:grid-cols-3 gap-5"
+          className="grid lg:grid-cols-3 gap-4"
         >
           {pillars.map((pillar, i) => (
             <PillarCard

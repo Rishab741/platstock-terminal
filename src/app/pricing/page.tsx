@@ -18,7 +18,7 @@ export const metadata = {
 
 export default function PricingPage() {
   return (
-    <div className="relative min-h-screen bg-[#030303] text-white overflow-x-hidden">
+    <div className="relative min-h-screen bg-[#0A0E17] text-white overflow-x-hidden">
       <FluidBackground />
       <div className="relative z-[1]">
         <Navbar />

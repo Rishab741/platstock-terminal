@@ -1,9 +1,8 @@
 "use client";
 
 import { useState, useEffect, useRef } from "react";
-import Link from "next/link";
 import { motion } from "framer-motion";
-import { Terminal, Menu } from "lucide-react";
+import { Menu } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import {
   Sheet,
@@ -20,26 +19,34 @@ const navLinks = [
 ];
 
 export default function Navbar() {
-  const [hidden, setHidden]   = useState(false);
+  // On homepage the hero has its own nav, so start hidden.
+  // On other pages (e.g. /pricing) show immediately.
+  const [hidden, setHidden] = useState(true);
   const [scrolled, setScrolled] = useState(false);
-  const prevY    = useRef(0);
-  const entered  = useRef(false); // true after first scroll fires
+  const prevY = useRef(0);
 
   useEffect(() => {
+    if (window.location.pathname !== "/") {
+      setHidden(false);
+      setScrolled(true);
+    }
+  }, []);
+
+  useEffect(() => {
+    const isHome = window.location.pathname === "/";
     const onScroll = () => {
       const y = window.scrollY;
-      entered.current = true;
 
-      if (y < 60) {
-        setHidden(false);
+      if (isHome && y < 80) {
+        setHidden(true);
       } else if (y > prevY.current + 8) {
-        setHidden(true);  // scrolling down → hide
+        setHidden(true);
       } else if (y < prevY.current - 8) {
-        setHidden(false); // scrolling up → reveal
+        setHidden(false);
       }
 
       prevY.current = y;
-      setScrolled(y > 40);
+      setScrolled(y > 80);
     };
 
     window.addEventListener("scroll", onScroll, { passive: true });
@@ -50,37 +57,28 @@ export default function Navbar() {
     <motion.header
       initial={{ y: -80, opacity: 0 }}
       animate={{ y: hidden ? -80 : 0, opacity: hidden ? 0 : 1 }}
-      transition={{
-        type: "tween",
-        duration: entered.current ? 0.3 : 0.8,
-        ease: [0.16, 1, 0.3, 1] as [number, number, number, number],
-      }}
-      className={`fixed top-0 left-0 right-0 z-50 transition-[backdrop-filter,background-color,border-color,box-shadow] duration-500 ${
+      transition={{ type: "tween", duration: 0.35, ease: [0.16, 1, 0.3, 1] as [number, number, number, number] }}
+      className="fixed top-0 left-0 right-0 z-50 transition-[background-color,border-color] duration-300"
+      style={
         scrolled
-          ? "backdrop-blur-2xl border-b border-white/[0.05]"
-          : "bg-transparent"
-      }`}
-      style={scrolled ? {
-        background: "linear-gradient(180deg, rgba(6,6,10,0.72) 0%, rgba(6,6,10,0.55) 100%)",
-        boxShadow: "0 1px 0 0 rgba(255,255,255,0.04), 0 4px 24px rgba(0,0,0,0.35)",
-      } : undefined}
+          ? {
+              background: "rgba(10,14,23,0.92)",
+              borderBottom: "1px solid #1B2334",
+              backdropFilter: "blur(16px)",
+            }
+          : undefined
+      }
     >
-      <div className="max-w-7xl mx-auto px-6 lg:px-8 h-16 flex items-center justify-between">
+      <div className="max-w-[1240px] mx-auto px-8 lg:px-12 h-16 flex items-center justify-between">
+
         {/* Logo */}
-        <Link href="/" className="flex items-center gap-2.5 group">
-          <div className="relative w-7 h-7">
-            <div className="absolute inset-0 bg-cyan-400/15 rounded-md blur-sm group-hover:bg-cyan-400/30 transition-all duration-300" />
-            <div className="relative flex items-center justify-center w-7 h-7 rounded-md border border-cyan-400/30 bg-black/40">
-              <Terminal className="w-3.5 h-3.5 text-cyan-400/80" />
-            </div>
-          </div>
-          <span className="text-sm font-semibold tracking-[0.15em] uppercase text-white/80">
-            Platstock
-          </span>
-          <span className="hidden sm:block text-[10px] font-mono text-white/25 tracking-widest border border-white/[0.08] rounded px-1.5 py-0.5">
-            TERMINAL
-          </span>
-        </Link>
+        <a
+          href="/"
+          className="text-[18px] text-[#F4EFE4] tracking-tight hover:text-[#E8D3A0] transition-colors"
+          style={{ fontFamily: "var(--font-display)", fontStyle: "italic" }}
+        >
+          Platstock
+        </a>
 
         {/* Desktop Nav */}
         <nav className="hidden md:flex items-center gap-8">
@@ -88,7 +86,8 @@ export default function Navbar() {
             <a
               key={link.label}
               href={link.href}
-              className="text-xs tracking-widest uppercase text-white/35 hover:text-white/75 transition-colors duration-200"
+              className="text-[12px] tracking-[0.12em] uppercase text-[#948C7C] hover:text-[#F4EFE4] transition-colors duration-200"
+              style={{ fontFamily: "var(--font-mono)" }}
             >
               {link.label}
             </a>
@@ -96,12 +95,13 @@ export default function Navbar() {
         </nav>
 
         {/* Desktop CTA */}
-        <div className="hidden md:flex items-center gap-3">
+        <div className="hidden md:flex items-center">
           <button
             onClick={() => window.dispatchEvent(new CustomEvent("open-access-modal"))}
-            className="text-xs font-mono tracking-wider px-4 py-2 rounded-md border border-white/[0.10] bg-transparent text-white/60 hover:border-violet-500/50 hover:[background:linear-gradient(135deg,rgba(124,58,237,0.22),rgba(6,182,212,0.14))] hover:text-white hover:shadow-[0_0_16px_rgba(124,58,237,0.20)] transition-all duration-300"
+            className="inline-flex items-center gap-1.5 text-[12px] text-[#E8D3A0]/70 hover:text-[#C9A24B] transition-colors duration-200 border border-[#1B2334] hover:border-[#C9A24B]/50 px-4 py-2"
+            style={{ fontFamily: "var(--font-mono)", borderRadius: "3px" }}
           >
-            Request Access
+            Request access
           </button>
         </div>
 
@@ -112,7 +112,7 @@ export default function Navbar() {
               <Button
                 variant="ghost"
                 size="icon-sm"
-                className="md:hidden text-white/50 hover:text-white hover:bg-white/5"
+                className="md:hidden text-[#948C7C] hover:text-[#F4EFE4] hover:bg-[#1B2334]/50"
                 aria-label="Open menu"
               />
             }
@@ -122,39 +122,41 @@ export default function Navbar() {
           <SheetContent
             side="right"
             showCloseButton={false}
-            className="bg-black/95 backdrop-blur-xl border-l border-white/[0.05] w-72 p-0"
+            className="border-l border-[#1B2334] w-72 p-0"
+            style={{ background: "#121826" }}
           >
             {/* Sheet header */}
-            <div className="flex items-center justify-between px-5 py-4 border-b border-white/[0.05]">
-              <div className="flex items-center gap-2">
-                <div className="flex items-center justify-center w-6 h-6 rounded border border-white/[0.12] bg-black/40">
-                  <Terminal className="w-3 h-3 text-cyan-400/70" />
-                </div>
-                <span className="text-xs font-semibold tracking-widest uppercase text-white/60">
-                  Platstock
-                </span>
-              </div>
+            <div className="flex items-center justify-between px-6 py-5 border-b border-[#1B2334]">
+              <span
+                className="text-[17px] text-[#F4EFE4]"
+                style={{ fontFamily: "var(--font-display)", fontStyle: "italic" }}
+              >
+                Platstock
+              </span>
               <SheetClose
                 render={
                   <Button
                     variant="ghost"
                     size="icon-sm"
-                    className="text-white/35 hover:text-white hover:bg-white/5"
+                    className="text-[#948C7C] hover:text-[#F4EFE4] hover:bg-[#1B2334]/50"
                     aria-label="Close menu"
                   />
                 }
               >
-                <svg className="w-4 h-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
+                <svg className="w-4 h-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5">
                   <path d="M18 6 6 18M6 6l12 12" />
                 </svg>
               </SheetClose>
             </div>
 
             {/* Nav links */}
-            <nav className="flex flex-col gap-1 px-3 py-4">
+            <nav className="flex flex-col px-3 py-4">
               {navLinks.map((link) => (
                 <SheetClose key={link.label} render={<a href={link.href} />}>
-                  <span className="flex items-center px-3 py-2.5 rounded-lg text-xs tracking-widest uppercase text-white/35 hover:text-white/70 hover:bg-white/[0.04] transition-all duration-200 font-mono cursor-pointer">
+                  <span
+                    className="flex items-center px-3 py-3 text-[11px] tracking-[0.18em] uppercase text-[#948C7C] hover:text-[#F4EFE4] hover:bg-[#1B2334]/40 transition-all duration-200 cursor-pointer"
+                    style={{ fontFamily: "var(--font-mono)" }}
+                  >
                     {link.label}
                   </span>
                 </SheetClose>
@@ -167,11 +169,12 @@ export default function Navbar() {
                 render={
                   <button
                     onClick={() => window.dispatchEvent(new CustomEvent("open-access-modal"))}
-                    className="w-full text-xs font-mono tracking-wider py-2.5 rounded-md border border-white/[0.10] bg-transparent text-white/60 hover:border-violet-500/50 hover:[background:linear-gradient(135deg,rgba(124,58,237,0.22),rgba(6,182,212,0.14))] hover:text-white hover:shadow-[0_0_14px_rgba(124,58,237,0.18)] transition-all duration-300"
+                    className="w-full text-[12px] py-3 border border-[#1B2334] hover:border-[#C9A24B]/50 text-[#E8D3A0]/70 hover:text-[#C9A24B] transition-all duration-200"
+                    style={{ fontFamily: "var(--font-mono)", borderRadius: "3px" }}
                   />
                 }
               >
-                Request Access
+                Request access
               </SheetClose>
             </div>
           </SheetContent>

@@ -2,7 +2,6 @@
 
 import { useRef } from "react";
 import { motion, useInView } from "framer-motion";
-import { Badge } from "@/components/ui/badge";
 import {
   Table,
   TableHeader,
@@ -13,12 +12,11 @@ import {
 } from "@/components/ui/table";
 
 const fadeInUp = {
-  hidden: { opacity: 0, y: 20, filter: "blur(4px)" },
+  hidden: { opacity: 0, y: 20 },
   visible: (i: number) => ({
     opacity: 1,
     y: 0,
-    filter: "blur(0px)",
-    transition: { delay: i * 0.08, duration: 0.6, ease: [0.16, 1, 0.3, 1] as [number, number, number, number] },
+    transition: { delay: i * 0.08, duration: 0.7, ease: [0.16, 1, 0.3, 1] as [number, number, number, number] },
   }),
 };
 
@@ -32,102 +30,18 @@ const capabilities: {
   factset: CellValue;
   spreadsheet: CellValue;
 }[] = [
-  {
-    category: "Quantitative Modeling",
-    feature: "Monte Carlo Portfolio Simulation",
-    platstock: "yes",
-    bloomberg: "yes",
-    factset: "partial",
-    spreadsheet: "no",
-  },
-  {
-    category: "Quantitative Modeling",
-    feature: "Live Sharpe / VaR Calculation",
-    platstock: "yes",
-    bloomberg: "yes",
-    factset: "yes",
-    spreadsheet: "partial",
-  },
-  {
-    category: "Quantitative Modeling",
-    feature: "Decoupled FastAPI Execution",
-    platstock: "yes",
-    bloomberg: "no",
-    factset: "no",
-    spreadsheet: "no",
-  },
-  {
-    category: "Data Integrity",
-    feature: "Cryptographic Hash-Chained Ledger",
-    platstock: "yes",
-    bloomberg: "no",
-    factset: "no",
-    spreadsheet: "no",
-  },
-  {
-    category: "Data Integrity",
-    feature: "Immutable Audit Trail",
-    platstock: "yes",
-    bloomberg: "partial",
-    factset: "partial",
-    spreadsheet: "no",
-  },
-  {
-    category: "Data Integrity",
-    feature: "Verifiable Record Provenance",
-    platstock: "yes",
-    bloomberg: "no",
-    factset: "no",
-    spreadsheet: "no",
-  },
-  {
-    category: "AI & Behavioral Analytics",
-    feature: "AI-Native Human Behavioral Profiling",
-    platstock: "yes",
-    bloomberg: "no",
-    factset: "no",
-    spreadsheet: "no",
-  },
-  {
-    category: "AI & Behavioral Analytics",
-    feature: "Deno Edge Behavioral Anomaly Detection",
-    platstock: "yes",
-    bloomberg: "no",
-    factset: "no",
-    spreadsheet: "no",
-  },
-  {
-    category: "AI & Behavioral Analytics",
-    feature: "Proactive Risk Alerts",
-    platstock: "yes",
-    bloomberg: "partial",
-    factset: "partial",
-    spreadsheet: "no",
-  },
-  {
-    category: "Infrastructure",
-    feature: "Enterprise SaaS Pricing",
-    platstock: "yes",
-    bloomberg: "no",
-    factset: "no",
-    spreadsheet: "yes",
-  },
-  {
-    category: "Infrastructure",
-    feature: "Mobile Companion (React Native)",
-    platstock: "yes",
-    bloomberg: "partial",
-    factset: "no",
-    spreadsheet: "no",
-  },
-  {
-    category: "Infrastructure",
-    feature: "Sovereign Data Control",
-    platstock: "yes",
-    bloomberg: "no",
-    factset: "no",
-    spreadsheet: "partial",
-  },
+  { category: "Quantitative Modeling", feature: "Monte Carlo Portfolio Simulation", platstock: "yes", bloomberg: "yes", factset: "partial", spreadsheet: "no" },
+  { category: "Quantitative Modeling", feature: "Live Sharpe / VaR Calculation", platstock: "yes", bloomberg: "yes", factset: "yes", spreadsheet: "partial" },
+  { category: "Quantitative Modeling", feature: "Decoupled FastAPI Execution", platstock: "yes", bloomberg: "no", factset: "no", spreadsheet: "no" },
+  { category: "Data Integrity", feature: "Cryptographic Hash-Chained Ledger", platstock: "yes", bloomberg: "no", factset: "no", spreadsheet: "no" },
+  { category: "Data Integrity", feature: "Immutable Audit Trail", platstock: "yes", bloomberg: "partial", factset: "partial", spreadsheet: "no" },
+  { category: "Data Integrity", feature: "Verifiable Record Provenance", platstock: "yes", bloomberg: "no", factset: "no", spreadsheet: "no" },
+  { category: "AI & Behavioral Analytics", feature: "AI-Native Human Behavioral Profiling", platstock: "yes", bloomberg: "no", factset: "no", spreadsheet: "no" },
+  { category: "AI & Behavioral Analytics", feature: "Deno Edge Behavioral Anomaly Detection", platstock: "yes", bloomberg: "no", factset: "no", spreadsheet: "no" },
+  { category: "AI & Behavioral Analytics", feature: "Proactive Risk Alerts", platstock: "yes", bloomberg: "partial", factset: "partial", spreadsheet: "no" },
+  { category: "Infrastructure", feature: "Enterprise SaaS Pricing", platstock: "yes", bloomberg: "no", factset: "no", spreadsheet: "yes" },
+  { category: "Infrastructure", feature: "Mobile Companion (React Native)", platstock: "yes", bloomberg: "partial", factset: "no", spreadsheet: "no" },
+  { category: "Infrastructure", feature: "Sovereign Data Control", platstock: "yes", bloomberg: "no", factset: "no", spreadsheet: "partial" },
 ];
 
 function IconSprite() {
@@ -146,26 +60,32 @@ function IconSprite() {
   );
 }
 
-function Cell({ value }: { value: CellValue }) {
+function Cell({ value, isHighlight }: { value: CellValue; isHighlight?: boolean }) {
   if (value === "yes")
     return (
       <div className="flex justify-center">
-        <svg className="w-4 h-4 text-emerald-400" aria-hidden="true"><use href="#cm-check" /></svg>
+        <svg className="w-4 h-4" aria-hidden="true" style={{ color: isHighlight ? "#C9A24B" : "#10b981" }}>
+          <use href="#cm-check" />
+        </svg>
       </div>
     );
   if (value === "no")
     return (
       <div className="flex justify-center">
-        <svg className="w-4 h-4 text-white/15" aria-hidden="true"><use href="#cm-x" /></svg>
+        <svg className="w-4 h-4" aria-hidden="true" style={{ color: "rgba(148,140,124,0.25)" }}>
+          <use href="#cm-x" />
+        </svg>
       </div>
     );
   if (value === "partial")
     return (
       <div className="flex justify-center">
-        <svg className="w-4 h-4 text-yellow-500/50" aria-hidden="true"><use href="#cm-minus" /></svg>
+        <svg className="w-4 h-4" aria-hidden="true" style={{ color: "rgba(201,162,75,0.5)" }}>
+          <use href="#cm-minus" />
+        </svg>
       </div>
     );
-  return <span className="text-xs text-muted-foreground font-mono">{value}</span>;
+  return <span className="text-xs font-mono" style={{ color: "#948C7C" }}>{value}</span>;
 }
 
 const columns = [
@@ -184,38 +104,41 @@ export default function ComparisonMatrix() {
   return (
     <>
       <IconSprite />
-      <section
-        id="capabilities"
-        ref={ref}
-        className="relative py-32 overflow-hidden"
-      >
-        <div className="absolute inset-0 bg-gradient-to-b from-transparent via-violet-950/10 to-transparent pointer-events-none" />
+      <section id="capabilities" ref={ref} className="relative py-32 overflow-hidden">
 
-        <div className="relative max-w-7xl mx-auto px-6 lg:px-8">
+        <div className="relative max-w-[1240px] mx-auto px-8 lg:px-12">
           <motion.div
             custom={0}
             variants={fadeInUp}
             initial="hidden"
             animate={inView ? "visible" : "hidden"}
-            className="text-center mb-16"
+            className="mb-16"
           >
-            <div className="inline-flex items-center gap-2 px-3 py-1.5 rounded-full border border-cyan-500/20 bg-cyan-500/5 text-[11px] font-mono tracking-widest text-cyan-400/70 mb-6">
-              DEFENSIBILITY MATRIX
+            <div
+              className="inline-block border text-[10px] tracking-[0.2em] uppercase px-3 py-1.5 mb-7"
+              style={{
+                fontFamily: "var(--font-mono)",
+                borderColor: "#1B2334",
+                color: "#948C7C",
+                borderRadius: "2px",
+              }}
+            >
+              Defensibility Matrix
             </div>
-            <h2 className="text-3xl sm:text-4xl font-bold text-white heading-section mb-4">
+            <h2
+              className="mb-4"
+              style={{
+                fontFamily: "var(--font-display)",
+                fontWeight: 500,
+                fontSize: "clamp(1.8rem, 3vw, 2.6rem)",
+                lineHeight: 1.1,
+                color: "#F4EFE4",
+              }}
+            >
               Built for{" "}
-              <span
-                style={{
-                  background: "linear-gradient(135deg, #06b6d4 0%, #7c3aed 100%)",
-                  WebkitBackgroundClip: "text",
-                  WebkitTextFillColor: "transparent",
-                  backgroundClip: "text",
-                }}
-              >
-                Elite Funds
-              </span>
+              <span style={{ fontStyle: "italic", color: "#C9A24B" }}>Elite Funds</span>
             </h2>
-            <p className="text-muted-foreground max-w-lg mx-auto text-sm leading-relaxed">
+            <p className="text-[14px] leading-relaxed max-w-lg" style={{ color: "#948C7C" }}>
               A transparent capability comparison across every dimension that matters to boutique hedge funds and family offices.
             </p>
           </motion.div>
@@ -225,26 +148,43 @@ export default function ComparisonMatrix() {
             variants={fadeInUp}
             initial="hidden"
             animate={inView ? "visible" : "hidden"}
-            className="rounded-xl border border-white/[0.07] overflow-hidden bg-card/30 card-inset-glow"
+            className="overflow-hidden"
+            style={{ border: "1px solid #1B2334", borderRadius: "2px" }}
           >
             <Table>
               <TableHeader>
-                <TableRow className="border-b border-white/[0.06] hover:bg-transparent">
-                  <TableHead className="px-6 py-4 text-[10px] font-mono tracking-widest text-muted-foreground uppercase w-[40%]">
+                <TableRow
+                  className="hover:bg-transparent"
+                  style={{ borderBottom: "1px solid #1B2334", background: "#121826" }}
+                >
+                  <TableHead
+                    className="px-6 py-4 text-[10px] tracking-widest uppercase w-[40%]"
+                    style={{ fontFamily: "var(--font-mono)", color: "#948C7C" }}
+                  >
                     Capability
                   </TableHead>
                   {columns.map((col) => (
                     <TableHead key={col.key} className="px-4 py-4 text-center">
                       {col.highlight ? (
-                        <Badge
-                          variant="outline"
-                          className="gap-1.5 border-cyan-500/30 bg-gradient-to-r from-violet-600/20 to-cyan-500/20 text-cyan-300 font-mono tracking-wider h-auto py-1 px-2.5"
+                        <span
+                          className="inline-block px-2.5 py-1 text-[10px] tracking-widest"
+                          style={{
+                            fontFamily: "var(--font-mono)",
+                            border: "1px solid rgba(201,162,75,0.35)",
+                            color: "#C9A24B",
+                            background: "rgba(201,162,75,0.07)",
+                            borderRadius: "2px",
+                          }}
+                        >
+                          {col.label} ★
+                        </span>
+                      ) : (
+                        <span
+                          className="text-[11px]"
+                          style={{ fontFamily: "var(--font-mono)", color: "#948C7C" }}
                         >
                           {col.label}
-                          <span className="text-[8px] px-1 py-0.5 rounded bg-cyan-500/20 text-cyan-400">★</span>
-                        </Badge>
-                      ) : (
-                        <span className="text-xs font-mono text-muted-foreground">{col.label}</span>
+                        </span>
                       )}
                     </TableHead>
                   ))}
@@ -261,28 +201,35 @@ export default function ComparisonMatrix() {
                       variants={fadeInUp}
                       initial="hidden"
                       animate={inView ? "visible" : "hidden"}
-                      className="border-b border-white/[0.04] hover:bg-white/[0.02] transition-colors duration-150 group"
+                      className="group transition-colors duration-150"
+                      style={{ borderBottom: "1px solid #1B2334" }}
                     >
                       <TableCell className="px-6 py-3.5">
                         {rIdx === 0 && (
-                          <div className="text-[9px] font-mono tracking-widest text-violet-400/50 uppercase mb-1">
+                          <div
+                            className="text-[9px] tracking-widest uppercase mb-1"
+                            style={{ fontFamily: "var(--font-mono)", color: "rgba(201,162,75,0.45)" }}
+                          >
                             {cat}
                           </div>
                         )}
-                        <span className="text-xs text-white/55 group-hover:text-white/70 transition-colors whitespace-normal">
+                        <span
+                          className="text-xs"
+                          style={{ color: "#948C7C" }}
+                        >
                           {row.feature}
                         </span>
                       </TableCell>
                       {columns.map((col) => (
                         <TableCell
                           key={col.key}
-                          className={`px-4 py-3.5 text-center ${
-                            col.highlight
-                              ? "bg-gradient-to-r from-violet-600/[0.04] to-cyan-500/[0.04]"
-                              : ""
-                          }`}
+                          className="px-4 py-3.5 text-center"
+                          style={col.highlight ? { background: "rgba(201,162,75,0.04)" } : undefined}
                         >
-                          <Cell value={row[col.key as keyof typeof row] as CellValue} />
+                          <Cell
+                            value={row[col.key as keyof typeof row] as CellValue}
+                            isHighlight={col.highlight}
+                          />
                         </TableCell>
                       ))}
                     </motion.tr>
@@ -291,15 +238,25 @@ export default function ComparisonMatrix() {
               </TableBody>
             </Table>
 
-            <div className="px-6 py-4 border-t border-white/[0.06] bg-white/[0.01] flex flex-wrap gap-4">
+            <div
+              className="px-6 py-4 flex flex-wrap gap-5"
+              style={{ borderTop: "1px solid #1B2334", background: "#121826" }}
+            >
               {[
-                { id: "cm-check", label: "Fully Supported", color: "text-emerald-400" },
-                { id: "cm-minus", label: "Partial / Add-on Cost", color: "text-yellow-500/60" },
-                { id: "cm-x", label: "Not Available", color: "text-white/20" },
+                { id: "cm-check", label: "Fully Supported", color: "#10b981" },
+                { id: "cm-minus", label: "Partial / Add-on Cost", color: "rgba(201,162,75,0.55)" },
+                { id: "cm-x", label: "Not Available", color: "rgba(148,140,124,0.25)" },
               ].map(({ id, label, color }) => (
                 <div key={label} className="flex items-center gap-1.5">
-                  <svg className={`w-3.5 h-3.5 ${color}`} aria-hidden="true"><use href={`#${id}`} /></svg>
-                  <span className="text-[10px] font-mono text-muted-foreground">{label}</span>
+                  <svg className="w-3.5 h-3.5" aria-hidden="true" style={{ color }}>
+                    <use href={`#${id}`} />
+                  </svg>
+                  <span
+                    className="text-[10px]"
+                    style={{ fontFamily: "var(--font-mono)", color: "#948C7C" }}
+                  >
+                    {label}
+                  </span>
                 </div>
               ))}
             </div>

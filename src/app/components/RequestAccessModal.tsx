@@ -2,7 +2,7 @@
 
 import { useEffect, useState } from "react";
 import { motion, AnimatePresence } from "framer-motion";
-import { Terminal, CheckCircle2 } from "lucide-react";
+import { CheckCircle2 } from "lucide-react";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Textarea } from "@/components/ui/textarea";
@@ -44,7 +44,7 @@ const empty: FormState = {
 };
 
 const selectCls =
-  "h-9 w-full min-w-0 rounded-lg border border-input bg-transparent px-2.5 py-1 text-sm text-foreground transition-colors outline-none placeholder:text-muted-foreground focus-visible:border-ring focus-visible:ring-3 focus-visible:ring-ring/50 dark:bg-input/30 appearance-none cursor-pointer font-mono";
+  "h-9 w-full min-w-0 border border-input bg-transparent px-2.5 py-1 text-sm text-foreground transition-colors outline-none placeholder:text-muted-foreground focus-visible:border-ring focus-visible:ring-3 focus-visible:ring-ring/50 dark:bg-input/30 appearance-none cursor-pointer font-mono";
 
 export default function RequestAccessModal() {
   const [open, setOpen] = useState(false);
@@ -114,29 +114,33 @@ export default function RequestAccessModal() {
             className="fixed inset-0 z-[101] flex items-center justify-center p-4 pointer-events-none"
           >
             <div
-              className="relative w-full max-w-lg pointer-events-auto rounded-2xl overflow-hidden shadow-2xl"
+              className="relative w-full max-w-lg pointer-events-auto overflow-hidden shadow-2xl"
               style={{
-                background: "linear-gradient(145deg, rgba(10,6,20,0.99), rgba(5,3,10,1))",
-                boxShadow: "0 0 0 1px rgba(124,58,237,0.18), 0 40px 80px rgba(0,0,0,0.7)",
+                background: "#121826",
+                boxShadow: "0 0 0 1px #1B2334, 0 40px 80px rgba(0,0,0,0.6)",
+                borderRadius: "3px",
               }}
             >
-              {/* Top gradient line */}
-              <div className="absolute inset-x-0 top-0 h-px bg-gradient-to-r from-transparent via-violet-500/60 to-transparent" />
-              <div className="absolute top-0 left-1/2 -translate-x-1/2 w-56 h-28 bg-violet-600/10 rounded-full blur-2xl pointer-events-none" />
+              {/* Top accent line */}
+              <div className="absolute inset-x-0 top-0 h-px" style={{ background: "linear-gradient(90deg, transparent, #C9A24B, transparent)" }} />
+              <div className="absolute top-0 left-1/2 -translate-x-1/2 w-56 h-28 rounded-full blur-2xl pointer-events-none" style={{ background: "rgba(201,162,75,0.06)" }} />
 
               <div className="relative p-6">
                 {/* Header */}
                 <div className="flex items-start justify-between mb-6">
                   <div className="flex items-center gap-3">
-                    <div className="w-9 h-9 rounded-lg border border-cyan-400/25 bg-cyan-400/8 flex items-center justify-center">
-                      <Terminal className="w-4 h-4 text-cyan-400" />
-                    </div>
                     <div>
-                      <h2 className="text-base font-semibold text-white tracking-tight">
+                      <h2
+                        className="text-[17px] tracking-tight"
+                        style={{ fontFamily: "var(--font-display)", fontStyle: "italic", color: "#F4EFE4" }}
+                      >
                         Request Terminal Access
                       </h2>
-                      <p className="text-[11px] text-muted-foreground font-mono mt-0.5 tracking-widest">
-                        PRIVATE BETA
+                      <p
+                        className="text-[10px] mt-0.5 tracking-[0.2em] uppercase"
+                        style={{ fontFamily: "var(--font-mono)", color: "#948C7C" }}
+                      >
+                        Private Beta
                       </p>
                     </div>
                   </div>
@@ -161,16 +165,30 @@ export default function RequestAccessModal() {
                       className="py-10 flex flex-col items-center text-center gap-4"
                     >
                       <div className="relative">
-                        <div className="absolute inset-0 bg-emerald-400/20 rounded-full blur-xl" />
-                        <CheckCircle2 className="relative w-12 h-12 text-emerald-400" />
+                        <div className="absolute inset-0 blur-xl rounded-full" style={{ background: "rgba(201,162,75,0.2)" }} />
+                        <CheckCircle2 className="relative w-12 h-12" style={{ color: "#C9A24B" }} />
                       </div>
                       <div>
-                        <h3 className="text-lg font-semibold text-white mb-1">Application Received</h3>
-                        <p className="text-sm text-muted-foreground max-w-xs leading-relaxed">
-                          We review each request personally. Expect a response within 24 hours.
+                        <h3
+                          className="text-[18px] mb-1"
+                          style={{ fontFamily: "var(--font-display)", color: "#F4EFE4" }}
+                        >
+                          Application Received
+                        </h3>
+                        <p className="text-[13px] max-w-xs leading-relaxed" style={{ color: "#948C7C" }}>
+                          We review each request personally. Expect a response within 48 hours.
                         </p>
                       </div>
-                      <div className="text-[10px] font-mono text-muted-foreground tracking-widest border border-border rounded-full px-3 py-1.5">
+                      <div
+                        className="text-[10px] tracking-widest px-3 py-1.5"
+                        style={{
+                          fontFamily: "var(--font-mono)",
+                          color: "#C9A24B",
+                          border: "1px solid rgba(201,162,75,0.3)",
+                          background: "rgba(201,162,75,0.06)",
+                          borderRadius: "2px",
+                        }}
+                      >
                         REF # {refCode}
                       </div>
                       <button
@@ -285,11 +303,11 @@ export default function RequestAccessModal() {
                         </p>
                       )}
 
-                      <Button
+                      <button
                         type="submit"
                         disabled={loading}
-                        variant="gradient"
-                        className="w-full h-10 rounded-lg text-sm tracking-wide"
+                        className="w-full h-10 text-[13px] font-medium tracking-wide flex items-center justify-center gap-2 transition-opacity duration-200 disabled:opacity-60 cursor-pointer"
+                        style={{ background: "#C9A24B", color: "#0A0E17", borderRadius: "3px" }}
                       >
                         {loading ? (
                           <span className="flex items-center gap-2">
@@ -302,9 +320,12 @@ export default function RequestAccessModal() {
                             <svg className="w-4 h-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
                           </span>
                         )}
-                      </Button>
+                      </button>
 
-                      <p className="text-[10px] text-center text-muted-foreground font-mono">
+                      <p
+                        className="text-[10px] text-center tracking-wide"
+                        style={{ fontFamily: "var(--font-mono)", color: "#948C7C" }}
+                      >
                         Each application is personally reviewed · No spam, ever
                       </p>
                     </motion.form>
