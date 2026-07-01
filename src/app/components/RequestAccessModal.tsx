@@ -81,7 +81,8 @@ export default function RequestAccessModal() {
         body: JSON.stringify(form),
       });
       if (!res.ok) throw new Error("Submission failed");
-      setRefCode(Math.random().toString(36).slice(2, 10).toUpperCase());
+      const data = await res.json();
+      setRefCode(data.refCode ?? "");
       setSubmitted(true);
     } catch {
       setError("Something went wrong. Please try again.");
