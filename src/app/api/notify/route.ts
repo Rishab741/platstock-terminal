@@ -48,8 +48,8 @@ export async function POST(req: NextRequest) {
 
   const supabase = createClient(supabaseUrl, supabaseKey);
   const { error } = await supabase
-    .from("leads")
-    .upsert({ email, type: "waitlist" }, { onConflict: "email", ignoreDuplicates: true });
+    .from("waitlist")
+    .upsert({ email }, { onConflict: "email", ignoreDuplicates: true });
 
   if (error) {
     console.error("[notify] Supabase error:", error.message);

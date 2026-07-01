@@ -199,8 +199,8 @@ export async function POST(req: NextRequest) {
   // ── Step 6: Supabase persistent storage ───────────────
   if (supabaseUrl && supabaseKey) {
     const supabase = createClient(supabaseUrl, supabaseKey);
-    const { error } = await supabase.from("leads").upsert(
-      { email, type: "access_request", name, company, role, aum_range: aum, interest: interest ?? null, ref_code: refCode },
+    const { error } = await supabase.from("access_requests").upsert(
+      { email, name, company, role, aum_range: aum, interest: interest ?? null },
       { onConflict: "email" }
     );
 
