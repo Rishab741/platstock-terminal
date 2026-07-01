@@ -6,25 +6,37 @@ import { checkRateLimit } from "@/lib/rateLimit";
 export const runtime = "edge";
 
 export async function POST(req: NextRequest) {
+  // ── Step 1: env check ──────────────────────────────────
   const resendKey = process.env.RESEND_API_KEY;
+  console.log("[access-request] step=env resendKey_set=", !!resendKey);
   if (!resendKey) {
-    console.error("[access-request] Missing RESEND_API_KEY");
+    console.error("[access-request] RESEND_API_KEY is missing from environment");
     return NextResponse.json({ error: "Server configuration error" }, { status: 500 });
   }
 
+  // ── Step 2: content-type ───────────────────────────────
   if (!req.headers.get("content-type")?.includes("application/json")) {
     return NextResponse.json({ error: "Content-Type must be application/json" }, { status: 415 });
   }
 
+  // ── Step 3: rate limit (fail open if Redis unavailable) ─
   const ip = req.headers.get("x-forwarded-for")?.split(",")[0].trim() ?? "unknown";
-  const { allowed, retryAfterSeconds } = await checkRateLimit("access-request", ip);
-  if (!allowed) {
-    return NextResponse.json(
-      { error: "Too many requests. Please wait before trying again." },
-      { status: 429, headers: { "Retry-After": String(retryAfterSeconds) } }
-    );
+  console.log("[access-request] step=ratelimit ip=", ip);
+  try {
+    const { allowed, retryAfterSeconds } = await checkRateLimit("access-request", ip);
+    if (!allowed) {
+      console.warn("[access-request] rate limited ip=", ip);
+      return NextResponse.json(
+        { error: "Too many requests. Please wait before trying again." },
+        { status: 429, headers: { "Retry-After": String(retryAfterSeconds) } }
+      );
+    }
+  } catch (e) {
+    console.warn("[access-request] rate limiter threw — failing open. error=", String(e));
   }
 
+  // ── Step 4: parse body ─────────────────────────────────
+  console.log("[access-request] step=parse");
   let body: unknown;
   try {
     body = await req.json();
@@ -32,17 +44,23 @@ export async function POST(req: NextRequest) {
     return NextResponse.json({ error: "Invalid JSON body" }, { status: 400 });
   }
 
+  // ── Step 5: validate ───────────────────────────────────
+  console.log("[access-request] step=validate");
   const result = validateAccessRequest(body);
   if ("error" in result) {
+    console.warn("[access-request] validation failed:", result.error);
     return NextResponse.json({ error: result.error }, { status: 400 });
   }
 
   const { name, email, company, role, aum, interest } = result.data;
+  console.log("[access-request] step=send email=", email, "company=", company);
 
+  // ── Step 6: send via Resend ────────────────────────────
   const toEmail = process.env.CONTACT_EMAIL ?? "rishash851@gmail.com";
-  const resend = new Resend(resendKey);
+  console.log("[access-request] resend to=", toEmail);
 
-  const { error } = await resend.emails.send({
+  const resend = new Resend(resendKey);
+  const { data, error } = await resend.emails.send({
     from: "Platstock Beta <onboarding@resend.dev>",
     to: toEmail,
     replyTo: email,
@@ -66,9 +84,10 @@ export async function POST(req: NextRequest) {
   });
 
   if (error) {
-    console.error("[access-request] Resend error:", error.message);
-    return NextResponse.json({ error: "Could not save your request. Please try again." }, { status: 500 });
+    console.error("[access-request] Resend rejected — name=", error.name, "message=", error.message);
+    return NextResponse.json({ error: "Could not send your request. Please try again." }, { status: 500 });
   }
 
+  console.log("[access-request] success id=", data?.id);
   return NextResponse.json({ success: true }, { status: 201 });
 }
