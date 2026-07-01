@@ -53,74 +53,204 @@ const ledger = [
   { n: "04", label: "Architecture", value: "SOC 2", unit: "compliant design" },
 ];
 
-/* ─────────────────────────────────────────────────────────
-   Signature illustration — "the possibility field"
-   One origin point (today), many hand-charted futures fanning
-   outward — the visual language of a Monte Carlo simulation
-   redrawn as a navigator's chart rather than a dashboard.
-   ───────────────────────────────────────────────────────── */
 function PossibilityField() {
-  const paths = [
-    "M40,430 C160,410 260,300 420,260 C560,225 640,150 700,70",
-    "M40,430 C170,420 280,340 400,310 C540,275 630,220 700,150",
-    "M40,430 C165,425 270,370 390,355 C530,335 620,300 700,250",
-    "M40,430 C160,432 260,410 380,405 C520,398 610,380 700,345",
-    "M40,430 C160,434 265,432 385,432 C520,432 610,428 700,420",
-    "M40,430 C165,436 270,450 385,458 C520,468 610,478 700,490",
-    "M40,430 C165,440 270,465 385,485 C520,508 605,535 700,565",
-    "M40,430 C160,448 250,500 380,540 C510,580 605,610 700,650",
+  const faintPaths = [
+    "M70,300 C250,285 500,140 648,88",
+    "M70,300 C250,288 500,165 648,120",
+    "M70,300 C250,291 500,192 648,152",
+    "M70,300 C250,295 500,236 648,210",
+    "M70,300 C250,297 500,256 648,236",
+    "M70,300 C250,299 500,274 648,263",
+    "M70,300 C250,300 500,287 648,284",
+    "M70,300 C250,300 500,300 648,300",
+    "M70,300 C250,301 500,316 648,327",
+    "M70,300 C250,303 500,332 648,352",
+    "M70,300 C250,306 500,358 648,390",
+    "M70,300 C250,309 500,380 648,425",
+    "M70,300 C250,312 500,408 648,442",
   ];
-  const emphasis = "M40,430 C165,420 270,355 390,335 C530,310 620,270 700,220";
+  const emphasisPath = "M70,300 C250,293 500,218 648,183";
+  const bandOuter = "M70,300 C250,288 500,165 648,120 L648,352 C500,332 250,303 70,300 Z";
+  const bandInner = "M70,300 C250,293 500,218 648,183 L648,284 C500,287 250,300 70,300 Z";
+
+  const yLabels = [
+    { y: 88,  label: "+40%" },
+    { y: 141, label: "+30%" },
+    { y: 194, label: "+20%" },
+    { y: 247, label: "+10%" },
+    { y: 300, label: "  0%" },
+    { y: 353, label: "−10%" },
+    { y: 406, label: "−20%" },
+    { y: 459, label: "−30%" },
+  ];
+  const xLabels = [
+    { x: 70,  label: "Today"  },
+    { x: 237, label: "Q3 '26" },
+    { x: 404, label: "Q4 '26" },
+    { x: 571, label: "Q1 '27" },
+    { x: 648, label: "Q2 '27" },
+  ];
+  const footerMetrics = [
+    { label: "PATHS",      value: "10,000" },
+    { label: "CONFIDENCE", value: "80%"    },
+    { label: "SHARPE",     value: "1.84"   },
+    { label: "CVaR 95%",   value: "−8.4%"  },
+  ];
 
   return (
-    <svg viewBox="0 0 740 700" fill="none" className="w-full h-auto max-h-[560px]" role="img" aria-label="Illustration of many simulated portfolio paths fanning out from a single point, like a hand-charted map of possible futures">
-      <circle cx="40" cy="430" r="3.5" fill="#E8D3A0" />
-      <circle cx="40" cy="430" r="9" stroke="#E8D3A0" strokeOpacity="0.35" />
-      {paths.map((d, i) => (
-        <motion.path
-          key={i}
-          d={d}
-          stroke="#948C7C"
-          strokeOpacity={0.28}
-          strokeWidth="1"
-          initial={{ pathLength: 0, opacity: 0 }}
-          animate={{ pathLength: 1, opacity: 0.28 }}
-          transition={{ duration: 1.8, delay: 0.5 + i * 0.09, ease: [0.16, 1, 0.3, 1] }}
-        />
-      ))}
-      <motion.path
-        d={emphasis}
-        stroke="#C9A24B"
-        strokeWidth="1.6"
-        strokeLinecap="round"
-        initial={{ pathLength: 0, opacity: 0 }}
-        animate={{ pathLength: 1, opacity: 0.95 }}
-        transition={{ duration: 2, delay: 0.4, ease: [0.16, 1, 0.3, 1] }}
-      />
-      <motion.circle
-        cx="700"
-        cy="220"
-        r="4"
-        fill="#C9A24B"
-        initial={{ opacity: 0, scale: 0 }}
-        animate={{ opacity: 1, scale: 1 }}
-        transition={{ delay: 2.2, duration: 0.5 }}
-      />
-      <motion.text
-        x="640"
-        y="200"
-        fill="#E8D3A0"
-        style={{ font: "500 11px var(--font-mono)", letterSpacing: "0.04em" }}
-        initial={{ opacity: 0 }}
-        animate={{ opacity: 0.85 }}
-        transition={{ delay: 2.4, duration: 0.6 }}
+    <div className="w-full" style={{ borderRadius: "2px", overflow: "hidden" }}>
+
+      {/* Terminal header */}
+      <div style={{
+        background: "#0C1420", border: "1px solid #1B2334", borderBottom: "none",
+        padding: "9px 14px", display: "flex", alignItems: "center", justifyContent: "space-between",
+      }}>
+        <div style={{ display: "flex", alignItems: "center", gap: "8px" }}>
+          <div style={{ display: "flex", gap: "4px" }}>
+            {(["#1B2334", "#1B2334", "rgba(201,162,75,0.3)"] as string[]).map((bg, i) => (
+              <div key={i} style={{ width: "5px", height: "5px", borderRadius: "50%", background: bg }} />
+            ))}
+          </div>
+          <span style={{ fontFamily: "var(--font-mono)", fontSize: "9px", color: "#948C7C", letterSpacing: "0.16em" }}>
+            ALPHA ENGINE · MONTE CARLO SIMULATION
+          </span>
+        </div>
+        <div style={{ display: "flex", alignItems: "center", gap: "5px" }}>
+          <motion.span
+            className="inline-block"
+            style={{ width: "5px", height: "5px", borderRadius: "50%", background: "#C9A24B" }}
+            animate={{ opacity: [1, 0.3, 1] }}
+            transition={{ duration: 2, repeat: Infinity }}
+          />
+          <span style={{ fontFamily: "var(--font-mono)", fontSize: "8px", color: "rgba(148,140,124,0.5)", letterSpacing: "0.14em" }}>
+            LIVE
+          </span>
+        </div>
+      </div>
+
+      {/* Chart */}
+      <svg
+        viewBox="0 0 680 492" fill="none"
+        style={{ display: "block", width: "100%", background: "#0A0E17", border: "1px solid #1B2334", borderTop: "none", borderBottom: "none" }}
+        role="img"
+        aria-label="Monte Carlo simulation: 10,000 portfolio paths"
       >
-        realized path
-      </motion.text>
-      <text x="18" y="455" fill="#948C7C" style={{ font: "500 10px var(--font-mono)", letterSpacing: "0.04em" }} opacity="0.7">
-        today
-      </text>
-    </svg>
+        {/* Horizontal grid */}
+        {[88, 141, 194, 247, 353, 406, 459].map((y) => (
+          <line key={y} x1="58" y1={y} x2="654" y2={y} stroke="#1B2334" strokeWidth="0.5" />
+        ))}
+        {/* Vertical quarter marks */}
+        {[237, 404, 571].map((x) => (
+          <line key={x} x1={x} y1="44" x2={x} y2="464" stroke="#1B2334" strokeWidth="0.5" strokeDasharray="2 5" />
+        ))}
+        {/* Axes */}
+        <line x1="58" y1="44"  x2="58"  y2="464" stroke="#1B2334" strokeWidth="0.75" />
+        <line x1="58" y1="464" x2="654" y2="464" stroke="#1B2334" strokeWidth="0.75" />
+        {/* Zero line */}
+        <line x1="58" y1="300" x2="654" y2="300" stroke="rgba(148,140,124,0.15)" strokeWidth="0.8" />
+
+        {/* Y-axis labels + ticks */}
+        {yLabels.map(({ y, label }) => (
+          <g key={y}>
+            <text x="4" y={y + 4} fill="#948C7C" fillOpacity="0.4" style={{ font: "9px var(--font-mono)" }}>{label}</text>
+            <line x1="54" y1={y} x2="58" y2={y} stroke="#1B2334" strokeWidth="0.8" />
+          </g>
+        ))}
+        {/* X-axis labels + ticks */}
+        {xLabels.map(({ x, label }) => (
+          <g key={x}>
+            <text x={x} y="480" fill="#948C7C" fillOpacity="0.4" style={{ font: "9px var(--font-mono)" }} textAnchor="middle">{label}</text>
+            <line x1={x} y1="464" x2={x} y2="469" stroke="#1B2334" strokeWidth="0.8" />
+          </g>
+        ))}
+
+        {/* Confidence bands */}
+        <path d={bandOuter} fill="rgba(201,162,75,0.025)" />
+        <path d={bandInner} fill="rgba(201,162,75,0.05)" />
+
+        {/* Right-edge range bracket */}
+        <line x1="652" y1="120" x2="652" y2="352" stroke="rgba(201,162,75,0.15)" strokeWidth="0.75" />
+        <line x1="649" y1="120" x2="656" y2="120" stroke="rgba(201,162,75,0.2)"  strokeWidth="0.75" />
+        <line x1="649" y1="352" x2="656" y2="352" stroke="rgba(193,97,63,0.2)"   strokeWidth="0.75" />
+
+        {/* 80% band label */}
+        <motion.text x="390" y="112" fill="#C9A24B" style={{ font: "7.5px var(--font-mono)", letterSpacing: "0.12em" }}
+          initial={{ opacity: 0 }} animate={{ opacity: 0.28 }} transition={{ delay: 2.8, duration: 0.8 }}>
+          80% CONFIDENCE BAND
+        </motion.text>
+
+        {/* Faint paths */}
+        {faintPaths.map((d, i) => (
+          <motion.path key={i} d={d} fill="none"
+            stroke={i >= 8 ? "#C1613F" : "#948C7C"}
+            strokeOpacity={i >= 8 ? 0.2 : 0.22}
+            strokeWidth="0.75"
+            initial={{ pathLength: 0, opacity: 0 }}
+            animate={{ pathLength: 1, opacity: i >= 8 ? 0.2 : 0.22 }}
+            transition={{ duration: 1.6, delay: 0.4 + i * 0.08, ease: [0.16, 1, 0.3, 1] }}
+          />
+        ))}
+
+        {/* Optimal path */}
+        <motion.path d={emphasisPath} stroke="#C9A24B" strokeWidth="1.6" strokeLinecap="round" fill="none"
+          initial={{ pathLength: 0, opacity: 0 }}
+          animate={{ pathLength: 1, opacity: 0.9 }}
+          transition={{ duration: 2.0, delay: 0.3, ease: [0.16, 1, 0.3, 1] }}
+        />
+
+        {/* Origin */}
+        <circle cx="70" cy="300" r="2.5" fill="#E8D3A0" />
+        <circle cx="70" cy="300" r="8" stroke="#E8D3A0" strokeOpacity="0.2" strokeWidth="0.75" fill="none" />
+        <text x="70" y="315" fill="#948C7C" fillOpacity="0.45" style={{ font: "8px var(--font-mono)" }} textAnchor="middle">TODAY</text>
+
+        {/* Optimal endpoint */}
+        <motion.circle cx="648" cy="183" r="3" fill="#C9A24B"
+          initial={{ opacity: 0 }} animate={{ opacity: 1 }} transition={{ delay: 2.2, duration: 0.5 }} />
+        <motion.circle cx="648" cy="183" r="8" stroke="#C9A24B" strokeOpacity="0.2" strokeWidth="0.75" fill="none"
+          initial={{ opacity: 0 }} animate={{ opacity: 1 }} transition={{ delay: 2.3, duration: 0.5 }} />
+
+        {/* Crosshair at endpoint */}
+        <motion.line x1="648" y1="44" x2="648" y2="183" stroke="#C9A24B" strokeOpacity="0.1" strokeWidth="0.5" strokeDasharray="2 4"
+          initial={{ opacity: 0 }} animate={{ opacity: 1 }} transition={{ delay: 2.2, duration: 0.5 }} />
+        <motion.line x1="58" y1="183" x2="648" y2="183" stroke="#C9A24B" strokeOpacity="0.1" strokeWidth="0.5" strokeDasharray="2 4"
+          initial={{ opacity: 0 }} animate={{ opacity: 1 }} transition={{ delay: 2.2, duration: 0.5 }} />
+
+        {/* Annotation: Optimal */}
+        <motion.g initial={{ opacity: 0 }} animate={{ opacity: 1 }} transition={{ delay: 2.4, duration: 0.5 }}>
+          <rect x="490" y="153" width="108" height="22" fill="#121826" stroke="rgba(201,162,75,0.3)" strokeWidth="0.75" />
+          <text x="498" y="168" fill="#C9A24B" style={{ font: "9.5px var(--font-mono)", letterSpacing: "0.03em" }}>OPT +22.4%</text>
+        </motion.g>
+
+        {/* Annotation: VaR */}
+        <motion.g initial={{ opacity: 0 }} animate={{ opacity: 1 }} transition={{ delay: 2.6, duration: 0.5 }}>
+          <rect x="480" y="358" width="100" height="22" fill="#121826" stroke="rgba(193,97,63,0.25)" strokeWidth="0.75" />
+          <text x="488" y="373" fill="rgba(193,97,63,0.75)" style={{ font: "9.5px var(--font-mono)", letterSpacing: "0.03em" }}>VaR −8.4%</text>
+        </motion.g>
+
+        {/* Annotation: Sharpe */}
+        <motion.g initial={{ opacity: 0 }} animate={{ opacity: 1 }} transition={{ delay: 2.8, duration: 0.5 }}>
+          <rect x="96" y="56" width="104" height="22" fill="#121826" stroke="rgba(201,162,75,0.2)" strokeWidth="0.75" />
+          <text x="104" y="71" fill="#948C7C" style={{ font: "9.5px var(--font-mono)", letterSpacing: "0.03em" }}>SHARPE 1.84</text>
+        </motion.g>
+      </svg>
+
+      {/* Footer metrics */}
+      <div style={{
+        background: "#0C1420", border: "1px solid #1B2334", borderTop: "none",
+        display: "grid", gridTemplateColumns: "repeat(4, 1fr)",
+      }}>
+        {footerMetrics.map(({ label, value }, i) => (
+          <div key={label} style={{ padding: "11px 0", textAlign: "center", borderRight: i < 3 ? "1px solid #1B2334" : "none" }}>
+            <div style={{ fontFamily: "var(--font-mono)", fontSize: "7.5px", color: "#948C7C", opacity: 0.5, letterSpacing: "0.16em", marginBottom: "3px" }}>
+              {label}
+            </div>
+            <div style={{ fontFamily: "var(--font-mono)", fontSize: "12px", color: "#E8D3A0" }}>
+              {value}
+            </div>
+          </div>
+        ))}
+      </div>
+    </div>
   );
 }
 
@@ -182,7 +312,7 @@ export default function HeroSection() {
       </nav>
 
       {/* Content */}
-      <div className="relative z-10 max-w-[1240px] mx-auto px-8 lg:px-12 pt-8 pb-20 grid lg:grid-cols-[1fr_0.95fr] gap-16 items-center">
+      <div className="relative z-10 max-w-[1240px] mx-auto px-8 lg:px-12 pt-8 pb-20 grid lg:grid-cols-[1fr_1.2fr] gap-10 items-start">
         {/* Left — the thesis */}
         <div>
           <motion.p
@@ -288,12 +418,6 @@ export default function HeroSection() {
           className="relative"
         >
           <PossibilityField />
-          <p
-            className="text-center text-[10.5px] text-[#948C7C]/55 mt-2 tracking-wide"
-            style={{ fontFamily: "var(--font-mono)" }}
-          >
-            10,000 simulated futures, one realized path — replotted every session
-          </p>
         </motion.div>
       </div>
 
