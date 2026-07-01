@@ -23,9 +23,9 @@ export default function PricingPage() {
       <div className="relative z-[1]">
         <Navbar />
         <div className="pt-24">
+          <PricingSection />
           <SocialProofStrip />
           <HowItWorks />
-          <PricingSection />
           <FAQSection />
           <FinalCTA />
           <Footer />
