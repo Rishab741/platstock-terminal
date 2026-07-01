@@ -78,77 +78,64 @@ export default function HowItWorks() {
         </motion.div>
 
         {/* Steps */}
-        <div className="relative">
-          {/* Connecting line desktop */}
-          <div className="hidden lg:block absolute top-[20px] left-[calc(16.666%+28px)] right-[calc(16.666%+28px)] h-px">
-            <motion.div
-              className="h-full"
-              style={{ background: "linear-gradient(90deg, #C9A24B, #E8D3A0, #C1613F)", opacity: 0.25 }}
-              initial={{ scaleX: 0, transformOrigin: "left" }}
-              animate={inView ? { scaleX: 1 } : {}}
-              transition={{ delay: 0.6, duration: 0.8, ease: [0.16, 1, 0.3, 1] }}
-            />
-          </div>
-
-          <div className="grid lg:grid-cols-3 gap-6 lg:gap-8">
-            {steps.map((step, i) => {
-              const Icon = step.icon;
-              return (
-                <motion.div
-                  key={step.number}
-                  initial={{ opacity: 0, y: 24 }}
-                  animate={inView ? { opacity: 1, y: 0 } : {}}
-                  transition={{ delay: i * 0.15 + 0.2, duration: 0.7, ease: [0.16, 1, 0.3, 1] }}
-                  className="relative group"
-                >
-                  {/* Step indicator */}
-                  <div className="flex items-center gap-4 mb-6">
-                    <div
-                      className="relative flex items-center justify-center w-10 h-10 shrink-0 z-10"
-                      style={{
-                        border: `1px solid ${step.accent}45`,
-                        background: `${step.accent}0a`,
-                        borderRadius: "2px",
-                      }}
-                    >
-                      <Icon className="w-4.5 h-4.5" style={{ color: step.accent }} />
-                    </div>
-                    <div
-                      className="text-[10px] tracking-[0.25em]"
-                      style={{ fontFamily: "var(--font-mono)", color: `${step.accent}60` }}
-                    >
-                      STEP {step.number}
-                    </div>
-                  </div>
-
-                  {/* Card body */}
+        <div className="grid lg:grid-cols-3 gap-6 lg:gap-8">
+          {steps.map((step, i) => {
+            const Icon = step.icon;
+            return (
+              <motion.div
+                key={step.number}
+                initial={{ opacity: 0, y: 24 }}
+                animate={inView ? { opacity: 1, y: 0 } : {}}
+                transition={{ delay: i * 0.15 + 0.2, duration: 0.7, ease: [0.16, 1, 0.3, 1] }}
+                className="flex flex-col"
+              >
+                {/* Step indicator */}
+                <div className="flex items-center gap-3 mb-5">
                   <div
-                    className="p-6 transition-colors duration-300"
-                    style={{ border: "1px solid #1B2334", background: "#121826", borderRadius: "2px" }}
+                    className="flex items-center justify-center w-9 h-9 shrink-0"
+                    style={{
+                      border: `1px solid ${step.accent}45`,
+                      background: `${step.accent}0a`,
+                      borderRadius: "2px",
+                    }}
                   >
-                    <h3 className="text-[15px] font-medium mb-3 leading-snug" style={{ color: "#F4EFE4" }}>
-                      {step.title}
-                    </h3>
-                    <p className="text-[13px] leading-relaxed mb-5" style={{ color: "#948C7C" }}>
-                      {step.description}
-                    </p>
-                    <div
-                      className="flex items-center gap-2 pt-4"
-                      style={{ borderTop: "1px solid #1B2334" }}
-                    >
-                      <div className="w-px h-3 shrink-0" style={{ background: step.accent }} />
-                      <span
-                        className="text-[10px] tracking-wider"
-                        style={{ fontFamily: "var(--font-mono)", color: `${step.accent}55` }}
-                      >
-                        {step.detail}
-                      </span>
-                    </div>
+                    <Icon className="w-4 h-4" style={{ color: step.accent }} />
                   </div>
-                </motion.div>
-              );
-            })}
-          </div>
+                  <span
+                    className="text-[9px] tracking-[0.25em] uppercase"
+                    style={{ fontFamily: "var(--font-mono)", color: `${step.accent}70` }}
+                  >
+                    Step {step.number}
+                  </span>
+                </div>
+
+                {/* Card body */}
+                <div
+                  className="flex-1 p-6"
+                  style={{ border: "1px solid #1B2334", background: "#121826", borderRadius: "2px" }}
+                >
+                  <h3 className="text-[15px] font-medium mb-3 leading-snug" style={{ color: "#F4EFE4" }}>
+                    {step.title}
+                  </h3>
+                  <p className="text-[13px] leading-relaxed mb-5" style={{ color: "#948C7C" }}>
+                    {step.description}
+                  </p>
+                  <div
+                    className="flex items-center gap-2 pt-4"
+                    style={{ borderTop: "1px solid #1B2334" }}
+                  >
+                    <div className="w-px h-3 shrink-0" style={{ background: step.accent }} />
+                    <span
+                      className="text-[10px] tracking-wider"
+                      style={{ fontFamily: "var(--font-mono)", color: `${step.accent}55` }}
+                    >
+                      {step.detail}
+                    </span>
+                  </div>
+                </div>
+              </motion.div>
+            );
+          })}
         </div>
 
         {/* Bottom CTA nudge */}
